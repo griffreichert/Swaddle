@@ -1,17 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, TouchchableOpacity, View } from 'react-native';
+import { Image,  StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import * as ImagePicker from 'expo-image-picker'
 
 export default function App() {
+  
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    console.log(pickerResult);
+  }
+  
   return (
     <View style={styles.container}>
-      <TouchchableOpacity>
+      <TouchableOpacity
+        onPress={ openImagePickerAsync }>
         <Image
-          source={'/open-iconic/svg/camera-slr.svg'}
-          />
-      </TouchchableOpacity>
+          source={ require('./assets/camera.png') }
+          style={ styles.iconButton }
+        />
+      </TouchableOpacity>
 
-      <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
     </View>
   );
@@ -23,5 +38,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#7760ea',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  iconButton: {
+    width: 40,
+    height: 40,
+    margin: 10,
+  },
+  text: {
+
+  },
+  title: {
+
   },
 });

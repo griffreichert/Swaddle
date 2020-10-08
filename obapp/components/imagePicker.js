@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { Image,  StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { StatusBar } from 'expo-status-bar';
-import { Image,  StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as ExpoImagePicker from 'expo-image-picker';
 
 /* Image Picker Object

@@ -10,8 +10,9 @@ class App extends Component {
         return (
             // structure of app
             // <Provider store={store}>
-                <MediaPicker/>
+                // <MediaPicker/>
             // </Provider>
+            <Auth/>
         );
     }
 }

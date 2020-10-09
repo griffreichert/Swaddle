@@ -1,0 +1,107 @@
+drop table if exists pregnant;
+drop table if exists members;
+drop table if exists has_group;
+drop table if exists storage;
+drop table if exists access;
+drop table if exists link_file;
+
+-- Entity tables:
+
+drop table if exists users;
+drop table if exists pregnancy;
+drop table if exists groups;
+drop table if exists files;
+drop table if exists messages;
+
+create table users (
+	user_id serial primary key,
+	email varchar(320) unique not null,
+	first_name varchar(80) not null,
+	last_name varchar(80) not null,
+	password varchar(128) not null,
+	phone integer not null
+);
+
+create table pregnancy (
+	pregnancy_id serial primary key,
+	name varchar(40) not null
+);
+
+create table groups (
+	group_id serial primary key,
+	group_name varchar(40) not null
+);
+
+create table files (
+	file_id serial primary key,
+	file_content bytea,
+	created_date timestamp default now(),
+	modified_date timestamp default now(),
+	file_size integer not null,
+	file_type varchar(3),
+	thumbnail bytea
+);
+
+create table messages (
+	message_id serial primary key,
+	message_content varchar(1000),
+	time_sent timestamp default now()
+);
+
+
+-- Relationship tables:
+
+
+create table pregnant (
+	user_id integer,
+	pregnancy_id integer,
+	constraint fk_pregnant_user foreign key (user_id) 
+		references users (user_id) on delete cascade,
+	constraint fk_pregnant_pregnancy foreign key (pregnancy_id)
+		references pregnancy (pregnancy_id) on delete cascade
+);
+
+create table members (
+	user_id integer,
+	group_id integer,
+	constraint fk_members_user foreign key (user_id)
+		references users (user_id) on delete cascade,
+	constraint fk_members_group foreign key (group_id)
+		references groups (group_id) on delete cascade
+);
+
+create table has_group (
+	pregnancy_id integer,
+	group_id integer,
+	constraint fk_has_group_pregnancy foreign key (pregnancy_id)
+		references pregnancy (pregnancy_id) on delete cascade,
+	constraint fk_has_group_group foreign key (group_id)
+		references groups (group_id) on delete cascade
+);
+
+create table storage (
+	pregnancy_id integer,
+	file_id integer,
+	constraint fk_storage_pregnancy foreign key (pregnancy_id)
+		references pregnancy (pregnancy_id) on delete cascade,
+	constraint fk_storage_file foreign key (file_id)
+		references files (file_id) on delete cascade
+);
+
+create table access (
+	group_id integer,
+	file_id integer,
+	constraint fk_access_group foreign key (group_id)
+		references groups (group_id) on delete cascade,
+	constraint fk_access_file foreign key (file_id)
+		references files (file_id) on delete cascade
+);
+
+create table link_file (
+	message_id integer,
+	file_id integer,
+	constraint fk_link_file_message foreign key (message_id)
+		references messages (message_id) on delete cascade,
+	constraint fk_link_file_file foreign key (file_id)
+		references files (file_id) on delete cascade
+);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image,  StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { StatusBar } from 'expo-status-bar';
-import * as ExpoImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 /* Image Picker Object
 Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
@@ -13,14 +13,14 @@ class MediaPicker extends React.Component {
 
     render() {
         let openImagePickerAsync = async () => {
-            let permissionResult = await ExpoImagePicker.requestCameraRollPermissionsAsync();
+            let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
         
             if (permissionResult.granted === false) {
                 alert("Permission to access camera roll is required!");
                 return;
             }
         
-            let pickerResult = await ExpoImagePicker.launchImageLibraryAsync();
+            let pickerResult = await ImagePicker.launchImageLibraryAsync();
             console.log(pickerResult);
         }
         

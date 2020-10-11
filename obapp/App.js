@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-// import { Provider } from 'react-redux';
-import MediaPicker from './components/ImagePicker'
+import Auth from "./components/auth/auth";
 
 class App extends Component {
     state = {

@@ -1,7 +1,7 @@
 import React from 'react';
-import Auth  from "./components/auth"
-import Header  from "./components/Header"
+import AppStack from './components/AppNavigator'
 import { Appbar, DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
+import Auth from './components/Auth';
 
 const theme = {
     ...DefaultTheme,
@@ -20,8 +20,8 @@ export default class App extends React.Component {
     render() {
         return (
             <PaperProvider theme={theme}>
-                <Header/>
-                <Auth/>
+                <AppStack/>
+                
             </PaperProvider>
         );
     }

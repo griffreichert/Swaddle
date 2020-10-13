@@ -1,13 +1,21 @@
 import React from 'react';
+import { View } from 'react-native';
 import { Button } from 'react-native-paper';
+import Header from './Header';
 
 
-export default class Auth extends React.Component {
+class Auth extends React.Component {
     render() {
         return(
-            <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
-                Press me
-            </Button>
+            <View>
+                <Header/>
+                <Button icon="camera" mode="contained" onPress={(navigation) => {
+                    console.log('Pressed');
+                    this.props.navigation.navigate('ImagePicker');
+                }}>
+                    Press me
+                </Button>
+            </View>
         );
     }
 
@@ -15,3 +23,5 @@ export default class Auth extends React.Component {
         console.log("Auth component mounted")
     }
 }
+
+export default Auth;

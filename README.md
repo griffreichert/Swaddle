@@ -19,11 +19,12 @@ Run the following bash commands to install and configure the required packages.
 
 Install [Expo](https://docs.expo.io/get-started/installation/)
 ```
-$ npm install expo-cli
-$ npm install @react-navigation/native
-$ npm install @react-navigation/stack
+npm install expo-cli
+npm install @react-navigation/native
+npm install @react-navigation/stack
 
-$ npm install expo-font
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+
 ```
 UI elements from [React Native Paper](https://callstack.github.io/react-native-paper/getting-started.html)
 ```

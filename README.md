@@ -20,7 +20,10 @@ Run the following bash commands to install and configure the required packages.
 Install [Expo](https://docs.expo.io/get-started/installation/)
 ```
 $ npm install expo-cli
-$ expo install expo-font
+$ npm install @react-navigation/native
+$ npm install @react-navigation/stack
+
+$ npm install expo-font
 ```
 UI elements from [React Native Paper](https://callstack.github.io/react-native-paper/getting-started.html)
 ```

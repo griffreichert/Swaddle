@@ -17,7 +17,7 @@ export default class App extends React.Component {
         return (
             <PaperProvider theme={theme}>
                 <Appbar>
-                    
+
                 </Appbar>
                 <Auth/>
             </PaperProvider>

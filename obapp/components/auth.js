@@ -13,7 +13,7 @@ class Auth extends React.Component {
                     console.log('Pressed');
                     this.props.navigation.navigate('ImagePicker');
                 }}>
-                    Press me
+                    Pick a photo
                 </Button>
             </View>
         );

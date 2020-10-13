@@ -24,3 +24,5 @@ import ObjectName from '.path/to/thing';
 
 <ObjectName/>
 ```
+
+### Navigation ###

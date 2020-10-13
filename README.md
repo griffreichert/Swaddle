@@ -1,29 +1,32 @@
 # README #
+---
+**Contributors**:
+Griffin Reichert
+Alex Schiffman
+---
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### Summary ###
 
-### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### How do I get set up? ###
+### Configuration ###
+---
+This app utilizes Expo, and a variety of dependencies which can be configured as follows.
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+**Scripts to install packages**
+Install Expo
+```
+$ npm install expo-cli
+```
+UI elements through Material UI
+```
+$ npm install @material-ui/core
+```
 
-### Contribution guidelines ###
+### Starting the App ###
+---
+The app can be started by running:
+```
+$ npm start
+```
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact

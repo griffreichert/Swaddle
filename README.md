@@ -22,9 +22,9 @@ Install [Expo](https://docs.expo.io/get-started/installation/)
 $ npm install expo-cli
 $ expo install expo-font
 ```
-UI elements from [Material UI](https://material-ui.com/)
+UI elements from [React Native Paper](https://callstack.github.io/react-native-paper/getting-started.html)
 ```
-$ npm install @material-ui/core @material-ui/icons
+$ npm install react-native-paper
 ```
 
 ### Starting the App ###

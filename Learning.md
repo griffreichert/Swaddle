@@ -10,12 +10,11 @@ Dispatch is a property of store
 
 Put this in the file that defines the object/function:
 ```js
-class ObjectName extends React.Component {
+export default class ObjectName extends React.Component {
     render() {
         ...code...
     }
 }
-export default ObjectName;
 ```
 
 Put this in the file that references the object/function:

@@ -1,18 +1,13 @@
-import React, { Component } from 'react';
-import Auth from "./components/auth/auth";
+import React from 'react';
+import Auth from "./components/auth"
 
-class App extends Component {
-    state = {
 
-    };
-    render() {
-        return (
-            // structure of app
-            // <Provider store={store}>
-                // <MediaPicker/>
-            // </Provider>
-            <Auth/>
-        );
-    }
+
+export default class App extends React.Component {
+
+  render() {
+    return (
+        <Auth/>
+    );
+  }
 }
-export default App;

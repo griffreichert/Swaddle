@@ -8,8 +8,8 @@ class Auth extends React.Component {
     render() {
         return(
             <View>
-                <Header/>
-                <Button icon="camera" mode="contained" onPress={(navigation) => {
+                <Header navigation={this.props.navigation}/>
+                <Button icon="camera" mode="contained" onPress={() => {
                     console.log('Pressed');
                     this.props.navigation.navigate('ImagePicker');
                 }}>
@@ -17,10 +17,6 @@ class Auth extends React.Component {
                 </Button>
             </View>
         );
-    }
-
-    componentDidMount() {
-        console.log("Auth component mounted")
     }
 }
 

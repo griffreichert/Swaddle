@@ -20,8 +20,7 @@ export default class App extends React.Component {
     render() {
         return (
             <PaperProvider theme={theme}>
-                <AppStack/>
-                
+                <AppStack headerMode='false'/>
             </PaperProvider>
         );
     }

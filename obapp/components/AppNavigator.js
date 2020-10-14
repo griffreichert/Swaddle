@@ -10,7 +10,7 @@ const AppStack = createStackNavigator (
         ImagePicker: ImagePicker,
     },
     {
-        initialRouteName: 'ImagePicker',
+        initialRouteName: 'Auth',
     }
 );
 

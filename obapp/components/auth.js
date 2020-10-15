@@ -19,7 +19,7 @@ class Auth extends React.Component {
     }
 
     tryLogin() {
-        if (this.state.email == 'Griff' && this.state.password == 'Iscool') {
+        if (this.state.email == 'Griff' && this.state.password == 'Password') {
             console.log("Logged in!")
             this.props.navigation.navigate('ImagePicker')
         }

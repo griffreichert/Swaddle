@@ -26,7 +26,7 @@ npm install @react-navigation/stack
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
 npm install react-native-md5 --save
 npm install react-redux
-
+npm install @react-navigation/material-bottom-tabs
 ```
 UI elements from [React Native Paper](https://callstack.github.io/react-native-paper/getting-started.html)
 ```

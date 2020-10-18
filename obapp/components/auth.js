@@ -36,13 +36,13 @@ class Auth extends React.Component {
             <View style={style.container}>
                 <TextInput
                     label='email'
-                    mode='outlined'
+                    //mode='outlined'
                     onChangeText={(email) => this.setState({email})}
                 />
                 <TextInput
                     label='password'
                     style={{ marginVertical: 10 }}
-                    mode='outlined'
+                    //mode='outlined'
                     onChangeText={(password) => this.setState({password})}
                 />
                 <Button

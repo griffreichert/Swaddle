@@ -1,8 +1,8 @@
 import React from 'react';
 import Header from './Header';
 import * as ImagePicker from 'expo-image-picker';
-import {View} from 'react-native'
-import {Button} from 'react-native-paper'
+import { View } from 'react-native'
+import { Button } from 'react-native-paper'
 /* Image Picker Object
 Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
 Allows user to select an image from their phone and returns that image

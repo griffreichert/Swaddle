@@ -1,15 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Keyboard } from 'react-native';
+import { connect } from 'react-redux'
+import { login, logout } from '../actions/authActions'
+import style from '../style/style'
+import { View } from 'react-native';
 import {
     Button,
     TextInput
 } from 'react-native-paper';
-import md5 from "react-native-md5";
-import { connect } from 'react-redux'
-import { login, logout } from '../actions/authActions'
 
 class Auth extends React.Component {
-    //const [name, setName] = useState('');
 
     constructor(props) {
         super(props);
@@ -56,18 +55,6 @@ class Auth extends React.Component {
         );
     }
 }
-
-const style = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginHorizontal: 20,
-        justifyContent: 'center',
-    },
-    button: {
-        marginVertical: 10,
-        padding: 10
-    },
-});
 
 // maps state
 const mapStateToProps = (state) => {

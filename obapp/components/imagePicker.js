@@ -7,12 +7,12 @@ import {Button} from 'react-native-paper'
 Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
 Allows user to select an image from their phone and returns that image
  */  
+import { connect } from 'react-redux'
+import { login, logout } from '../actions/authActions'
 
 class MediaPicker extends React.Component {
 
-    state = {
-
-    }
+    
     async openImagePickerAsync() {
         let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
     
@@ -32,10 +32,30 @@ class MediaPicker extends React.Component {
                 <Button icon="camera" mode="contained" onPress={this.openImagePickerAsync}>
                     Pick a photo
                 </Button>
+                <Button icon="cactus" mode="contained" onPress={ () => { 
+                        console.log(this.props.login_status) 
+                    }}>
+                    state
+                </Button>
             </View>
         );
     }
 }
 
-export default MediaPicker;
+// maps state
+const mapStateToProps = (state) => {
+    return {
+        login_status: state.authReducer.login_status
+    }
+}
+
+// maps actions
+const mapDispatchToProps = (dispatch) => {
+    return {
+        rdx_login: () => dispatch(login()),
+        rdx_logout: () => dispatch(logout()),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(MediaPicker);
+
 

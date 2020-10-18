@@ -5,7 +5,8 @@ import {
     TextInput
 } from 'react-native-paper';
 import md5 from "react-native-md5";
-
+import { connect } from 'react-redux'
+import { login, logout } from '../actions/authActions'
 
 class Auth extends React.Component {
     //const [name, setName] = useState('');
@@ -20,11 +21,14 @@ class Auth extends React.Component {
 
     tryLogin() {
         if (this.state.email == 'Griff' && this.state.password == 'Password') {
+            this.props.rdx_login()
             console.log("Logged in!")
+            console.log(this.state)
             this.props.navigation.navigate('ImagePicker')
         }
         else {
             console.log("no dice")
+            console.log(this.state)
         }
     }
 
@@ -65,4 +69,19 @@ const style = StyleSheet.create({
     },
 });
 
-export default Auth;
+// maps state
+const mapStateToProps = (state) => {
+    return {
+        login_status: state.authReducer.login_status
+    }
+}
+
+// maps actions
+const mapDispatchToProps = (dispatch) => {
+    return {
+        rdx_login: () => dispatch(login()),
+        rdx_logout: () => dispatch(logout()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

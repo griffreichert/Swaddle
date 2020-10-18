@@ -2,4 +2,4 @@
 // If new auth actions, add them here
 
 export const LOGIN = 'LOGIN';
-export const LOGOIT = 'LOGOUT';
+export const LOGOUT = 'LOGOUT';

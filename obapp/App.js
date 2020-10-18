@@ -1,7 +1,11 @@
 import React from 'react';
-import AppStack from './components/AppNavigator'
-import { Appbar, DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
-import Auth from './components/Auth';
+import { Provider as ReduxProvider } from 'react-redux'
+import AppNavigator from './components/AppNavigator'
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
+import configureStore from './store'
+
+const store = configureStore();
+
 
 const theme = {
     ...DefaultTheme,
@@ -18,9 +22,11 @@ export default class App extends React.Component {
   
     render() {
         return (
-            <PaperProvider theme={theme}>
-                <AppStack headerMode='false'/>
-            </PaperProvider>
+            <ReduxProvider store={store}>
+                <PaperProvider theme={theme}>
+                    <AppNavigator headerMode='false' />
+                </PaperProvider>
+            </ReduxProvider>
         );
     }
 }

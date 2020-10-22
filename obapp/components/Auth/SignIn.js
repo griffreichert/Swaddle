@@ -25,7 +25,7 @@ class SignIn extends React.Component {
             this.props.rdx_login()
             console.log("Logged in!")
             console.log(this.state)
-            this.props.navigation.navigate('ImagePicker')
+            // this.props.navigation.navigate('ImagePicker')
         }
         else {
             <Alert  />

@@ -4,8 +4,39 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 
-import Auth from './Auth';
-import ImagePicker from './ImagePicker';
+// Auth Components
+import SignIn from './Auth/SignIn';
+import SignUp from './Auth/SignUp';
+import ResetPassword from './Auth/ResetPassword';
+
+
+
+// const Stack = createStackNavigator();
+const AuthStack = createStackNavigator();
+
+class AppNavigator extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoading: true,
+        };
+    }
+
+    render() {
+        return (
+            <NavigationContainer >
+                <AuthStack.Navigator headerMode='false'>
+                    <AuthStack.Screen name='Sign In' component={SignIn}/>
+                    <AuthStack.Screen name='Sign Up' component={SignUp}/>
+                    <AuthStack.Screen name='Forgot Password' component={ResetPassword}/>
+                </AuthStack.Navigator>
+            </NavigationContainer>
+        )
+    }
+}
+
+export default AppNavigator;
+
 
 // const Stack = createStackNavigator (
 //     {
@@ -18,20 +49,3 @@ import ImagePicker from './ImagePicker';
 // );
 
 // export default createAppContainer(Stack)
-
-// const Stack = createStackNavigator();
-const Tabs = createMaterialBottomTabNavigator();
-
-export default class AppNavigator extends React.Component {
-    render() {
-        return (
-            <NavigationContainer>
-                <Tabs.Navigator>
-                    <Tabs.Screen name='Auth' component={Auth}/>
-                    <Tabs.Screen name='ImagePicker' component={ImagePicker}/>
-                </Tabs.Navigator>
-            </NavigationContainer>
-        )
-    }
-}
-  

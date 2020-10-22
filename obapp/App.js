@@ -12,9 +12,9 @@ const theme = {
     colors: {
         ...DefaultTheme.colors,
         primary: '#6b3ab0',
-        accent: 'red',
-        background: 'white',
-        text: 'grey',
+        // accent: 'red',
+        // background: 'white',
+        // text: 'grey',
     }
 }
 
@@ -24,7 +24,7 @@ export default class App extends React.Component {
         return (
             <ReduxProvider store={store}>
                 <PaperProvider theme={theme}>
-                    <AppNavigator headerMode='false' />
+                    <AppNavigator/>
                 </PaperProvider>
             </ReduxProvider>
         );

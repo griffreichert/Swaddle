@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { login, logout } from '../actions/authActions'
-import style from '../style/style'
+import * as style from '../style/style'
 import { View } from 'react-native';
 import {
     Button,

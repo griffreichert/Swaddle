@@ -15,6 +15,7 @@ drop table if exists messages;
 
 create table users (
 	user_id serial primary key,
+	token text,
 	email varchar(320) unique not null,
 	first_name varchar(80) not null,
 	last_name varchar(80) not null,

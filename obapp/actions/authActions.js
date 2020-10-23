@@ -3,15 +3,14 @@ import {
     LOGOUT
 } from './authTypes'
 
-// export const login = (val1, val2) => ({
-export const login = () => ({
+export const login = (_username, _session_token) => ({
     type: LOGIN,
-    // email: val1,
-    // session_id: val2,
+    username: _username,
+    session_token: _session_token,
   });
   
   export const logout = () => ({
     type: LOGOUT,
-    // email: '',
-    // session_id: '',
+    email: '',
+    session_token: '',
   });

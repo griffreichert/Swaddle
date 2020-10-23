@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Alert, StyleSheet, Text } from 'react-native';
 import { login, logout } from '../../actions/authActions'
-import { View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {
     Button,
-    TextInput
+    TextInput,
+    useTheme,
+    withTheme
 } from 'react-native-paper';
+import ResetPasswordButton from './Buttons/ResetPasswordButton';
+import SignUpButton from './Buttons/SignUpButton';
 
 class SignIn extends React.Component {
 
@@ -15,20 +18,18 @@ class SignIn extends React.Component {
         this.state = {
             email: '',
             password: '',
-            sessionId: '',
         };
     }
 
     tryLogin() {
         // TODO: refactor this into using API
         if (this.state.email === 'Griff' && this.state.password.length > 4) {
-            this.props.rdx_login()
+            this.props.rdx_login(email, '420')
             console.log("Logged in!")
             console.log(this.state)
             // this.props.navigation.navigate('ImagePicker')
         }
         else {
-            <Alert  />
             console.log("no dice")
             console.log(this.state)
         }
@@ -36,15 +37,16 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <View style={style.container}>
+            <View style={[style.container, {backgroundColor: this.props.theme.colors.background}]}>
                 <TextInput
                     label='email'
+                    style={style.textField}
                     //mode='outlined'
                     onChangeText={(email) => this.setState({email})}
                 />
                 <TextInput
                     label='password'
-                    style={{ marginVertical: 10 }}
+                    style={style.textField}
                     //mode='outlined'
                     onChangeText={(password) => this.setState({password})}
                 />
@@ -54,22 +56,8 @@ class SignIn extends React.Component {
                     onPress={ () => this.tryLogin()}>
                     Sign in
                 </Button>
-                <TouchableOpacity 
-                    style={style.textLink} 
-                    onPress={() => this.props.navigation.navigate("Sign Up")}
-                    >
-                    <Text>
-                        Sign up
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                    style={style.textLink} 
-                    onPress={() => this.props.navigation.navigate("Forgot Password")}
-                    >
-                    <Text>
-                        Forgot password
-                    </Text>
-                </TouchableOpacity>
+                <SignUpButton navigation={this.props.navigation}/>
+                <ResetPasswordButton navigation={this.props.navigation}/>
             </View>
         );
     }
@@ -78,12 +66,16 @@ class SignIn extends React.Component {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 20,
         justifyContent: 'center',
     },
     button: {
         marginVertical: 10,
-        padding: 10
+        padding: 10,
+        marginHorizontal: 20,
+    },
+    textField: {
+        marginVertical: 5,
+        marginHorizontal: 20,
     },
     textLink: {
         alignItems: "center",
@@ -94,16 +86,18 @@ const style = StyleSheet.create({
 // maps state
 const mapStateToProps = (state) => {
     return {
-        login_status: state.authReducer.login_status
+        login_status: state.authReducer.login_status,
+        username: state.authReducer.username,
+        session_token: state.authReducer.session_token,
     }
 }
 
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rdx_login: () => dispatch(login()),
+        rdx_login: (username, session_token) => dispatch(login(username, session_token)),
         rdx_logout: () => dispatch(logout()),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(SignIn));

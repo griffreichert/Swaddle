@@ -10,17 +10,19 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import SignIn from './Auth/SignIn';
 import SignUp from './Auth/SignUp';
 import ResetPassword from './Auth/ResetPassword';
+
+import Home from './Views/Home'
+
 import ImagePicker from './ImagePicker';
 
 
-// const Stack = createStackNavigator();
-const AuthStack = createStackNavigator();
+const Stack = createStackNavigator();
 
 class AppNavigator extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: true,
+
         };
     }
 
@@ -28,15 +30,16 @@ class AppNavigator extends React.Component {
         return (
             <NavigationContainer >
                 { this.props.login_status !== 1 ? (
-                <AuthStack.Navigator headerMode='false'>
-                    <AuthStack.Screen name='Sign In' component={SignIn}/>
-                    <AuthStack.Screen name='Sign Up' component={SignUp}/>
-                    <AuthStack.Screen name='Forgot Password' component={ResetPassword}/>
-                </AuthStack.Navigator>
+                <Stack.Navigator headerMode='false'>
+                    <Stack.Screen name='Sign In' component={SignIn}/>
+                    <Stack.Screen name='Sign Up' component={SignUp}/>
+                    <Stack.Screen name='Forgot Password' component={ResetPassword}/>
+                </Stack.Navigator>
                 ) : (
-                <AuthStack.Navigator headerMode='false'>
-                    <AuthStack.Screen name='Image Picker' component={ImagePicker}/>
-                </AuthStack.Navigator>
+                <Stack.Navigator headerMode='false'>
+                    <Stack.Screen name='Home' component={Home}/>
+                    <Stack.Screen name='Image Picker' component={ImagePicker}/>
+                </Stack.Navigator>
                 )}
             </NavigationContainer>
             
@@ -59,16 +62,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator);
-
-
-// const Stack = createStackNavigator (
-//     {
-//         Auth: Auth,
-//         ImagePicker: ImagePicker,
-//     },
-//     {
-//         initialRouteName: 'Auth',
-//     }
-// );
-
-// export default createAppContainer(Stack)

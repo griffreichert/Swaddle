@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Alert, StyleSheet } from 'react-native';
-import { login, logout } from '../../actions/authActions'
+import { login, logout } from '../../actions/authActions';
+import SignInButton from './Buttons/SignInButton';
 import { View } from 'react-native';
 import {
     Button,
@@ -16,7 +17,6 @@ class SignUp extends React.Component {
             email: '',
             password: '',
             confirmedPass: '',
-            sessionId: '',
         };
     }
 
@@ -49,14 +49,20 @@ class SignUp extends React.Component {
                     onChangeText={(email) => this.setState({email})}
                 />
                 <TextInput
+                    label='username'
+                    style={style.textField}
+                    //mode='outlined'
+                    onChangeText={(username) => this.setState({username})}
+                />
+                <TextInput
                     label='password'
-                    style={{ marginVertical: 10 }}
+                    style={style.textField}
                     //mode='outlined'
                     onChangeText={(password) => this.setState({password})}
                 />
                 <TextInput
                     label='confirm password'
-                    style={{ marginVertical: 10 }}
+                    style={style.textField}
                     //mode='outlined'
                     onChangeText={(confirmedPass) => this.setState({confirmedPass})}
                 />
@@ -66,6 +72,7 @@ class SignUp extends React.Component {
                     onPress={ () => this.tryLogin()}>
                     Sign Up
                 </Button>
+                <SignInButton navigation={this.props.navigation}/>
             </View>
         );
     }
@@ -81,19 +88,28 @@ const style = StyleSheet.create({
         marginVertical: 10,
         padding: 10
     },
+    textField: {
+        marginVertical: 5,
+    },
+    textLink: {
+        alignItems: "center",
+        margin: 10,
+    },
 });
 
 // maps state
 const mapStateToProps = (state) => {
     return {
-        login_status: state.authReducer.login_status
+        login_status: state.authReducer.login_status,
+        username: state.authReducer.username,
+        session_token: state.authReducer.session_token,
     }
 }
 
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rdx_login: () => dispatch(login()),
+        rdx_login: (username, session_token) => dispatch(login(username, session_token)),
         rdx_logout: () => dispatch(logout()),
     }
 }

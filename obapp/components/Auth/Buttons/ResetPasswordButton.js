@@ -23,7 +23,7 @@ const style = StyleSheet.create({
         margin: 10,
     },
     text: {
-        fontFamily: 'Rubik-Regular',
+        // fontFamily: 'Rubik-Regular',
     }
 });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { login, logout } from '../../actions/authActions'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
     Button,
     TextInput,
@@ -37,22 +37,24 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <View style={[style.container, {backgroundColor: this.props.theme.colors.background}]}>
+            <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <TextInput
                     label='email'
                     style={style.textField}
-                    //mode='outlined'
+                    mode='outlined'
                     onChangeText={(email) => this.setState({email})}
-                />
+                    />
                 <TextInput
                     label='password'
                     style={style.textField}
-                    //mode='outlined'
+                    mode='outlined'
+                    underlineColor={this.props.theme.colors.background}
                     onChangeText={(password) => this.setState({password})}
                 />
                 <Button
                     style={style.button}
                     mode='contained'
+                    uppercase={false}
                     onPress={ () => this.tryLogin()}>
                     Sign in
                 </Button>
@@ -71,11 +73,12 @@ const style = StyleSheet.create({
     button: {
         marginVertical: 10,
         padding: 10,
-        marginHorizontal: 20,
+        marginHorizontal: 120,
+        fontFamily: 'Rubik-Regular',
     },
     textField: {
         marginVertical: 5,
-        marginHorizontal: 20,
+        marginHorizontal: 40,
     },
     textLink: {
         alignItems: "center",

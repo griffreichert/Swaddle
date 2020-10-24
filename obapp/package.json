@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.1.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@react-native-community/masked-view": "0.1.10",
@@ -42,6 +43,9 @@
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "babel-preset-expo": "~8.1.0"
+  },
+  "rnmp": {
+    "assets": ["./assets/fonts/"]
   },
   "private": true
 }

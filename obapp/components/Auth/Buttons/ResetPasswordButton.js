@@ -9,7 +9,7 @@ class ResetPasswordButton extends React.Component {
             style={style.textLink} 
             onPress={() => this.props.navigation.navigate("Forgot Password")}
             >
-            <Text>
+            <Text style={style.text}>
                 Forgot password
             </Text>
         </TouchableOpacity> 
@@ -22,6 +22,9 @@ const style = StyleSheet.create({
         alignItems: "center",
         margin: 10,
     },
+    text: {
+        fontFamily: 'Rubik-Regular',
+    }
 });
 
 export default ResetPasswordButton;

@@ -6,7 +6,8 @@ import SignInButton from './Buttons/SignInButton';
 import { View } from 'react-native';
 import {
     Button,
-    TextInput
+    TextInput,
+    withTheme
 } from 'react-native-paper';
 
 class SignUp extends React.Component {
@@ -28,7 +29,7 @@ class SignUp extends React.Component {
 
         if (this.state.email == 'Griff' && this.state.password == 'Password') {
             // need to call api to create user here
-            this.props.rdx_login()
+            this.props.rlogin()
             console.log("Logged in!")
             console.log(this.state)
             this.props.navigation.navigate('ImagePicker')
@@ -42,28 +43,29 @@ class SignUp extends React.Component {
 
     render() {
         return (
-            <View style={style.container}>
+            <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <TextInput
                     label='email'
-                    //mode='outlined'
+                    mode='outlined'
+                    style={style.textField}
                     onChangeText={(email) => this.setState({email})}
                 />
                 <TextInput
                     label='username'
+                    mode='outlined'
                     style={style.textField}
-                    //mode='outlined'
                     onChangeText={(username) => this.setState({username})}
                 />
                 <TextInput
                     label='password'
+                    mode='outlined'
                     style={style.textField}
-                    //mode='outlined'
                     onChangeText={(password) => this.setState({password})}
                 />
                 <TextInput
                     label='confirm password'
+                    mode='outlined'
                     style={style.textField}
-                    //mode='outlined'
                     onChangeText={(confirmedPass) => this.setState({confirmedPass})}
                 />
                 <Button
@@ -81,19 +83,17 @@ class SignUp extends React.Component {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 20,
         justifyContent: 'center',
     },
     button: {
         marginVertical: 10,
-        padding: 10
+        padding: 10,
+        marginHorizontal: 120,
+        fontFamily: 'Rubik-Italic',
     },
     textField: {
         marginVertical: 5,
-    },
-    textLink: {
-        alignItems: "center",
-        margin: 10,
+        marginHorizontal: 40,
     },
 });
 
@@ -109,10 +109,9 @@ const mapStateToProps = (state) => {
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rdx_login: (username, session_token) => dispatch(login(username, session_token)),
-        rdx_logout: () => dispatch(logout()),
+        rlogin: (username, session_token) => dispatch(login(username, session_token)),
+        rlogout: () => dispatch(logout()),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp
-);
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(SignUp));

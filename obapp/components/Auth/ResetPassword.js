@@ -5,26 +5,28 @@ import { login, logout } from '../../actions/authActions'
 import { View } from 'react-native';
 import {
     Button,
-    TextInput
+    TextInput,
+    withTheme
 } from 'react-native-paper';
 import SignInButton from './Buttons/SignInButton';
 
 class ResetPassword extends React.Component {
     render() {
         return (
-            <View style={style.container}>
+            <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <TextInput
                     label='email'
-                    //mode='outlined'
-                    onChangeText={(email) => this.setState({email})}
+                    mode='outlined'
+                    style={style.textField}
+                    onChangeText={(email) => this.setState({ email })}
                 />
                 <Button
                     style={style.button}
                     mode='contained'
-                    onPress={ () => console.log("Reset password")}>
+                    onPress={() => console.log("Reset password")}>
                     Reset password
                 </Button>
-                <SignInButton navigation={this.props.navigation}/>
+                <SignInButton navigation={this.props.navigation} />
             </View>
         );
     }
@@ -33,19 +35,17 @@ class ResetPassword extends React.Component {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 20,
         justifyContent: 'center',
     },
     button: {
         marginVertical: 10,
-        padding: 10
+        padding: 10,
+        marginHorizontal: 80,
+        fontFamily: 'Rubik-Italic',
     },
     textField: {
         marginVertical: 5,
-    },
-    textLink: {
-        alignItems: "center",
-        margin: 10,
+        marginHorizontal: 40,
     },
 });
 
@@ -61,9 +61,9 @@ const mapStateToProps = (state) => {
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rdx_login: (username, session_token) => dispatch(login(username, session_token)),
-        rdx_logout: () => dispatch(logout()),
+        rlogin: (username, session_token) => dispatch(login(username, session_token)),
+        rlogout: () => dispatch(logout()),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(ResetPassword));

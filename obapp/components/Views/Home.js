@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
 
 class Home extends React.Component {
     render () {
         return(
-            <View style={style.container}>
+            <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Text>Hi</Text>
             </View>
         );
@@ -15,7 +16,6 @@ class Home extends React.Component {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        marginHorizontal: 20,
         justifyContent: 'center',
     },
     button: {
@@ -36,9 +36,9 @@ const mapStateToProps = (state) => {
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rdx_login: (username, session_token) => dispatch(login(username, session_token)),
-        rdx_logout: () => dispatch(logout()),
+        rlogin: (username, session_token) => dispatch(login(username, session_token)),
+        rlogout: () => dispatch(logout()),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(Home));

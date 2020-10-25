@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-native-paper'
 
 class ResetPasswordButton extends React.Component {
-    render () {
+    render() {
         return (
             <Button
                 mode='text'
@@ -12,7 +12,7 @@ class ResetPasswordButton extends React.Component {
                 Forgot password
             </Button>
         );
-    }   
+    }
 }
 
 export default ResetPasswordButton;

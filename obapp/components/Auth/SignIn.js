@@ -5,7 +5,6 @@ import { StyleSheet, View } from 'react-native';
 import {
     Button,
     TextInput,
-    useTheme,
     withTheme
 } from 'react-native-paper';
 import ResetPasswordButton from './Buttons/ResetPasswordButton';
@@ -24,7 +23,7 @@ class SignIn extends React.Component {
     tryLogin() {
         // TODO: refactor this into using API
         if (this.state.email === 'Griff' && this.state.password.length > 4) {
-            this.props.rdx_login(email, '420')
+            this.props.rlogin(this.state.email, '420')
             console.log("Logged in!")
             console.log(this.state)
             // this.props.navigation.navigate('ImagePicker')
@@ -74,15 +73,11 @@ const style = StyleSheet.create({
         marginVertical: 10,
         padding: 10,
         marginHorizontal: 120,
-        fontFamily: 'Rubik-Regular',
+        fontFamily: 'Rubik-Italic',
     },
     textField: {
         marginVertical: 5,
         marginHorizontal: 40,
-    },
-    textLink: {
-        alignItems: "center",
-        margin: 10,
     },
 });
 
@@ -98,8 +93,8 @@ const mapStateToProps = (state) => {
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rdx_login: (username, session_token) => dispatch(login(username, session_token)),
-        rdx_logout: () => dispatch(logout()),
+        rlogin: (username, session_token) => dispatch(login(username, session_token)),
+        rlogout: () => dispatch(logout()),
     }
 }
 

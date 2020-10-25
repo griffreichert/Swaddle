@@ -1,27 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-
+import { Button } from 'react-native-paper'
 
 class SignUpButton extends React.Component {
     render () {
         return (
-            <TouchableOpacity 
-            style={style.textLink} 
-            onPress={() => this.props.navigation.navigate("Sign Up")}
-            >
-            <Text>
+            <Button
+                mode='text'
+                uppercase={false}
+                style={{marginHorizontal: 100}}
+                onPress={() => this.props.navigation.navigate("Sign Up")}>
                 Sign up
-            </Text>
-        </TouchableOpacity> 
+            </Button>
         );
-    }
-    
+    }   
 }
-const style = StyleSheet.create({
-    textLink: {
-        alignItems: "center",
-        margin: 10,
-    },
-});
 
 export default SignUpButton;

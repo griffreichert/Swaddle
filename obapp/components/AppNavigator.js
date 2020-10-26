@@ -1,22 +1,27 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { connect } from 'react-redux'
+import { login, logout } from '../actions/authActions'
 
 // import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
+
+// import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 
 // Auth Components
 import SignIn from './Auth/SignIn';
 import SignUp from './Auth/SignUp';
 import ResetPassword from './Auth/ResetPassword';
 
-import Home from './Views/Home'
+import Home from './Views/Feed'
 
 import ImagePicker from './ImagePicker';
 
 
 const Stack = createStackNavigator();
+
+const Drawer = createDrawerNavigator();
 
 class AppNavigator extends React.Component {
     constructor(props) {
@@ -36,16 +41,18 @@ class AppNavigator extends React.Component {
                     <Stack.Screen name='Forgot Password' component={ResetPassword}/>
                 </Stack.Navigator>
                 ) : (
-                <Stack.Navigator headerMode='false'>
-                    <Stack.Screen name='Home' component={Home}/>
-                    <Stack.Screen name='Image Picker' component={ImagePicker}/>
-                </Stack.Navigator>
+                <Drawer.Navigator >
+                    <Drawer.Screen name='Feed' component={Feed}/>
+                    <Drawer.Screen name='Image Picker' component={ImagePicker}/>
+                    { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
+                </Drawer.Navigator>
                 )}
             </NavigationContainer>
             
         )
     }
 }
+
 // maps state
 const mapStateToProps = (state) => {
     return {
@@ -56,8 +63,8 @@ const mapStateToProps = (state) => {
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rdx_login: () => dispatch(login()),
-        rdx_logout: () => dispatch(logout()),
+        rlogin: () => dispatch(login()),
+        rlogout: () => dispatch(logout()),
     }
 }
 

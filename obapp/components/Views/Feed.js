@@ -2,12 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
+import Header from '../Header';
 
-class Home extends React.Component {
+class Feed extends React.Component {
     render () {
         return(
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
-                <Text>Hi</Text>
+                <Header navigation={this.props.navigation}/>
+                
             </View>
         );
     }
@@ -16,7 +18,6 @@ class Home extends React.Component {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
     },
     button: {
         marginVertical: 10,
@@ -41,4 +42,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(Feed));

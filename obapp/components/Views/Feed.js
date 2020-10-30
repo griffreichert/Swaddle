@@ -10,7 +10,7 @@ class Feed extends React.Component {
         return(
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation}/>
-                <MediaButton/>
+                <MediaButton navigation={this.props.navigation}/>
             </View>
         );
     }

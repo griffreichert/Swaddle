@@ -16,11 +16,13 @@ class MediaButton extends React.Component {
                     open={this.state.open}
                     icon={this.state.open ? 'cactus' : 'owl'}
                     actions={[
-                        { icon: 'plus', onPress: () => console.log('Pressed add') },
                         {
-                          icon: 'star',
-                          label: 'Star',
-                          onPress: () => console.log('Pressed star'),
+                          icon: 'video-vintage',
+                          label: 'Video',
+                          onPress: () => {
+                              console.log('Pressed video')
+                              this.props.navigation.navigate('PostImage')
+                            },
                         },
                         {
                           icon: 'email',

@@ -10,7 +10,8 @@ class Header extends React.Component {
             <Appbar.Header>
                 <Appbar.Action icon="menu" onPress={() => this.props.navigation.toggleDrawer()}/>
                 <Appbar.Action icon="cactus" onPress={() => console.log(this.state)}/>
-                <Appbar.Content title="StorkApp" />
+                <Appbar.Content title="Swaddle" />
+                <Appbar.Action icon="owl" onPress={() => console.log(this.state)}/>
             </Appbar.Header>
         );
     }

@@ -3,13 +3,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
 import Header from '../Header';
+import MediaButton from '../MediaButton';
 
 class Feed extends React.Component {
     render () {
         return(
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation}/>
-                
+                <MediaButton/>
             </View>
         );
     }

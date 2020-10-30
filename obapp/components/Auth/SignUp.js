@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { Alert, StyleSheet } from 'react-native';
 import { login, logout } from '../../actions/authActions';
 import SignInButton from './Buttons/SignInButton';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import {
     Button,
     TextInput,
+    HelperText,
     withTheme
 } from 'react-native-paper';
 
@@ -18,27 +18,23 @@ class SignUp extends React.Component {
             email: '',
             password: '',
             confirmedPass: '',
+            passMismatch: false,
         };
     }
 
     tryLogin() {
         // TODO: refactor this into using API
         if (this.state.confirmedPass !== this.state.password) {
-            console.log("Passwords not confirmed");
+            this.setState({passMismatch: true})
         }
-        else if (this.state.email == 'Griff' && this.state.password == 'Password') {
-            // need to call api to create user here
-            this.props.rlogin()
-            console.log("Logged in!")
-            console.log(this.state)
-            this.props.navigation.navigate('ImagePicker')
-        }
+        
         else {
-            <Alert  />
-            console.log("no dice")
-            console.log(this.state)
+            console.log("create user here")
+            this.setState({passMismatch: false})
         }
     }
+
+    // note may want to add toggle here to join a pregnancy
 
     render() {
         return (
@@ -69,6 +65,12 @@ class SignUp extends React.Component {
                     style={style.textField}
                     onChangeText={(confirmedPass) => this.setState({confirmedPass})}
                 />
+                <HelperText 
+                    type='error'
+                    style={style.textField}
+                    visible={this.state.passMismatch}>
+                    Passwords must match
+                </HelperText>
                 <Button
                     style={style.button}
                     mode='contained'

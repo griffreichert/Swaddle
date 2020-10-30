@@ -23,6 +23,7 @@ class ResetPassword extends React.Component {
                 <Button
                     style={style.button}
                     mode='contained'
+                    uppercase={false}
                     onPress={() => console.log("Reset password")}>
                     Reset password
                 </Button>

@@ -14,7 +14,7 @@ import SignIn from './Auth/SignIn';
 import SignUp from './Auth/SignUp';
 import ResetPassword from './Auth/ResetPassword';
 
-import Home from './Views/Feed'
+import Feed from './Views/Feed'
 
 import ImagePicker from './ImagePicker';
 

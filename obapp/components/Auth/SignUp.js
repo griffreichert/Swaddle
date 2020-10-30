@@ -26,8 +26,7 @@ class SignUp extends React.Component {
         if (this.state.confirmedPass !== this.state.password) {
             console.log("Passwords not confirmed");
         }
-
-        if (this.state.email == 'Griff' && this.state.password == 'Password') {
+        else if (this.state.email == 'Griff' && this.state.password == 'Password') {
             // need to call api to create user here
             this.props.rlogin()
             console.log("Logged in!")
@@ -59,18 +58,21 @@ class SignUp extends React.Component {
                 <TextInput
                     label='password'
                     mode='outlined'
+                    secureTextEntry={true}
                     style={style.textField}
                     onChangeText={(password) => this.setState({password})}
                 />
                 <TextInput
                     label='confirm password'
                     mode='outlined'
+                    secureTextEntry={true}
                     style={style.textField}
                     onChangeText={(confirmedPass) => this.setState({confirmedPass})}
                 />
                 <Button
                     style={style.button}
                     mode='contained'
+                    uppercase={false}
                     onPress={ () => this.tryLogin()}>
                     Sign Up
                 </Button>

@@ -4,6 +4,7 @@ import { login, logout } from '../../actions/authActions'
 import { StyleSheet, View } from 'react-native';
 import {
     Button,
+    HelperText,
     TextInput,
     withTheme
 } from 'react-native-paper';
@@ -17,6 +18,7 @@ class SignIn extends React.Component {
         this.state = {
             email: '',
             password: '',
+            failedAttempt: false,
         };
     }
 
@@ -29,8 +31,7 @@ class SignIn extends React.Component {
             // this.props.navigation.navigate('ImagePicker')
         }
         else {
-            console.log("no dice")
-            console.log(this.state)
+            this.setState({failedAttempt: true})
         }
     }
 
@@ -46,10 +47,17 @@ class SignIn extends React.Component {
                 <TextInput
                     label='password'
                     style={style.textField}
+                    secureTextEntry={true}
                     mode='outlined'
                     underlineColor={this.props.theme.colors.background}
                     onChangeText={(password) => this.setState({password})}
                 />
+                <HelperText 
+                    type='error'
+                    style={style.textField}
+                    visible={this.state.failedAttempt}>
+                    Incorrect username/password
+                </HelperText>
                 <Button
                     style={style.button}
                     mode='contained'

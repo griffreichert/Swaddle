@@ -29,12 +29,12 @@ const fontConfig = {
     },
 };
 
-// let customFonts = {
-//     'Rubik-Regular': require('./assets/fonts/Rubik-Regular.ttf'),
-//     'Rubik-Black': require('./assets/fonts/Rubik-Black.ttf'),
-//     'Rubik-Light': require('./assets/fonts/Rubik-Light.ttf'),
-//     'Rubik-LightItalic': require('./assets/fonts/Rubik-LightItalic.ttf'),
-// }
+let customFonts = {
+    'Rubik-Regular': require('./assets/fonts/Rubik-Regular.ttf'),
+    'Rubik-Black': require('./assets/fonts/Rubik-Black.ttf'),
+    'Rubik-Light': require('./assets/fonts/Rubik-Light.ttf'),
+    'Rubik-LightItalic': require('./assets/fonts/Rubik-LightItalic.ttf'),
+}
 
 
 const myTheme = {
@@ -68,47 +68,47 @@ const myTheme = {
     },
 }
 
-export default class App extends React.Component {
-    render() {
-        return (
-            <ReduxProvider store={store}>
-                <PaperProvider theme={myTheme}>
-                    <AppNavigator />
-                </PaperProvider>
-            </ReduxProvider>
-        );
-    }
-}
-
 // export default class App extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             fontsLoaded: false,
-//         };
-//     }
-
-//     async loadFontsAsync() {
-//         await Font.loadAsync(customFonts);
-//         this.setState({ fontsLoaded: true });
-//     }
-
-//     componentDidMount() {
-//         this.loadFontsAsync();
-//     }
-
 //     render() {
-//         if (this.state.fontsLoaded) {
-//             return (
-//                 <ReduxProvider store={store}>
-//                     <PaperProvider theme={myTheme}>
-//                         <AppNavigator/>
-//                     </PaperProvider>
-//                 </ReduxProvider>
-//             );
-//         }
-//         else {
-//             return <AppLoading/>;
-//         }
+//         return (
+//             <ReduxProvider store={store}>
+//                 <PaperProvider theme={myTheme}>
+//                     <AppNavigator />
+//                 </PaperProvider>
+//             </ReduxProvider>
+//         );
 //     }
 // }
+
+export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fontsLoaded: false,
+        };
+    }
+
+    async loadFontsAsync() {
+        await Font.loadAsync(customFonts);
+        this.setState({ fontsLoaded: true });
+    }
+
+    componentDidMount() {
+        this.loadFontsAsync();
+    }
+
+    render() {
+        if (this.state.fontsLoaded) {
+            return (
+                <ReduxProvider store={store}>
+                    <PaperProvider theme={myTheme}>
+                        <AppNavigator/>
+                    </PaperProvider>
+                </ReduxProvider>
+            );
+        }
+        else {
+            return <AppLoading/>;
+        }
+    }
+}

@@ -42,6 +42,7 @@ class SignIn extends React.Component {
                     label='email'
                     style={style.textField}
                     mode='outlined'
+                    
                     onChangeText={(email) => this.setState({email})}
                     />
                 <TextInput

@@ -6,6 +6,9 @@ import * as Permissions from 'expo-permissions';
 import { View, StyleSheet, Image } from 'react-native'
 import { 
     Button,
+    HelperText,
+    TextInput,
+    Title,
     withTheme 
 } from 'react-native-paper'
 /* Image Picker Object
@@ -53,22 +56,38 @@ class PostImage extends React.Component {
         return(
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation}/>
-                <Button icon="camera" mode="contained" style={style.button} 
+                <Button 
+                    icon="camera" 
+                    mode="outlined" 
+                    uppercase={false}
+                    theme={{roundness: 0}}
                     onPress={this.pickImage}>
                     Pick a photo
                 </Button>
-                <Button icon="cactus" mode="contained" style={style.button} 
-                    onPress={ () => { 
-                        console.log(this.state) 
-                    }}>
-                    state
-                </Button>
-                {this.state.image && 
-                    <Image 
-                        style={{ height: 200, marginHorizontal: 20 }}
-                        resizeMode="contain"
-                        source={{ uri: `data:image/jpeg;base64,${this.state.image}` }}
+                <View style={{flexDirection: "row", height: 200}}>
+                {/* <View style={{ backgroundColor: this.props.theme.colors.background, justifyContent: 'left' }}> */}
+                    <View style={{flex:0.5, justifyContent: 'center'}}>
+                        {this.state.image && <Image 
+                            style={{ height: 100, marginHorizontal: 20 }}
+                            resizeMode="contain"
+                            source={{ uri: `data:image/jpeg;base64,${this.state.image}` }}
                         />}
+                    </View>
+                    <View style={{flex: 0.5}}>
+                        <Title style={{alignSelf: 'center'}}>Post title</Title>
+                    
+                    <TextInput
+                        // label='title'
+                        // theme={{roundness: 0}}
+                        mode='outlined'
+                        style={{margin: 5, height: 100}}
+                        multiline={true}
+                        blurOnSubmit={true}
+                        returnKeyType = 'done'
+                        text='top'
+                        />
+                    </View>
+                </View>
             </View>
         );
     }
@@ -77,12 +96,6 @@ class PostImage extends React.Component {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    button: {
-        marginVertical: 10,
-        padding: 10,
-        marginHorizontal: 120,
-        fontFamily: 'Rubik-Italic',
     },
 });
 

@@ -1,8 +1,11 @@
 import React from 'react';
 import Header from './Header';
 import * as ImagePicker from 'expo-image-picker';
-import { View } from 'react-native'
-import { Button } from 'react-native-paper'
+import { View, StyleSheet } from 'react-native'
+import { 
+    Button,
+    withTheme 
+} from 'react-native-paper'
 /* Image Picker Object
 Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
 Allows user to select an image from their phone and returns that image
@@ -11,7 +14,16 @@ import { connect } from 'react-redux'
 import { login, logout } from '../actions/authActions'
 
 class MediaPicker extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            img_uri: '',
+        };
+    }
 
+    setImage(new_uri) {
+        this.setState({img_uri: new_uri});
+    }
     
     async openImagePickerAsync() {
         let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -20,14 +32,28 @@ class MediaPicker extends React.Component {
             alert("Permission to access camera roll is required!");
             return;
         }
-        let pickerResult = await ImagePicker.launchImageLibraryAsync();
-        console.log(pickerResult);
-        // setState({img_uri: pickerResult.uri})
+        // let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        //     mediaTypes: ImagePicker.MediaTypeOptions.Photos,
+        //     // mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+        // });
+        // if (!pickerResult.cancelled) {
+        //     console.log(pickerResult);
+        //     this.setImage(pickerResult.uri);
+        // }
+        ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Photos,
+            // mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+        }).then((res) => {
+            if (!pickerResult.cancelled) {
+                console.log(pickerResult);
+                this.setImage(pickerResult.uri);
+            }
+        });
     }
 
     render() {
         return(
-            <View>
+            <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation}/>
                 <Button icon="camera" mode="contained" onPress={this.openImagePickerAsync}>
                     Pick a photo
@@ -41,6 +67,12 @@ class MediaPicker extends React.Component {
         );
     }
 }
+
+const style = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+});
 
 // maps state
 const mapStateToProps = (state) => {
@@ -59,6 +91,6 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MediaPicker);
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(MediaPicker));
 
 

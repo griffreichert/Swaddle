@@ -11,34 +11,34 @@ class MediaButton extends React.Component {
     }
     render() {
         return (
-            <Portal>
-                <FAB.Group
-                    open={this.state.open}
-                    icon={this.state.open ? 'cactus' : 'owl'}
-                    actions={[
-                        {
-                          icon: 'video-vintage',
-                          label: 'Video',
-                          onPress: () => {
-                              console.log('Pressed video')
-                              this.props.navigation.navigate('PostImage')
-                            },
+            <FAB.Group
+                open={this.state.open}
+                icon={this.state.open ? 'cancel' : 'send'}
+                actions={[
+                    {
+                        icon: 'camera',
+                        label: 'Photo',
+                        onPress: () => {
+                            console.log('Pressed photo')
+                            this.props.navigation.navigate('PostImage')
                         },
-                        {
-                          icon: 'email',
-                          label: 'Email',
-                          onPress: () => console.log('Pressed email'),
+                    },
+                    {
+                        icon: 'video-vintage',
+                        label: 'Video',
+                        onPress: () => {
+                            console.log('Pressed video')
+                            // this.props.navigation.navigate('PostImage')
                         },
-                        {
-                          icon: 'bell',
-                          label: 'Remind',
-                          onPress: () => console.log('Pressed notifications'),
-                        },
-                      ]}
-                    onStateChange={ () => this.setState({open: !this.state.open}) }
-                    onPress={() => this.setState({open: true})}
-                />
-            </Portal>
+                    },
+                    {
+                        icon: 'message-text',
+                        label: 'Message',
+                        onPress: () => console.log('Pressed email'),
+                    }]}
+                onStateChange={ () => this.setState({open: !this.state.open}) }
+                onPress={() => this.setState({open: true})}
+            />
         );
     }
 }

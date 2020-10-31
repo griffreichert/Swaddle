@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
 import Header from '../Header';

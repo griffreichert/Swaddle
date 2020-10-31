@@ -30,3 +30,17 @@ The app can be started by running:
 npm start
 ```
 
+Good icons to use:
+
+Baby Related:
+foot-print
+gift
+gift-outline
+gender-female
+gender-male
+
+
+App use:
+
+
+Personally like:

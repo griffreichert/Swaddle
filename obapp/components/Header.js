@@ -9,9 +9,8 @@ class Header extends React.Component {
         return(
             <Appbar.Header>
                 <Appbar.Action icon="menu" onPress={() => this.props.navigation.toggleDrawer()}/>
-                <Appbar.Action icon="cactus" onPress={() => console.log(this.state)}/>
                 <Appbar.Content title="Swaddle" />
-                <Appbar.Action icon="owl" onPress={() => console.log(this.state)}/>
+                <Appbar.Action icon="face" onPress={() => console.log(this.state)}/>
             </Appbar.Header>
         );
     }

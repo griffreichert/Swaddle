@@ -16,7 +16,8 @@ import ResetPassword from './Auth/ResetPassword';
 
 import Feed from './Views/Feed'
 
-import ImagePicker from './ImagePicker';
+import PostImage from './postImage';
+
 
 
 const Stack = createStackNavigator();
@@ -25,7 +26,7 @@ function Home() {
     return (
         <Stack.Navigator headerMode='false'>
             <Stack.Screen name='Feed' component={Feed}/>
-            <Stack.Screen name='PostImage' component={ImagePicker}/>
+            <Stack.Screen name='PostImage' component={PostImage}/>
         </Stack.Navigator>
     );
 }
@@ -52,7 +53,6 @@ class AppNavigator extends React.Component {
                 ) : ( */}
                 <Drawer.Navigator >
                     <Drawer.Screen name='Home' component={Home}/>
-                    <Drawer.Screen name='Image Picker' component={ImagePicker}/>
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>
                 {/* )} */}

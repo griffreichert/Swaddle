@@ -3,18 +3,17 @@ import Header from './Header';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import { View, StyleSheet, Image } from 'react-native'
-import { 
+import { View, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import {
     Button,
-    HelperText,
     TextInput,
-    Title,
-    withTheme 
+    Subheading,
+    withTheme
 } from 'react-native-paper'
 /* Image Picker Object
 Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
 Allows user to select an image from their phone and returns that image
- */  
+ */
 import { connect } from 'react-redux'
 import { login, logout } from '../actions/authActions'
 
@@ -23,20 +22,22 @@ class PostImage extends React.Component {
         super(props);
         this.state = {
             image: null,
+            mTitle: '',
+            mCaption: ''
         };
     }
-    
+
     getPermissionAsync = async () => {
         if (Constants.platform.ios) {
-          const { status } = await Permissions.askAsync(
-              Permissions.CAMERA_ROLL,
-              Permissions.CAMERA
+            const { status } = await Permissions.askAsync(
+                Permissions.CAMERA_ROLL,
+                Permissions.CAMERA
             );
-          if (status !== 'granted') {
-            alert('We need camera roll permissions, please visit settings and manually re-allow Expo to Read & Write photos.');
-          }
+            if (status !== 'granted') {
+                alert('We need camera roll permissions, please visit settings and manually re-allow Expo to Read & Write photos.');
+            }
         }
-      }
+    };
 
     pickImage = async () => {
         await this.getPermissionAsync();
@@ -52,42 +53,60 @@ class PostImage extends React.Component {
         }
     };
 
+    tryPost() {
+        console.log("trying to post image")
+    }
+
     render() {
-        return(
-            <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
-                <Header navigation={this.props.navigation}/>
-                <Button 
-                    icon="camera" 
-                    mode="outlined" 
-                    uppercase={false}
-                    theme={{roundness: 0}}
-                    onPress={this.pickImage}>
-                    Pick a photo
-                </Button>
-                <View style={{flexDirection: "row", height: 200}}>
-                {/* <View style={{ backgroundColor: this.props.theme.colors.background, justifyContent: 'left' }}> */}
-                    <View style={{flex:0.5, justifyContent: 'center'}}>
-                        {this.state.image && <Image 
-                            style={{ height: 100, marginHorizontal: 20 }}
+        return (
+            <View style={style.container}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS == "ios" ? "padding" : "height"}
+                        style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }}>
+                        <Header navigation={this.props.navigation} />
+                        <Button
+                            children='Pick a photo'
+                            icon="camera"
+                            mode="outlined"
+                            uppercase={false}
+                            theme={{ roundness: 0 }}
+                            onPress={this.pickImage}
+                            style={{ padding: 10, marginBottom: 10 }} />
+                        {this.state.image && <Image
+                            style={{ height: 180, margin: 20 }}
                             resizeMode="contain"
                             source={{ uri: `data:image/jpeg;base64,${this.state.image}` }}
                         />}
-                    </View>
-                    <View style={{flex: 0.5}}>
-                        <Title style={{alignSelf: 'center'}}>Post title</Title>
-                    
-                    <TextInput
-                        // label='title'
-                        // theme={{roundness: 0}}
-                        mode='outlined'
-                        style={{margin: 5, height: 100}}
-                        multiline={true}
-                        blurOnSubmit={true}
-                        returnKeyType = 'done'
-                        text='top'
-                        />
-                    </View>
-                </View>
+                        <Subheading
+                            children='Message title'
+                            style={{ alignSelf: 'center', color: this.props.theme.colors.primary }} />
+                        <TextInput
+                            mode='outlined'
+                            returnKeyType='done'
+                            onChangeText={(mTitle) => this.setState({ mTitle })}
+                            style={{ marginVertical: 5, marginHorizontal: 20 }} />
+                        <Subheading
+                            children='Caption'
+                            style={{ alignSelf: 'center', color: this.props.theme.colors.primary }} />
+                        <TextInput
+                            // label='title'
+                            // theme={{roundness: 0}}
+                            mode='outlined'
+                            returnKeyType='done'
+                            multiline={true}
+                            blurOnSubmit={true}
+                            style={{ marginVertical: 5, marginHorizontal: 20, height: 80 }} />
+                        <Button
+                            children='Send'
+                            icon='send'
+                            mode='contained'
+                            uppercase={false}
+                            style={{ padding: 10, marginHorizontal: 120, marginTop: 10 }}
+                            onPress={() => this.tryPost()} />
+                        <View style={{ flex: 1 }}></View>
+                    </KeyboardAvoidingView>
+                </TouchableWithoutFeedback>
             </View>
         );
     }
@@ -96,6 +115,9 @@ class PostImage extends React.Component {
 const style = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    inner: {
+        padding: 24,
     },
 });
 
@@ -117,5 +139,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withTheme(PostImage));
-
-

@@ -13,7 +13,7 @@ class MediaButton extends React.Component {
         return (
             <FAB.Group
                 open={this.state.open}
-                icon={this.state.open ? 'cancel' : 'send'}
+                icon={this.state.open ? 'close' : 'send'}
                 actions={[
                     {
                         icon: 'camera',

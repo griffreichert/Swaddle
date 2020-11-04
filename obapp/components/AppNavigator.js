@@ -44,18 +44,18 @@ class AppNavigator extends React.Component {
     render() {
         return (
             <NavigationContainer>
-                {/* { this.props.login_status !== 1 ? (
+                { this.props.login_status !== 1 ? (
                 <Stack.Navigator headerMode='false'>
                     <Stack.Screen name='Sign In' component={SignIn}/>
                     <Stack.Screen name='Sign Up' component={SignUp}/>
                     <Stack.Screen name='Forgot Password' component={ResetPassword}/>
                 </Stack.Navigator>
-                ) : ( */}
+                ) : (
                 <Drawer.Navigator >
                     <Drawer.Screen name='Home' component={Home}/>
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>
-                {/* )} */}
+                )}
             </NavigationContainer>
             
         )

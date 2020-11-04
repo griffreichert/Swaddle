@@ -49,9 +49,14 @@ const myTheme = {
     fonts: configureFonts(fontConfig),
     colors: {
         ...DefaultTheme.colors,
-        primary: '#0d80d6',
-        accent: '#E68FAE',
-        background: '#C6E1F2',
+        primary: '#0d80d6',     // primary color for the app, brand color.
+        accent: '#E68FAE',      // secondary color for the app which complements the primary color.
+        background: '#C6E1F2',  // background color for pages, such as lists.
+        surface: '#F7E0E3',     // background color for elements containing content, such as cards.
+        // text: '#C6E1F2',        // text color for content.
+        disabled: '#888888',    // color for disabled elements.
+        placeholder: '#888888', // color for placeholder text, such as input placeholder.
+        backdrop: '#888888',    // color for backdrops of various components such as modals.
         /*
         Blues
         #A9D1EA

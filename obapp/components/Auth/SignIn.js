@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { login, logout } from '../../actions/authActions'
-import { StyleSheet, View } from 'react-native';
+import { View, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import {
     Button,
     HelperText,
@@ -37,12 +37,12 @@ class SignIn extends React.Component {
 
     render() {
         return (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <TextInput
                     label='email'
                     style={style.textField}
                     mode='outlined'
-                    
                     onChangeText={(email) => this.setState({email})}
                     />
                 <TextInput
@@ -63,12 +63,13 @@ class SignIn extends React.Component {
                     style={style.button}
                     mode='contained'
                     uppercase={false}
+                    children='Sign in'
                     onPress={ () => this.tryLogin()}>
-                    Sign in
                 </Button>
                 <SignUpButton navigation={this.props.navigation}/>
                 <ResetPasswordButton navigation={this.props.navigation}/>
             </View>
+            </TouchableWithoutFeedback>
         );
     }
 }
@@ -82,7 +83,6 @@ const style = StyleSheet.create({
         marginVertical: 10,
         padding: 10,
         marginHorizontal: 120,
-        fontFamily: 'Rubik-Italic',
     },
     textField: {
         marginVertical: 5,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Card, Chip, Text, Title, withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
 import Header from '../Header';
@@ -10,7 +10,7 @@ class Feed extends React.Component {
         super(props);
         this.state = {
             image: null,
-            tags: ['baby', 'cute', 'awwww']
+            tags: ['baby', 'cute', 'awwww', 'adorable']
         };
     }
     componentDidMount() {
@@ -24,6 +24,22 @@ class Feed extends React.Component {
     // componentWillUnmount() {
     //     this._refresh.remove();
     // }
+
+    makeChip(name) {
+        return (
+            <View
+                key={name}
+                style={{ margin: 5, flexWrap: 'wrap' }}>
+                <Chip
+                    icon="cactus"
+                    mode='outlined'
+
+                    onPress={() => console.log(name)}>
+                    {name}
+                </Chip>
+            </View>
+        )
+    }
 
     render() {
         return (
@@ -39,31 +55,9 @@ class Feed extends React.Component {
                         <Card.Title title="Post" />
                         <Card.Cover source={{ uri: 'https://picsum.photos/600/800' }} style={{ marginVertical: 10 }} />
                         <Card.Content>
-                            <Text>hi</Text>
-                            <Chip
-                                icon="cactus"
-                                mode='outlined'
-
-                                onPress={() => console.log('chippy')}
-                                style={style.chip}>
-                                hello
-                            </Chip>
-                            {this.state.tags.map((name) => {
-                                return (
-                                    <View style={{
-                                        margin: 5,
-                                        flexWrap: 'wrap',
-                                        }}>
-                                <Chip
-                                key={name}
-                                    icon="cactus"
-                                mode='outlined'
-
-                                onPress={() => console.log({name})}>
-                                {name}
-                            </Chip>
-                                        </View>
-                            )})}
+                            <ScrollView horizontal={true}>
+                                {this.state.tags.map((name) => this.makeChip(name))}
+                            </ScrollView>
                         </Card.Content>
 
                     </Card>

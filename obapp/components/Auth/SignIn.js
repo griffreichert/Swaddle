@@ -10,6 +10,7 @@ import {
 } from 'react-native-paper';
 import ResetPasswordButton from './Buttons/ResetPasswordButton';
 import SignUpButton from './Buttons/SignUpButton';
+import { round } from 'react-native-reanimated';
 
 class SignIn extends React.Component {
 
@@ -24,11 +25,10 @@ class SignIn extends React.Component {
 
     tryLogin() {
         // TODO: refactor this into using API
+        this.props.rlogin(this.state.email, '420')
         if (this.state.email === 'Griff' && this.state.password.length > 4) {
-            this.props.rlogin(this.state.email, '420')
             console.log("Logged in!")
             console.log(this.state)
-            // this.props.navigation.navigate('ImagePicker')
         }
         else {
             this.setState({ failedAttempt: true })
@@ -40,18 +40,24 @@ class SignIn extends React.Component {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                     <Image
-                        style={{ height: 100 }} />
+                        source={require('../../assets/stork.png')}
+                        resizeMode="contain"
+                        style={style.logo} />
                     <TextInput
                         label='email'
-                        style={style.textField}
                         mode='outlined'
+                        returnKeyType='done'
+                        style={style.textField}
+                        theme={{roundness: 12}}
                         onChangeText={(email) => this.setState({ email })}
-                    />
+                        />
                     <TextInput
                         label='password'
-                        style={style.textField}
-                        secureTextEntry={true}
                         mode='outlined'
+                        returnKeyType='done'
+                        style={style.textField}
+                        theme={{roundness: 12}}
+                        secureTextEntry={true}
                         underlineColor={this.props.theme.colors.background}
                         onChangeText={(password) => this.setState({ password })}
                     />
@@ -66,8 +72,7 @@ class SignIn extends React.Component {
                         mode='contained'
                         uppercase={false}
                         children='Sign in'
-                        onPress={() => this.tryLogin()}>
-                    </Button>
+                        onPress={() => this.tryLogin()}/>
                     <SignUpButton navigation={this.props.navigation} />
                     <ResetPasswordButton navigation={this.props.navigation} />
                 </View>
@@ -89,6 +94,11 @@ const style = StyleSheet.create({
     textField: {
         marginVertical: 5,
         marginHorizontal: 40,
+    },
+    logo: {
+        height: 100, 
+        alignSelf: 'center',
+        margin: 10,
     },
 });
 

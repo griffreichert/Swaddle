@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "obapp",
-    "slug": "obapp",
+    "name": "swaddle",
+    "slug": "swaddle",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

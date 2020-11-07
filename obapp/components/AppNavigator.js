@@ -17,6 +17,7 @@ import ResetPassword from './Auth/ResetPassword';
 import Feed from './Views/Feed'
 
 import PostImage from './postImage';
+import postImage from './postImage';
 
 
 
@@ -53,6 +54,7 @@ class AppNavigator extends React.Component {
                 ) : (
                 <Drawer.Navigator >
                     <Drawer.Screen name='Home' component={Home}/>
+                    <Drawer.Screen name='Post Image' component={postImage}/>
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>
                 )}

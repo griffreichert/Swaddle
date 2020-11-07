@@ -50,11 +50,16 @@ class PostImage extends React.Component {
 
         if (!result.cancelled) {
             this.setState({ image: result.base64 });
+            
         }
     };
 
     tryPost() {
-        console.log("trying to post image")
+        console.log("posting image")
+        this.props.navigation.navigate('Home', {
+            screen: 'Feed',
+            params: {image: this.state.image}
+        })
     }
 
     render() {

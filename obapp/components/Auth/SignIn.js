@@ -31,44 +31,46 @@ class SignIn extends React.Component {
             // this.props.navigation.navigate('ImagePicker')
         }
         else {
-            this.setState({failedAttempt: true})
+            this.setState({ failedAttempt: true })
         }
     }
 
     render() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
-                <TextInput
-                    label='email'
-                    style={style.textField}
-                    mode='outlined'
-                    onChangeText={(email) => this.setState({email})}
+                <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
+                    <Image
+                        style={{ height: 100 }} />
+                    <TextInput
+                        label='email'
+                        style={style.textField}
+                        mode='outlined'
+                        onChangeText={(email) => this.setState({ email })}
                     />
-                <TextInput
-                    label='password'
-                    style={style.textField}
-                    secureTextEntry={true}
-                    mode='outlined'
-                    underlineColor={this.props.theme.colors.background}
-                    onChangeText={(password) => this.setState({password})}
-                />
-                <HelperText 
-                    type='error'
-                    style={style.textField}
-                    visible={this.state.failedAttempt}>
-                    Incorrect username/password
+                    <TextInput
+                        label='password'
+                        style={style.textField}
+                        secureTextEntry={true}
+                        mode='outlined'
+                        underlineColor={this.props.theme.colors.background}
+                        onChangeText={(password) => this.setState({ password })}
+                    />
+                    <HelperText
+                        type='error'
+                        style={style.textField}
+                        visible={this.state.failedAttempt}>
+                        Incorrect username/password
                 </HelperText>
-                <Button
-                    style={style.button}
-                    mode='contained'
-                    uppercase={false}
-                    children='Sign in'
-                    onPress={ () => this.tryLogin()}>
-                </Button>
-                <SignUpButton navigation={this.props.navigation}/>
-                <ResetPasswordButton navigation={this.props.navigation}/>
-            </View>
+                    <Button
+                        style={style.button}
+                        mode='contained'
+                        uppercase={false}
+                        children='Sign in'
+                        onPress={() => this.tryLogin()}>
+                    </Button>
+                    <SignUpButton navigation={this.props.navigation} />
+                    <ResetPasswordButton navigation={this.props.navigation} />
+                </View>
             </TouchableWithoutFeedback>
         );
     }

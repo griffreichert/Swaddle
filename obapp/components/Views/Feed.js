@@ -31,9 +31,9 @@ class Feed extends React.Component {
                 key={name}
                 style={{ margin: 5, flexWrap: 'wrap' }}>
                 <Chip
-                    icon="cactus"
+                    icon='owl'
                     mode='outlined'
-
+                    style={{backgroundColor: this.props.theme.colors.accent}}
                     onPress={() => console.log(name)}>
                     {name}
                 </Chip>
@@ -52,7 +52,7 @@ class Feed extends React.Component {
                         source={{ uri: `data:image/jpeg;base64,${this.state.image}` }}
                     />}
                     <Card>
-                        <Card.Title title="Post" />
+                        <Card.Title title="Post" style={{marginLeft: 10}}/>
                         <Card.Cover source={{ uri: 'https://picsum.photos/600/800' }} style={{ marginVertical: 10 }} />
                         <Card.Content>
                             <ScrollView horizontal={true}>

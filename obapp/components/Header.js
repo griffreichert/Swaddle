@@ -1,5 +1,5 @@
 import React from 'react';
-import { View,  StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { withTheme, Appbar, Title } from 'react-native-paper'
 import { connect } from 'react-redux'
 import { login, logout } from '../actions/authActions'
@@ -9,8 +9,18 @@ class Header extends React.Component {
         return(
             <Appbar.Header>
                 <Appbar.Action icon="menu" onPress={() => this.props.navigation.toggleDrawer()}/>
-                <Appbar.Content title="Swaddle" />
-                <Appbar.Action icon="face" onPress={() => console.log(this.state)}/>
+                <Appbar.Content title="" />
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Home', {screen: 'Feed'})}>
+                    <Image
+                        source={require('../assets/stork.png')}
+                        resizeMode="contain"
+                        style={{
+                            width: 60,
+                            alignSelf: 'center' 
+                        }} />
+                </TouchableOpacity>
+                <Appbar.Content title="" />
+                <Appbar.Action icon="account-child" onPress={() => console.log(this.state)}/>
             </Appbar.Header>
         );
     }

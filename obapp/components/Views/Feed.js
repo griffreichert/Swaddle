@@ -1,3 +1,4 @@
+import { isLoaded } from 'expo-font';
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Card, Chip, Text, Title, withTheme } from 'react-native-paper';
@@ -10,15 +11,21 @@ class Feed extends React.Component {
         super(props);
         this.state = {
             image: null,
-            tags: ['baby', 'cute', 'awwww', 'adorable']
+            tags: ['baby', 'cute', 'awwww', 'adorable'],
+            isLoaded: false,
         };
     }
     componentDidMount() {
+        this.loadPosts()
         this._refresh = this.props.navigation.addListener(
             'focus', () => {
-                console.log('refreshing')
+                console.log("refresh")
             }
         );
+    }
+
+    loadPosts() {
+        this.setState({image: 'https://picsum.photos/600/400', isLoaded: true})
     }
 
     // componentWillUnmount() {
@@ -45,23 +52,17 @@ class Feed extends React.Component {
         return (
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation} />
-                <View style={style.inner}>
-                    {this.state.image && <Image
-                        style={{ height: 180, margin: 20 }}
-                        resizeMode="contain"
-                        source={{ uri: `data:image/jpeg;base64,${this.state.image}` }}
-                    />}
+                {this.state.isLoaded && <View style={style.inner}>
                     <Card>
                         <Card.Title title="Post" style={{marginLeft: 10}}/>
-                        <Card.Cover source={{ uri: 'https://picsum.photos/600/800' }} style={{ marginVertical: 10 }} />
+                        <Card.Cover source={{ uri: this.state.image }} style={{ marginVertical: 10 }} />
                         <Card.Content>
                             <ScrollView horizontal={true}>
                                 {this.state.tags.map((name) => this.makeChip(name))}
                             </ScrollView>
                         </Card.Content>
-
                     </Card>
-                </View>
+                </View>}
                 <MediaButton navigation={this.props.navigation} />
             </View>
         );

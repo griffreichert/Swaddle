@@ -9,7 +9,8 @@ class Feed extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: null
+            image: null,
+            tags: ['baby', 'cute', 'awwww']
         };
     }
     componentDidMount() {
@@ -29,20 +30,43 @@ class Feed extends React.Component {
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation} />
                 <View style={style.inner}>
-                {this.state.image && <Image
-                    style={{ height: 180, margin: 20 }}
-                    resizeMode="contain"
-                    source={{ uri: `data:image/jpeg;base64,${this.state.image}` }}
-                />}
-                <Card>
-                    <Card.Title title="Post" />
-                    <Card.Cover source={{uri: 'https://picsum.photos/600/800' }} style={{marginVertical: 10}}/>
-                    <Card.Content>
-                        <Text>hi</Text>
-                        <Chip></Chip>
-                    </Card.Content>
+                    {this.state.image && <Image
+                        style={{ height: 180, margin: 20 }}
+                        resizeMode="contain"
+                        source={{ uri: `data:image/jpeg;base64,${this.state.image}` }}
+                    />}
+                    <Card>
+                        <Card.Title title="Post" />
+                        <Card.Cover source={{ uri: 'https://picsum.photos/600/800' }} style={{ marginVertical: 10 }} />
+                        <Card.Content>
+                            <Text>hi</Text>
+                            <Chip
+                                icon="cactus"
+                                mode='outlined'
 
-                </Card>
+                                onPress={() => console.log('chippy')}
+                                style={style.chip}>
+                                hello
+                            </Chip>
+                            {this.state.tags.map((name) => {
+                                return (
+                                    <View style={{
+                                        margin: 5,
+                                        flexWrap: 'wrap',
+                                        }}>
+                                <Chip
+                                key={name}
+                                    icon="cactus"
+                                mode='outlined'
+
+                                onPress={() => console.log({name})}>
+                                {name}
+                            </Chip>
+                                        </View>
+                            )})}
+                        </Card.Content>
+
+                    </Card>
                 </View>
                 <MediaButton navigation={this.props.navigation} />
             </View>

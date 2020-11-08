@@ -15,8 +15,7 @@ class Header extends React.Component {
                         source={require('../assets/stork.png')}
                         resizeMode="contain"
                         style={{
-                            width: 60,
-                            alignSelf: 'center' 
+                            width: 80,
                         }} />
                 </TouchableOpacity>
                 <Appbar.Content title="" />

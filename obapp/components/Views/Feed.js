@@ -14,7 +14,7 @@ class Feed extends React.Component {
                 {
                     id: 'item1',
                     image: 'https://i.some-random-api.ml/Snzc4MEWcZ.jpg',
-                    tags: ['bark', 'play', 'cuddle'],
+                    tags: ['bark', 'play', 'cuddle', 'floppy'],
                 },
                 {
                     id: 'item2',
@@ -66,7 +66,7 @@ class Feed extends React.Component {
 
     makeCard(post) {
         return (
-            <Card style={{marginVertical: 10}}>
+            <Card style={{margin: 10}}>
                 <Card.Title title="Post" style={{ marginLeft: 10 }} />
                 <Card.Cover source={{ uri: post.item.image }} style={{ marginVertical: 10 }} />
                 <Card.Content>
@@ -93,7 +93,7 @@ class Feed extends React.Component {
         return (
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation} />
-                <View style={style.inner}>
+                <View>
                     <FlatList
                         data={this.state.posts}
                         refreshing={this.state.isLoading}

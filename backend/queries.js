@@ -4,7 +4,7 @@ const crypto = require('crypto')
 const pool = new Pool({
 	user: 'postgres',
 	host: 'localhost',
-	database: 'notatechapp',
+	database: 'notatechdatabase',
 	password: 'costa',
 	port: 5432,
 })
@@ -13,8 +13,14 @@ const create_user = (request, response) => {
 	const { email, first_name, last_name, password, phone } = request.body
 
 	pool.query('INSERT INTO users (email, first_name, last_name, password, phone) VALUES ($1, $2, $3, $4, $5)', [email, first_name, last_name, hash_password(password), phone], (error, results) => {
-		if (error) { throw error }
-		response.status(201).send(`User added with email: ${email}`)
+		if (error)
+		{
+			response.status(500).send(error)
+		}
+		else
+		{
+			response.status(201).send(`User added with email: ${email}`)
+		}
 	})
 }
 
@@ -24,24 +30,57 @@ const auth_user = (request, response) => {
 	pool.query('SELECT password from users where email=$1', [email], (error, results) => {
 		if (error)
 		{
-			throw error
+			response.status(500).send(error)
 		}
-		if (check_password(results.rows[0], hash_password(password)))
+		else if (true)
 		{
-			token = create_token()
-			pool.query('UPDATE users set token=$1 where email=$2', [token, email], (internal_error, internal_results) => { if (error) { throw error }})
+			// pass_hash = hash_password(password)
+			check_password(results.rows[0], password)
+			create_token().then((token) => {
+				console.log(token)
+				pool.query('UPDATE users set token=$1 where email=$2', [token, email], (internal_error, internal_results) => { if (error) { throw error }})
+				response.status(200).send(`${token}`) 
+			})
 		}
 		else
 		{
 			response.status(401).send()
 		}
-		response.status(200).send(`${token}`)
+	})
+}
+
+const create_post = (request, response) => {
+	const { token, title, caption, file } = request.body
+
+	pool.query('SELECT * from users where token=$1', [token], (error, results) => {
+		if (error)
+		{
+			response.status(500).send(error)
+		}
+		else if (results.rows.length > 0)
+		{
+			pool.query('INSERT INTO posts (owner_id, title, caption, media)', [ID, title, caption, media], (error, results) => {
+				if (error)
+				{
+					response.status(500).send(error)
+				}
+				else
+				{
+					response.status(201).send()
+				}
+			})
+		}
+		else
+		{
+			response.status(401).send()
+		}
 	})
 }
 
 module.exports = {
 	create_user,
-	auth_user
+	auth_user,
+	create_post
 }
 
 const hash_password = (password) => {

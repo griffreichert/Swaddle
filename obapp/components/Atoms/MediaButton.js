@@ -19,7 +19,7 @@ class MediaButton extends React.Component {
                         label: 'Photo',
                         onPress: () => {
                             console.log('Pressed photo')
-                            this.props.navigation.navigate('PostImage')
+                            this.props.navigation.navigate('Post Image')
                         },
                     },
                     {

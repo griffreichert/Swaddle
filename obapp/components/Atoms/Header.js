@@ -19,7 +19,7 @@ class Header extends React.Component {
                         }} />
                 </TouchableOpacity>
                 <Appbar.Content title="" />
-                <Appbar.Action icon="account-child" onPress={() => console.log(this.state)}/>
+                <Appbar.Action icon="account-child" onPress={() => this.props.navigation.navigate('Profile')}/>
             </Appbar.Header>
         );
     }

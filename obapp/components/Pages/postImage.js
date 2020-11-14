@@ -109,6 +109,7 @@ class PostImage extends React.Component {
                             uppercase={false}
                             style={{ padding: 10, marginHorizontal: 120, marginTop: 10 }}
                             onPress={() => this.tryPost()} />
+                        {/* Need this empty view for the keyboard avoiding view */}
                         <View style={{ flex: 1 }}></View>
                     </KeyboardAvoidingView>
                 </TouchableWithoutFeedback>
@@ -138,8 +139,8 @@ const mapStateToProps = (state) => {
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rdx_login: (username, session_token) => dispatch(login(username, session_token)),
-        rdx_logout: () => dispatch(logout()),
+        rlogin: (username, session_token) => dispatch(login(username, session_token)),
+        rlogout: () => dispatch(logout()),
     }
 }
 

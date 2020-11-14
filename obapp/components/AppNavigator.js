@@ -17,7 +17,7 @@ import ResetPassword from './Auth/ResetPassword';
 import Feed from './Views/Feed'
 
 import PostImage from './Pages/postImage';
-import postImage from './Pages/postImage';
+import profile from './Pages/profile';
 
 
 
@@ -27,7 +27,7 @@ function Home() {
     return (
         <Stack.Navigator headerMode='false'>
             <Stack.Screen name='Feed' component={Feed}/>
-            <Stack.Screen name='PostImage' component={PostImage}/>
+            <Stack.Screen name='Post Image' component={PostImage}/>
         </Stack.Navigator>
     );
 }
@@ -54,7 +54,8 @@ class AppNavigator extends React.Component {
                 ) : (
                 <Drawer.Navigator >
                     <Drawer.Screen name='Home' component={Home}/>
-                    <Drawer.Screen name='Post Image' component={postImage}/>
+                    <Drawer.Screen name='Profile' component={profile}/>
+
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>
                 )}

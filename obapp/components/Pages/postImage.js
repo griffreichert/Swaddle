@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './Header';
+import Header from '../Atoms/Header';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -15,7 +15,7 @@ Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
 Allows user to select an image from their phone and returns that image
  */
 import { connect } from 'react-redux'
-import { login, logout } from '../actions/authActions'
+import { login, logout } from '../../actions/authActions'
 
 class PostImage extends React.Component {
     constructor(props) {

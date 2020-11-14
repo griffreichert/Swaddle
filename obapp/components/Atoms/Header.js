@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { withTheme, Appbar, Title } from 'react-native-paper'
 import { connect } from 'react-redux'
-import { login, logout } from '../actions/authActions'
+import { login, logout } from '../../actions/authActions'
 
 class Header extends React.Component {
     render() {
@@ -12,7 +12,7 @@ class Header extends React.Component {
                 <Appbar.Content title="" />
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Home', {screen: 'Feed'})}>
                     <Image
-                        source={require('../assets/stork.png')}
+                        source={require('../../assets/stork.png')}
                         resizeMode="contain"
                         style={{
                             width: 80,

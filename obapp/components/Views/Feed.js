@@ -2,8 +2,8 @@ import React from 'react';
 import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import { Card, Chip, Text, Title, withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
-import Header from '../Header';
-import MediaButton from '../MediaButton';
+import Header from '../Atoms/Header';
+import MediaButton from '../Atoms/MediaButton';
 import axios from 'axios'
 
 class Feed extends React.Component {

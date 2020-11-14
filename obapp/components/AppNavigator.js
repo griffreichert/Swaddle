@@ -16,8 +16,8 @@ import ResetPassword from './Auth/ResetPassword';
 
 import Feed from './Views/Feed'
 
-import PostImage from './postImage';
-import postImage from './postImage';
+import PostImage from './Pages/postImage';
+import postImage from './Pages/postImage';
 
 
 

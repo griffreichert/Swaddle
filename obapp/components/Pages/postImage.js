@@ -3,12 +3,14 @@ import Header from '../Atoms/Header';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import { View, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text } from 'react-native'
 import {
     Button,
     TextInput,
     Subheading,
-    withTheme
+    withTheme,
+    RadioButton,
+    Title
 } from 'react-native-paper'
 /* Image Picker Object
 Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
@@ -16,6 +18,7 @@ Allows user to select an image from their phone and returns that image
  */
 import { connect } from 'react-redux'
 import { login, logout } from '../../actions/authActions'
+import { FlatList } from 'react-native-gesture-handler';
 
 class PostImage extends React.Component {
     constructor(props) {
@@ -23,7 +26,19 @@ class PostImage extends React.Component {
         this.state = {
             image: null,
             mTitle: '',
-            mCaption: ''
+            mCaption: '',
+            contacts: [
+                {
+                    id: 1,
+                    name: 'tom',
+                    permission: 1,
+                },
+                {
+                    id: 2,
+                    name: 'jim',
+                    permission: 1,
+                },
+            ]
         };
     }
 
@@ -50,7 +65,7 @@ class PostImage extends React.Component {
 
         if (!result.cancelled) {
             this.setState({ image: result.base64 });
-            
+
         }
     };
 
@@ -58,8 +73,21 @@ class PostImage extends React.Component {
         console.log("posting image")
         this.props.navigation.navigate('Home', {
             screen: 'Feed',
-            params: {image: this.state.image}
+            params: { image: this.state.image }
         })
+    }
+
+    createContact(c) {
+        console.log(c)
+        return (
+            <View style={style.contact}>
+                <Title style={{alignSelf: 'center'}}>{c.item.name}</Title>
+                <RadioButton
+                value={1}
+                status='checked'
+                />
+            </View>
+        )
     }
 
     render() {
@@ -70,44 +98,50 @@ class PostImage extends React.Component {
                         behavior={Platform.OS == "ios" ? "padding" : "height"}
                         style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }}>
                         <Header navigation={this.props.navigation} />
-                        <Button
-                            children='Pick a photo'
-                            icon="camera"
-                            mode="outlined"
-                            uppercase={false}
-                            theme={{ roundness: 0 }}
-                            onPress={this.pickImage}
-                            style={{ padding: 10, marginBottom: 10 }} />
-                        {this.state.image && <Image
-                            style={{ height: 180, margin: 20 }}
-                            resizeMode="contain"
-                            source={{ uri: `data:image/jpeg;base64,${this.state.image}` }}
-                        />}
-                        <Subheading
-                            children='Message title'
-                            style={{ alignSelf: 'center', color: this.props.theme.colors.primary }} />
+                        {!this.state.image ? (
+                            <Button
+                                children='Pick a photo'
+                                icon="camera"
+                                mode="contained"
+                                uppercase={false}
+                                onPress={this.pickImage}
+                                style={style.button} />
+                        ) : (
+                                <TouchableOpacity onPress={this.pickImage}>
+                                    <Image
+                                        style={style.image}
+                                        resizeMode="contain"
+                                        source={{ uri: `data:image/jpeg;base64,${this.state.image}` }} />
+                                </TouchableOpacity>
+                            )}
                         <TextInput
+                            label='Title'
                             mode='outlined'
                             returnKeyType='done'
                             onChangeText={(mTitle) => this.setState({ mTitle })}
-                            style={{ marginVertical: 5, marginHorizontal: 20 }} />
-                        <Subheading
-                            children='Caption'
-                            style={{ alignSelf: 'center', color: this.props.theme.colors.primary }} />
+                            theme={{ roundness: 12 }}
+                            style={style.textField} />
                         <TextInput
-                            // label='title'
-                            // theme={{roundness: 0}}
+                            label='Caption'
+                            theme={{ roundness: 12 }}
                             mode='outlined'
                             returnKeyType='done'
                             multiline={true}
-                            blurOnSubmit={true}
-                            style={{ marginVertical: 5, marginHorizontal: 20, height: 80 }} />
+                            style={[style.textField, { height: 70 }]} />
+                        <View>
+                            <FlatList
+                                data={this.state.contacts}
+                                keyExtractor={c => c.id.toString()}
+                                renderItem={this.createContact}
+                                alignSelf='center'
+                            />
+                        </View>
                         <Button
                             children='Send'
                             icon='send'
                             mode='contained'
                             uppercase={false}
-                            style={{ padding: 10, marginHorizontal: 120, marginTop: 10 }}
+                            style={style.button}
                             onPress={() => this.tryPost()} />
                         {/* Need this empty view for the keyboard avoiding view */}
                         <View style={{ flex: 1 }}></View>
@@ -122,8 +156,24 @@ const style = StyleSheet.create({
     container: {
         flex: 1,
     },
-    inner: {
-        padding: 24,
+    textField: {
+        marginVertical: 5,
+        marginHorizontal: 20,
+    },
+    button: {
+        padding: 10,
+        marginTop: 10,
+        alignSelf: 'center',
+    },
+    image: {
+        height: 160,
+        margin: 10
+    },
+    contact: {
+        marginHorizontal: 20,
+        marginVertical: 2,
+        flexDirection:'row',
+        flex: 1,
     },
 });
 

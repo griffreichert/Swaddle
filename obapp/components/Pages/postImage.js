@@ -10,7 +10,8 @@ import {
     Subheading,
     withTheme,
     RadioButton,
-    Title
+    Title,
+    Avatar
 } from 'react-native-paper'
 /* Image Picker Object
 Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
@@ -31,12 +32,12 @@ class PostImage extends React.Component {
                 {
                     id: 1,
                     name: 'tom',
-                    permission: 1,
+                    permission: true,
                 },
                 {
                     id: 2,
                     name: 'jim',
-                    permission: 1,
+                    permission: false,
                 },
             ]
         };
@@ -71,6 +72,7 @@ class PostImage extends React.Component {
 
     tryPost() {
         console.log("posting image")
+        console.log(this.state.contacts)
         this.props.navigation.navigate('Home', {
             screen: 'Feed',
             params: { image: this.state.image }
@@ -78,13 +80,23 @@ class PostImage extends React.Component {
     }
 
     createContact(c) {
-        console.log(c)
+        // console.log(c)
         return (
             <View style={style.contact}>
-                <Title style={{alignSelf: 'center'}}>{c.item.name}</Title>
+                <Avatar.Image size={50} source={require('../../assets/stork.png')} />
+                <Title>{c.item.name}</Title>
                 <RadioButton
-                value={1}
-                status='checked'
+                    value={1}
+                    status={c.item.permission ? 'checked' : 'unchecked'}
+                    onPress={() => {
+                        console.log(c.item.id)
+                        console.log(state)
+                        this.state.contacts.map(contact => {
+                            if (contact.id === c.item.id) {
+                                contact.permission = !contact.permission
+                            }
+                        })
+                    }}
                 />
             </View>
         )
@@ -132,8 +144,26 @@ class PostImage extends React.Component {
                             <FlatList
                                 data={this.state.contacts}
                                 keyExtractor={c => c.id.toString()}
-                                renderItem={this.createContact}
-                                alignSelf='center'
+                                // renderItem={this.createContact}
+                                renderItem={(c) =>
+                                    <View style={style.contact}>
+                                        <Avatar.Image size={50} source={require('../../assets/stork.png')} />
+                                        <Title>{c.item.name}</Title>
+                                        <RadioButton
+                                            value={1}
+                                            status={c.item.permission ? 'checked' : 'unchecked'}
+                                            onPress={() => {
+                                                // console.log(c.item.id)
+                                                // console.log(this.state.contacts)
+                                                var id = c.item.id
+                                                var tmp = this.state.contacts
+                                                var i = tmp.findIndex(c => c.id === id)
+                                                tmp[i].permission = !tmp[i].permission
+                                                this.setState({contacts: tmp})
+                                                // console.log(this.state.contacts)
+                                            }}
+                                        />
+                                    </View>}
                             />
                         </View>
                         <Button
@@ -171,8 +201,10 @@ const style = StyleSheet.create({
     },
     contact: {
         marginHorizontal: 20,
-        marginVertical: 2,
-        flexDirection:'row',
+        marginVertical: 5,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         flex: 1,
     },
 });

@@ -12,7 +12,7 @@ class Header extends React.Component {
                 <Appbar.Content title="" />
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Home', {screen: 'Feed'})}>
                     <Image
-                        source={require('../../assets/stork.png')}
+                        source={require('../../../assets/stork.png')}
                         resizeMode="contain"
                         style={{
                             width: 80,

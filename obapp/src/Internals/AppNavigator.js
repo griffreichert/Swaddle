@@ -10,14 +10,14 @@ import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
 // import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 
 // Auth Components
-import SignIn from './Auth/SignIn';
-import SignUp from './Auth/SignUp';
-import ResetPassword from './Auth/ResetPassword';
+import SignIn from '../components/Auth/SignIn';
+import SignUp from '../components/Auth/SignUp';
+import ResetPassword from '../components/Auth/ResetPassword';
 
-import Feed from './Views/Feed'
+import Feed from '../components/Views/Feed'
 
-import PostImage from './Pages/postImage';
-import profile from './Pages/profile';
+import PostImage from '../components/Pages/postImage';
+import profile from '../components/Pages/profile';
 
 
 

@@ -83,7 +83,7 @@ class PostImage extends React.Component {
         // console.log(c)
         return (
             <View style={style.contact}>
-                <Avatar.Image size={50} source={require('../../assets/stork.png')} />
+                <Avatar.Image size={50} source={require('../../../assets/stork.png')} />
                 <Title>{c.item.name}</Title>
                 <RadioButton
                     value={1}
@@ -113,7 +113,7 @@ class PostImage extends React.Component {
                         {!this.state.image ? (
                             <Button
                                 children='Pick a photo'
-                                icon="camera"
+                                icon="cloud-upload-outline"
                                 mode="contained"
                                 uppercase={false}
                                 onPress={this.pickImage}
@@ -147,7 +147,7 @@ class PostImage extends React.Component {
                                 // renderItem={this.createContact}
                                 renderItem={(c) =>
                                     <View style={style.contact}>
-                                        <Avatar.Image size={50} source={require('../../assets/stork.png')} />
+                                        <Avatar.Image size={40} source={require('../../../assets/stork.png')} />
                                         <Title>{c.item.name}</Title>
                                         <RadioButton
                                             value={1}

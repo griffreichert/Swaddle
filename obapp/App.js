@@ -4,7 +4,7 @@ import configureStore from './store'
 import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-import AppNavigator from './components/AppNavigator'
+import AppNavigator from './src/Internals/AppNavigator'
 
 const store = configureStore();
 

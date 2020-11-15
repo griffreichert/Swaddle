@@ -40,7 +40,7 @@ class SignIn extends React.Component {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                     <Image
-                        source={require('../../assets/stork.png')}
+                        source={require('../../../assets/stork.png')}
                         resizeMode="contain"
                         style={style.logo} />
                     <TextInput

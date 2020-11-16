@@ -10,7 +10,9 @@ import {
 } from 'react-native-paper';
 import ResetPasswordButton from './Buttons/ResetPasswordButton';
 import SignUpButton from './Buttons/SignUpButton';
-import { round } from 'react-native-reanimated';
+import api from '../../Internals/apiClient'
+
+const axios = require('axios');
 
 class SignIn extends React.Component {
 
@@ -25,14 +27,23 @@ class SignIn extends React.Component {
 
     tryLogin() {
         // TODO: refactor this into using API
-        this.props.rlogin(this.state.email, '420')
-        if (this.state.email === 'Griff' && this.state.password.length > 4) {
-            console.log("Logged in!")
-            console.log(this.state)
-        }
-        else {
+        // api.get('http://18.217.2.166:3000/auth_user').then(console.log)
+
+        axios.put('http://18.217.2.166:3000/auth_user', {
+            email: this.state.email,
+            password: this.state.password
+        }).then(res => {
+            if (res.status === 200) {
+                console.log(res.data)
+                this.props.rlogin(this.state.email, res.data)
+            }
+            else {
+                this.setState({ failedAttempt: true })
+            }
+        }).catch(err => {
+            console.log(err)
             this.setState({ failedAttempt: true })
-        }
+        })
     }
 
     render() {

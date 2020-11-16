@@ -43,9 +43,10 @@ class AppNavigator extends React.Component {
     }
 
     render() {
+        console.log(this.props.session_token)
         return (
             <NavigationContainer>
-                { this.props.login_status !== 1 ? (
+                { !this.props.session_token ? (
                 <Stack.Navigator headerMode='false'>
                     <Stack.Screen name='Sign In' component={SignIn}/>
                     <Stack.Screen name='Sign Up' component={SignUp}/>
@@ -68,14 +69,15 @@ class AppNavigator extends React.Component {
 // maps state
 const mapStateToProps = (state) => {
     return {
-        login_status: state.authReducer.login_status
+        email: state.authReducer.email,
+        session_token: state.authReducer.session_token,
     }
 }
 
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rlogin: () => dispatch(login()),
+        rlogin: (email, session_token) => dispatch(login(email, session_token)),
         rlogout: () => dispatch(logout()),
     }
 }

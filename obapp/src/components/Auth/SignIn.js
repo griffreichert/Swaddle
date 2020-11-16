@@ -36,6 +36,7 @@ class SignIn extends React.Component {
             if (res.status === 200) {
                 console.log(res.data)
                 this.props.rlogin(this.state.email, res.data)
+                console.log('logging in')
             }
             else {
                 this.setState({ failedAttempt: true })
@@ -59,19 +60,17 @@ class SignIn extends React.Component {
                         mode='outlined'
                         returnKeyType='done'
                         style={style.textField}
-                        theme={{roundness: 12}}
-                        onChangeText={(email) => this.setState({ email })}
-                        />
+                        theme={{ roundness: 12 }}
+                        onChangeText={(email) => this.setState({ email })}/>
                     <TextInput
                         label='password'
                         mode='outlined'
                         returnKeyType='done'
                         style={style.textField}
-                        theme={{roundness: 12}}
+                        theme={{ roundness: 12 }}
                         secureTextEntry={true}
                         underlineColor={this.props.theme.colors.background}
-                        onChangeText={(password) => this.setState({ password })}
-                    />
+                        onChangeText={(password) => this.setState({ password })}/>
                     <HelperText
                         type='error'
                         style={style.textField}
@@ -83,7 +82,7 @@ class SignIn extends React.Component {
                         mode='contained'
                         uppercase={false}
                         children='Sign in'
-                        onPress={() => this.tryLogin()}/>
+                        onPress={() => this.tryLogin()} />
                     <SignUpButton navigation={this.props.navigation} />
                     <ResetPasswordButton navigation={this.props.navigation} />
                 </View>
@@ -107,7 +106,7 @@ const style = StyleSheet.create({
         marginHorizontal: 40,
     },
     logo: {
-        height: 100, 
+        height: 100,
         alignSelf: 'center',
         margin: 10,
     },
@@ -116,8 +115,7 @@ const style = StyleSheet.create({
 // maps state
 const mapStateToProps = (state) => {
     return {
-        login_status: state.authReducer.login_status,
-        username: state.authReducer.username,
+        email: state.authReducer.email,
         session_token: state.authReducer.session_token,
     }
 }
@@ -125,7 +123,7 @@ const mapStateToProps = (state) => {
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rlogin: (username, session_token) => dispatch(login(username, session_token)),
+        rlogin: (email, session_token) => dispatch(login(email, session_token)),
         rlogout: () => dispatch(logout()),
     }
 }

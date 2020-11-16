@@ -27,7 +27,7 @@ class Feed extends React.Component {
     }
 
     componentDidMount() {
-        console.log("mounted")
+        // console.log("mounted")
         this._refresh = this.props.navigation.addListener('focus', () => this.loadPosts());
         // removes listener when component unmounts
         return this._refresh;
@@ -42,7 +42,7 @@ class Feed extends React.Component {
         console.log("load posts")
         api.get('/')
             .then((response) => {
-                console.log(response.data.link)
+                // console.log(response.data.link)
             })
             .catch((e) => console.log(e))
         this.setState({isLoading: false})

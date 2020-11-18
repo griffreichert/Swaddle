@@ -1,10 +1,17 @@
+// React Stuff
 import React from 'react';
 import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Avatar, Button, Card, Chip, HelperText, Text, Title, withTheme } from 'react-native-paper';
+// Redux stuff
 import { connect } from 'react-redux'
 import { login, logout } from '../../actions/authActions'
+// Other Swaddle Components
 import Header from '../Atoms/Header';
+// expo stuff
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -12,6 +19,37 @@ class Profile extends React.Component {
         this.state = {
             image: '',
         };
+    }
+
+    getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+            const { status } = await Permissions.askAsync(
+                Permissions.CAMERA_ROLL,
+                Permissions.CAMERA
+            );
+            if (status !== 'granted') {
+                alert('We need camera roll permissions, please visit settings and manually re-allow Expo to Read & Write photos.');
+            }
+        }
+    };
+
+    pickImage = async () => {
+        await this.getPermissionAsync();
+        console.log("Attempting to pick image.");
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            quality: 0.5,
+            base64: true,
+        });
+        if (!result.cancelled) {
+            // TODO post new avatar to API
+            console.log('\n!! TODO: Post profile avatar to API')
+            this.setState({ image: result.base64 });
+        }
+    };
+
+    componentDidMount() {
+        console.log('\n!! TODO: Get profile avatar from API')
     }
 
     render() {
@@ -22,7 +60,7 @@ class Profile extends React.Component {
                     style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }} >
                     <Header navigation={this.props.navigation} />
                     <View style={style.inner} >
-                        <TouchableOpacity onPress={() => console.log('pick image')}>
+                        <TouchableOpacity onPress={this.pickImage}>
                             {this.state.image ? (
                                 <Avatar.Image
                                     size={80}

@@ -60,7 +60,7 @@ class PostImage extends React.Component {
         console.log("Attempting to pick image.");
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: 1,
+            quality: .75,
             base64: true,
         });
 

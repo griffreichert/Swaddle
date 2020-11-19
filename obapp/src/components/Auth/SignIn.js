@@ -78,10 +78,11 @@ class SignIn extends React.Component {
                         Incorrect username/password
                 </HelperText>
                     <Button
+                        children='Sign in'
+                        icon='login'
                         style={style.button}
                         mode='contained'
                         uppercase={false}
-                        children='Sign in'
                         onPress={() => this.tryLogin()} />
                     <SignUpButton navigation={this.props.navigation} />
                     <ResetPasswordButton navigation={this.props.navigation} />

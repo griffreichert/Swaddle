@@ -42,7 +42,7 @@ class Feed extends React.Component {
     }
 
     handleAspectRatio() {
-        
+
     }
 
     loadPosts() {
@@ -61,7 +61,7 @@ class Feed extends React.Component {
                 key={name}
                 style={{ margin: 5, flexWrap: 'wrap' }}>
                 <Chip
-                    icon='owl'
+                    // icon='owl'
                     mode='outlined'
                     style={{ backgroundColor: this.props.theme.colors.accent }}
                     onPress={() => console.log(name)}>

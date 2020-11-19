@@ -40,6 +40,8 @@ gender-female
 gender-male
 
 
+Note: Comment out line 89 in the CardCover.tsx file located under @react-native-paper/card ("Resize mode: 'contain'") 
+
 App use:
 
 

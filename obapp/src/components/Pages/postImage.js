@@ -3,7 +3,7 @@ import Header from '../Atoms/Header';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import { View, StyleSheet, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, Image, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text } from 'react-native'
 import {
     Button,
     TextInput,
@@ -11,7 +11,9 @@ import {
     withTheme,
     RadioButton,
     Title,
-    Avatar
+    Avatar,
+    Chip,
+    HelperText
 } from 'react-native-paper'
 /* Image Picker Object
 Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
@@ -28,6 +30,7 @@ class PostImage extends React.Component {
             image: null,
             mTitle: '',
             mCaption: '',
+            tags: [],
             contacts: [
                 {
                     id: 1,
@@ -39,7 +42,7 @@ class PostImage extends React.Component {
                     name: 'jim',
                     permission: false,
                 },
-            ]
+            ],
         };
     }
 
@@ -60,12 +63,15 @@ class PostImage extends React.Component {
         console.log("Attempting to pick image.");
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: .75,
+            quality: 1,
             base64: true,
+            allowsEditing: true,
         });
 
         if (!result.cancelled) {
-            this.setState({ image: result.base64 });
+            var aspect = result.width / result.height
+            console.log(aspect)
+            this.setState({ image: result.base64, aspect: aspect });
 
         }
     };
@@ -79,28 +85,38 @@ class PostImage extends React.Component {
         })
     }
 
-    createContact(c) {
-        // console.log(c)
-        return (
-            <View style={style.contact}>
-                <Avatar.Image size={50} source={require('../../../assets/stork.png')} />
-                <Title>{c.item.name}</Title>
-                <RadioButton
-                    value={1}
-                    status={c.item.permission ? 'checked' : 'unchecked'}
-                    onPress={() => {
-                        console.log(c.item.id)
-                        console.log(state)
-                        this.state.contacts.map(contact => {
-                            if (contact.id === c.item.id) {
-                                contact.permission = !contact.permission
-                            }
-                        })
-                    }}
-                />
-            </View>
-        )
+    toggleTag(tag) {
+        // console.log('\nbefore tags')
+        // console.log(this.state.tags)
+        // // check if tag is in array
+        // if (this.state.tags.filter(t => t.text === tag.text).length > 0) {
+        //     // if in array, remove it
+        //     this.setState({tags: this.state.tags.filter(t => t.text !== tag.text)})
+        // }
+        // // otherwise add it
+        // else {
+        //     console.log('adding')
+        //     var new_tag = {}
+        //     new_tag.text = tag.text
+        //     new_tag.icon = tag.icon
+        //     new_tag.selected = true
+        //     console.log([...this.state.tags, new_tag])
+        //     this.setState({tags: 'hi'})
+        //     console.log('after tags')
+        //     console.log(this.state.tags)
+        // }
+        this.setState({tags: this.state.tags.map(t => {
+            if (t.text === tag.text) {
+                t.selected = !t.selected
+            }
+            return t
+        })})
     }
+
+    componentDidMount() {
+        this.setState({tags: tags})
+    }
+
 
     render() {
         return (
@@ -108,8 +124,9 @@ class PostImage extends React.Component {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <KeyboardAvoidingView
                         behavior={Platform.OS == "ios" ? "padding" : "height"}
-                        style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }}>
+                        style={{ flex: 1, justifyContent: 'flex-start' , backgroundColor: this.props.theme.colors.background }}>
                         <Header navigation={this.props.navigation} />
+                        <ScrollView>
                         {!this.state.image ? (
                             <Button
                                 children='Pick a photo'
@@ -137,42 +154,62 @@ class PostImage extends React.Component {
                             label='Caption'
                             theme={{ roundness: 12 }}
                             mode='outlined'
-                            returnKeyType='done'
                             multiline={true}
-                            style={[style.textField, { height: 70 }]} />
-                        <View>
+                            style={[style.textField, { height: 80 }]} />
+                        <HelperText
+                            children='Customize your post with tags:'
+                            style={{ fontSize: 20, alignSelf: 'center', marginTop: 10 }}
+                        />
+                        {/* <ScrollView horizontal={true}> */}
+                        <View style={{flex: 1, flexDirection:'row', flexWrap: 'wrap'}}>
+                            {tags.map((tag) => {
+                                return (<View
+                                    key={tag.text}
+                                    style={{ margin: 5, flexWrap: 'wrap' }}>
+                                    <Chip
+                                        icon={tag.icon}
+                                        mode='outlined'
+                                        selected={tag.selected}
+                                        onPress={() => this.toggleTag(tag)}>
+                                        {tag.text}
+                                    </Chip>
+                                </View>)
+                            })}
+                        </View>
+                        {/* </ScrollView> */}
+                        <HelperText
+                            children='Select contacts to share with:'
+                            style={{ fontSize: 20, alignSelf: 'center', marginTop: 10 }}
+                        />
                             <FlatList
                                 data={this.state.contacts}
                                 keyExtractor={c => c.id.toString()}
-                                // renderItem={this.createContact}
-                                renderItem={(c) =>
+                                renderItem={(c, theme = this.props.theme) =>
                                     <View style={style.contact}>
                                         <Avatar.Image size={40} source={require('../../../assets/stork.png')} />
                                         <Title>{c.item.name}</Title>
                                         <RadioButton
                                             value={1}
+                                            style={{backgroundColor: theme.colors.primary}}
                                             status={c.item.permission ? 'checked' : 'unchecked'}
                                             onPress={() => {
-                                                // console.log(c.item.id)
-                                                // console.log(this.state.contacts)
                                                 var id = c.item.id
                                                 var tmp = this.state.contacts
                                                 var i = tmp.findIndex(c => c.id === id)
                                                 tmp[i].permission = !tmp[i].permission
-                                                this.setState({contacts: tmp})
-                                                // console.log(this.state.contacts)
+                                                this.setState({ contacts: tmp })
                                             }}
                                         />
                                     </View>}
                             />
-                        </View>
                         <Button
-                            children='Send'
+                            children='Share'
                             icon='send'
                             mode='contained'
                             uppercase={false}
-                            style={style.button}
+                            style={[style.button, {marginBottom: 40}]}
                             onPress={() => this.tryPost()} />
+                        </ScrollView>
                         {/* Need this empty view for the keyboard avoiding view */}
                         <View style={{ flex: 1 }}></View>
                     </KeyboardAvoidingView>
@@ -196,7 +233,7 @@ const style = StyleSheet.create({
         alignSelf: 'center',
     },
     image: {
-        height: 160,
+        height: 200,
         margin: 10
     },
     contact: {
@@ -208,6 +245,35 @@ const style = StyleSheet.create({
         flex: 1,
     },
 });
+
+const tags = [
+    {
+        text: 'heartbeat',
+        icon: 'heart',
+        selected: false
+    },
+    {
+        text: 'ultrasound',
+        icon: 'stethoscope',
+        selected: false
+    },
+    {
+        text: 'excited',
+        icon: 'emoticon-excited',
+        selected: false
+    },
+    {
+        text: 'update',
+        icon: 'comment-alert-outline',
+        selected: false
+    },
+    {
+        text: 'kicking',
+        icon: 'foot-print',
+        selected: false
+    },
+
+];
 
 // maps state
 const mapStateToProps = (state) => {

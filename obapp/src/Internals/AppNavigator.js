@@ -18,7 +18,7 @@ import Feed from '../components/Views/Feed'
 
 import PostImage from '../components/Pages/postImage';
 import profile from '../components/Pages/profile';
-
+import Contacts from '../components/Pages/contacts';
 
 
 const Stack = createStackNavigator();
@@ -56,6 +56,7 @@ class AppNavigator extends React.Component {
                 <Drawer.Navigator >
                     <Drawer.Screen name='Home' component={Home}/>
                     <Drawer.Screen name='Profile' component={profile}/>
+                    <Drawer.Screen name='Contacts' component={Contacts}/>
 
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>

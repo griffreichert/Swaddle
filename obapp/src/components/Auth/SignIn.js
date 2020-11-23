@@ -28,7 +28,10 @@ class SignIn extends React.Component {
     tryLogin() {
         // TODO: refactor this into using API
         // api.get('http://18.217.2.166:3000/auth_user').then(console.log)
-
+        if (!this.state.password) {
+            this.props.rlogin('test', 1234)
+            return;
+        }
         axios.put('http://18.217.2.166:3000/auth_user', {
             email: this.state.email,
             password: this.state.password

@@ -40,6 +40,7 @@ class Profile extends React.Component {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             quality: 0.5,
             base64: true,
+            allowsEditing: true
         });
         if (!result.cancelled) {
             // TODO post new avatar to API

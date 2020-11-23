@@ -1,12 +1,14 @@
 export const contacts = [
     {
         id: 1,
-        name: 'tom',
-        permission: true,
+        first_name: 'Lebron',
+        last_name: 'James',
+        avatar: '',
     },
     {
         id: 2,
-        name: 'jim',
-        permission: true,
+        first_name: 'Baker',
+        last_name: 'Mayfield',
+        avatar: '',
     },
 ];

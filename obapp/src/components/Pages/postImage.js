@@ -88,7 +88,11 @@ class PostImage extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ tags: tags, contacts: contacts })
+        var modified_contacts = contacts.map(c => {
+            c.permission = true
+            return c
+        })
+        this.setState({ tags: tags, contacts: modified_contacts })
     }
 
     render() {
@@ -109,13 +113,13 @@ class PostImage extends React.Component {
                                     onPress={this.pickImage}
                                     style={style.button} />
                             ) : (
-                                    <TouchableOpacity onPress={this.pickImage}>
-                                        <Image
-                                            style={style.image}
-                                            resizeMode="contain"
-                                            source={{ uri: `data:image/jpeg;base64,${this.state.image}` }} />
-                                    </TouchableOpacity>
-                                )}
+                                <TouchableOpacity onPress={this.pickImage}>
+                                    <Image
+                                        style={style.image}
+                                        resizeMode="contain"
+                                        source={{ uri: `data:image/jpeg;base64,${this.state.image}` }} />
+                                </TouchableOpacity>
+                            )}
                             <TextInput
                                 label='Title'
                                 mode='outlined'
@@ -158,8 +162,12 @@ class PostImage extends React.Component {
                                 {this.state.contacts.map(contact => {
                                     return (
                                         <View style={style.contact} key={contact.id}>
-                                            <Avatar.Image size={40} source={require('../../../assets/stork.png')} />
-                                            <Title>{contact.name}</Title>
+                                            <Avatar.Image 
+                                                size={40} 
+                                                source={contact.avatar ? require('../../../assets/stork.png') : require('../../../assets/avatar.png')} />
+                                            <Title style={{color: this.props.theme.colors.placeholder}}>
+                                                {contact.first_name + ' ' + contact.last_name}
+                                            </Title>
                                             <RadioButton
                                                 value={1}
                                                 color={this.props.theme.colors.primary}
@@ -227,7 +235,6 @@ const style = StyleSheet.create({
 // maps state
 const mapStateToProps = (state) => {
     return {
-        login_status: state.authReducer.login_status,
         username: state.authReducer.username,
         session_token: state.authReducer.session_token,
     }

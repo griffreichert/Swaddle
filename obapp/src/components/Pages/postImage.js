@@ -21,30 +21,19 @@ Allows user to select an image from their phone and returns that image
  */
 import { connect } from 'react-redux'
 import { login, logout } from '../../actions/authActions'
-import { FlatList } from 'react-native-gesture-handler';
 
-import {tags} from '../Atoms/TagsList'
+import { tags } from '../Atoms/TagsList'
+import { contacts } from '../Atoms/ContactsList';
 
 class PostImage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             image: null,
-            mTitle: '',
-            mCaption: '',
+            title: '',
+            caption: '',
             tags: [],
-            contacts: [
-                {
-                    id: 1,
-                    name: 'tom',
-                    permission: true,
-                },
-                {
-                    id: 2,
-                    name: 'jim',
-                    permission: true,
-                },
-            ],
+            contacts: [],
         };
     }
 
@@ -99,7 +88,7 @@ class PostImage extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ tags: tags })
+        this.setState({ tags: tags, contacts: contacts })
     }
 
     render() {
@@ -108,7 +97,7 @@ class PostImage extends React.Component {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <KeyboardAvoidingView
                         behavior={Platform.OS == "ios" ? "padding" : "height"}
-                        style={{ flex: 1, justifyContent: 'flex-start', backgroundColor: this.props.theme.colors.background }}>
+                        style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }}>
                         <Header navigation={this.props.navigation} />
                         <ScrollView>
                             {!this.state.image ? (
@@ -131,7 +120,7 @@ class PostImage extends React.Component {
                                 label='Title'
                                 mode='outlined'
                                 returnKeyType='done'
-                                onChangeText={(mTitle) => this.setState({ mTitle })}
+                                onChangeText={(title) => this.setState({ title })}
                                 theme={{ roundness: 12 }}
                                 style={style.textField} />
                             <TextInput
@@ -139,11 +128,11 @@ class PostImage extends React.Component {
                                 theme={{ roundness: 12 }}
                                 mode='outlined'
                                 multiline={true}
+                                onChangeText={(caption) => this.setState({ caption })}
                                 style={[style.textField, { height: 80 }]} />
                             <HelperText
                                 children='Customize your post with tags:'
-                                style={{ fontSize: 20, alignSelf: 'center', marginTop: 10 }}
-                            />
+                                style={{ fontSize: 20, alignSelf: 'center', marginTop: 10 }} />
                             {/* <ScrollView horizontal={true}> */}
                             <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
                                 {tags.map((tag) => {

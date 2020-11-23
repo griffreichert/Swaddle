@@ -49,45 +49,48 @@ class SignIn extends React.Component {
 
     render() {
         return (
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
-                    <Image
-                        source={require('../../../assets/stork.png')}
-                        resizeMode="contain"
-                        style={style.logo} />
-                    <TextInput
-                        label='email'
-                        mode='outlined'
-                        returnKeyType='done'
-                        style={style.textField}
-                        theme={{ roundness: 12 }}
-                        onChangeText={(email) => this.setState({ email })}/>
-                    <TextInput
-                        label='password'
-                        mode='outlined'
-                        returnKeyType='done'
-                        style={style.textField}
-                        theme={{ roundness: 12 }}
-                        secureTextEntry={true}
-                        underlineColor={this.props.theme.colors.background}
-                        onChangeText={(password) => this.setState({ password })}/>
-                    <HelperText
-                        type='error'
-                        style={style.textField}
-                        visible={this.state.failedAttempt}>
-                        Incorrect username/password
-                </HelperText>
-                    <Button
-                        children='Sign in'
-                        icon='login'
-                        style={style.button}
-                        mode='contained'
-                        uppercase={false}
-                        onPress={() => this.tryLogin()} />
-                    <SignUpButton navigation={this.props.navigation} />
-                    <ResetPasswordButton navigation={this.props.navigation} />
-                </View>
-            </TouchableWithoutFeedback>
+            <View style={style.container}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS == "ios" ? "padding" : "height"}
+                        style={{ flex: 1, justifyContent: 'flex-start', backgroundColor: this.props.theme.colors.background }}>
+                        <Image
+                            source={require('../../../assets/stork.png')}
+                            resizeMode="contain"
+                            style={style.logo} />
+                        <TextInput
+                            label='email'
+                            mode='outlined'
+                            returnKeyType='done'
+                            style={style.textField}
+                            theme={{ roundness: 12 }}
+                            onChangeText={(email) => this.setState({ email })} />
+                        <TextInput
+                            label='password'
+                            mode='outlined'
+                            returnKeyType='done'
+                            style={style.textField}
+                            theme={{ roundness: 12 }}
+                            secureTextEntry={true}
+                            underlineColor={this.props.theme.colors.background}
+                            onChangeText={(password) => this.setState({ password })} />
+                        <HelperText
+                            children='Incorrect username/password'
+                            type='error'
+                            style={style.helper}
+                            visible={this.state.failedAttempt} />
+                        <Button
+                            children='Sign in'
+                            // icon='login'
+                            style={style.button}
+                            mode='contained'
+                            uppercase={false}
+                            onPress={() => this.tryLogin()} />
+                        <SignUpButton navigation={this.props.navigation} />
+                        <ResetPasswordButton navigation={this.props.navigation} />
+                    </KeyboardAvoidingView>
+                </TouchableWithoutFeedback>
+            </View>
         );
     }
 }
@@ -106,10 +109,16 @@ const style = StyleSheet.create({
         marginVertical: 5,
         marginHorizontal: 40,
     },
+    helper: {
+        marginVertical: 2,
+        fontSize: 16,
+        alignSelf: 'center',
+    },
     logo: {
         height: 100,
         alignSelf: 'center',
         margin: 10,
+        marginTop: 180,
     },
 });
 

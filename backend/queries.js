@@ -24,7 +24,7 @@ const create_user = (request, response) => {
 	})
 }
 
-const auth_user = (request, response) => {
+async function auth_user(request, response) {
 	const { email, password } = request.body
 
 	pool.query('SELECT password from users where email=$1', [email], (error, results) => {
@@ -32,10 +32,10 @@ const auth_user = (request, response) => {
 		{
 			response.status(500).send(error)
 		}
-		else if (true)
+		else if (check_password(results.rows[0], password))
 		{
 			// pass_hash = hash_password(password)
-			check_password(results.rows[0], password)
+			
 			create_token().then((token) => {
 				console.log(token)
 				pool.query('UPDATE users set token=$1 where email=$2', [token, email], (internal_error, internal_results) => { if (error) { throw error }})

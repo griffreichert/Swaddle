@@ -1,8 +1,8 @@
 // React Stuff
 import React from 'react';
-import { KeyboardAvoidingView, ScrollView, StyleSheet, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, ScrollView, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Avatar, Button, Card, Chip, HelperText, Text, Title, withTheme } from 'react-native-paper';
+import { Avatar, Button, Card, Chip, HelperText, Text, TextInput, Title, withTheme } from 'react-native-paper';
 // Redux stuff
 import { connect } from 'react-redux'
 import { login, logout } from '../../actions/authActions'
@@ -17,6 +17,10 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            editing: false,
+            first_name: 'Natalie',
+            last_name: 'French',
+            email: 'natalief@gmail.com',
             image: '',
         };
     }
@@ -49,6 +53,18 @@ class Profile extends React.Component {
         }
     };
 
+    updateProfile() {
+        if (!this.state.editing) {
+            console.log('editing profile')
+            this.setState({ editing: true })
+        }
+        else {
+            console.log('saving profile')
+            // TODO: Send API call
+            this.setState({ editing: false })
+        }
+    }
+
     componentDidMount() {
         console.log('\n!! TODO: Get profile avatar from API')
     }
@@ -56,11 +72,12 @@ class Profile extends React.Component {
     render() {
         return (
             <View style={style.container}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <KeyboardAvoidingView
                     behavior={Platform.OS == "ios" ? "padding" : "height"}
                     style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }} >
                     <Header navigation={this.props.navigation} />
-                    <View style={style.inner} >
+                    {/* <View style={style.inner} > */}
                         <TouchableOpacity onPress={this.pickImage}>
                             {this.state.image ? (
                                 <Avatar.Image
@@ -74,8 +91,57 @@ class Profile extends React.Component {
                                         style={style.avatar} />
                                 )}
                             <HelperText
-                                children='tap to change profile picture' />
+                                children='tap to change profile picture'
+                                style={style.helper} />
                         </TouchableOpacity>
+                        <TextInput
+                            label='first name'
+                            mode='outlined'
+                            returnKeyType='done'
+                            theme={{ roundness: 12 }}
+                            disabled={!this.state.editing}
+                            style={style.textField}
+                            value={this.state.first_name} />
+                        <TextInput
+                            label='last name'
+                            mode='outlined'
+                            returnKeyType='done'
+                            theme={{ roundness: 12 }}
+                            disabled={!this.state.editing}
+                            style={style.textField}
+                            value={this.state.last_name} />
+                        <TextInput
+                            label='email'
+                            mode='outlined'
+                            returnKeyType='done'
+                            theme={{ roundness: 12 }}
+                            disabled={!this.state.editing}
+                            style={style.textField}
+                            value={this.state.email} />
+                        {/* <TextInput
+                            label='password'
+                            mode='outlined'
+                            secureTextEntry={true}
+                            theme={{ roundness: 12 }}
+                            disabled={true}
+                            style={style.textField}
+                            value='xxxxxxxx' /> */}
+
+                        <Button
+                            children={this.state.editing ? 'Save changes' : 'Edit profile'}
+                            icon='pencil-outline'
+                            mode='contained'
+                            uppercase={false}
+                            style={style.button}
+                            onPress={() => this.updateProfile()} />
+                        <Button
+                            children='Change password'
+                            icon='pencil-lock-outline'
+                            mode='contained'
+                            uppercase={false}
+                            style={style.button}
+                            onPress={() => console.log('changing password')} />
+
                         <Button
                             children='Log out'
                             icon='logout'
@@ -83,10 +149,11 @@ class Profile extends React.Component {
                             uppercase={false}
                             style={style.button}
                             onPress={() => this.props.rlogout()} />
-                    </View>
+                        {/* </View> */}
                     {/* Need this empty view for the keyboard avoiding view */}
                     <View style={{ flex: 1 }}></View>
                 </KeyboardAvoidingView>
+                </TouchableWithoutFeedback>
             </View>
         );
     }
@@ -99,18 +166,26 @@ const style = StyleSheet.create({
     inner: {
         flex: 1,
         margin: 20,
-        alignItems: 'center'
+        // alignItems: 'center'
     },
     button: {
         marginVertical: 10,
         padding: 10,
-        width: 120,
+        alignSelf: 'center',
     },
     avatar: {
-        // marginTop: 10,
+        marginTop: 20,
         alignSelf: 'center'
     },
-
+    helper: {
+        marginVertical: 2,
+        // fontSize: 16,
+        alignSelf: 'center',
+    },
+    textField: {
+        marginVertical: 5,
+        marginHorizontal: 20,
+    },
 });
 
 // maps state

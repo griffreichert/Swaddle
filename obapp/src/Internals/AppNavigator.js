@@ -57,10 +57,10 @@ class AppNavigator extends React.Component {
                 ) : (
                 <Drawer.Navigator drawerStyle={{width: '80%'}}>
                     <Drawer.Screen name='Home' component={Home} />
-                    <Drawer.Screen name='Profile' component={profile} />
-                    <Drawer.Screen name='Contacts' component={Contacts} />
-                    <Drawer.Screen name='Change password' component={changePassword} />
                     <Drawer.Screen name='Search posts' component={Search} />
+                    <Drawer.Screen name='Contacts' component={Contacts} />
+                    <Drawer.Screen name='Profile' component={profile} />
+                    <Drawer.Screen name='Change password' component={changePassword} />
 
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>

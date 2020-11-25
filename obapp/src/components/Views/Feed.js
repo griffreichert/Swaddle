@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Card, Chip, Text, Title, withTheme } from 'react-native-paper';
+import { Caption, Card, Chip, Paragraph, Text, Title, withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
 import Header from '../Atoms/Header';
 import MediaButton from '../Atoms/MediaButton';
@@ -18,8 +18,9 @@ class Feed extends React.Component {
                 {
                     id: 'item1',
                     title: 'We\'re having a baby',
+                    caption: 'Blake and I are so excited to announce that we are expecting our first child!!',
                     image: img1,
-                    tags: ['excited', 'update'],
+                    tags: ['excited', 'update', 'heartbeat'],
                     aspect: 0.664
                 },
                 {
@@ -41,9 +42,9 @@ class Feed extends React.Component {
         return this._refresh;
     }
 
-    componentWillUnmount() {
-        this.props.navigation.remove
-    }
+    // componentWillUnmount() {
+    //     this.props.navigation.remove
+    // }
 
     handleAspectRatio() {
 
@@ -76,7 +77,9 @@ class Feed extends React.Component {
     makeCard(post) {
         return (
             <Card style={{margin: 10}}>
-                <Card.Title title="Post" style={{ marginLeft: 10 }} />
+                <Card.Title 
+                    title={post.item.title} 
+                    titleStyle={style.postTitle} />
                 <Card.Cover 
                     style={{ 
                         marginVertical: 10, 
@@ -89,8 +92,6 @@ class Feed extends React.Component {
                     resizeMode="cover"
                     />
                 <Card.Content>
-                </Card.Content>
-                <Card.Content>
                     <ScrollView horizontal={true}>
                         {post.item.tags.map((name) => {
                             // console.log(this)
@@ -100,21 +101,15 @@ class Feed extends React.Component {
                                 <Chip
                                     icon={ tags.find(t => t.text == name).icon ? tags.find(t => t.text == name).icon : '' }
                                     mode='outlined'
-                                    selected={true}
-                                    onPress={() => {
-                                        var x = tags.map(t => {
-                                            if (t.text == name) {
-                                                console.log(t.icon)
-                                                return t.icon
-                                            }
-                                        })
-                                        console.log(x)
-                                    }}>
+                                    selected={true}>
                                     {name}
                                 </Chip>
                             </View>)
                         })}
                     </ScrollView>
+                    <Paragraph 
+                        children={post.item.caption} 
+                        style={style.postCaption} />
                 </Card.Content>
             </Card>
         )
@@ -156,6 +151,15 @@ const style = StyleSheet.create({
     button: {
         marginVertical: 10,
         padding: 10
+    },
+    postTitle: { 
+        marginTop: 20, 
+        textAlign: 'center'
+    },
+    postCaption: {
+        padding: 10,
+        textAlign: 'center', 
+        fontSize: 18,
     },
 });
 

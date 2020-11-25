@@ -13,6 +13,7 @@ const all_posts = [
     {
         id: 'item1',
         title: 'We\'re having a baby',
+        caption: 'Blake and I are so excited to announce that we are expecting our first child!!',
         image: img1,
         tags: ['excited', 'update', 'heartbeat'],
         aspect: 0.664
@@ -44,9 +45,9 @@ class Search extends React.Component {
         return this._refresh;
     }
 
-    componentWillUnmount() {
-        this.props.navigation.remove
-    }
+    // componentWillUnmount() {
+    //     this.props.navigation.remove
+    // }
 
     loadPosts() {
         console.log('---')
@@ -65,9 +66,9 @@ class Search extends React.Component {
             this.setState({ search_tag: '', posts: all_posts })
         }
         else {
-            console.log('\nfiltering')
+            // console.log('\nfiltering')
             var filtered_posts = all_posts.filter(p => {
-                console.log('P: ' + p.tags)
+                // console.log('P: ' + p.tags)
                 if (p.tags.find(t => t == search_tag)) {
                     // console.log('found (' + t.text + '): ' + p.id)
                     return p
@@ -75,47 +76,7 @@ class Search extends React.Component {
             })
             this.setState({ search_tag: search_tag, posts: filtered_posts })
         }
-
-        // var new_posts = all_posts
-        // if (this.state.search_tag) {
-        //     // console.log('filteredPosts() before: ' + this.state.posts.length)
-        //     // filter posts to only those containing the search_tag
-        //     var filtered_posts = this.state.posts.filter(p => {
-        //         var found = p.tags.find(t => t === this.state.search_tag)
-        //         if (found) {
-        //             console.log('found ' + p.id)
-        //         }
-        //         return found
-        //         // return true
-
-        //         // if (this.state.search_tag.length) {
-        //         //     var contains_all = this.state.search_tag.reduce((all, s_tag) => {
-        //         //         console.log('P(' + p.id + '): ' + p.tags)
-        //         //         var ok = p.tags.filter(t => t == s_tag).length == 1
-        //         //         return all & ok;
-        //         //     })
-        //         //     if (contains_all) {
-        //         //         console.log('Post ID: ' + p.id)
-        //         //     }
-        //         //     return contains_all;
-        //         // }
-        //         // else {
-        //         //     return true;
-        //         // }
-        //     })
-        //     // console.log('filteredPosts() after: ' + filtered_posts.length)
-        // }
-        // this.setState({ posts: new_posts })
     }
-
-    // toggleTag(tag) {
-    //     var new_s_tag = ''
-    //     if (tag != this.state.search_tag) {
-    //         new_s_tag = tag
-    //     }
-    //     this.setState({ search_tag: new_s_tag })
-    //     this.filterPosts()
-    // }
 
     makeCard(post) {
         return (

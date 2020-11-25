@@ -92,7 +92,11 @@ class PostImage extends React.Component {
             c.permission = true
             return c
         })
-        this.setState({ tags: tags, contacts: modified_contacts })
+        var modified_tags = tags.map(t => {
+            t.selected = false
+            return t
+        })
+        this.setState({ tags: modified_tags, contacts: modified_contacts })
     }
 
     render() {

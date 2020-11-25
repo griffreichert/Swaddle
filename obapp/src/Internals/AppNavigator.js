@@ -19,6 +19,8 @@ import Feed from '../components/Views/Feed'
 import PostImage from '../components/Pages/postImage';
 import profile from '../components/Pages/profile';
 import Contacts from '../components/Pages/contacts';
+import changePassword from '../components/Pages/changePassword';
+import Search from '../components/Views/Search2';
 
 
 const Stack = createStackNavigator();
@@ -53,10 +55,12 @@ class AppNavigator extends React.Component {
                     <Stack.Screen name='Forgot Password' component={ResetPassword}/>
                 </Stack.Navigator>
                 ) : (
-                <Drawer.Navigator >
-                    <Drawer.Screen name='Home' component={Home}/>
-                    <Drawer.Screen name='Profile' component={profile}/>
-                    <Drawer.Screen name='Contacts' component={Contacts}/>
+                <Drawer.Navigator drawerStyle={{width: '80%'}}>
+                    <Drawer.Screen name='Home' component={Home} />
+                    <Drawer.Screen name='Profile' component={profile} />
+                    <Drawer.Screen name='Contacts' component={Contacts} />
+                    <Drawer.Screen name='Change password' component={changePassword} />
+                    <Drawer.Screen name='Search posts' component={Search} />
 
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>

@@ -7,6 +7,8 @@ import MediaButton from '../Atoms/MediaButton';
 import axios from 'axios'
 
 import {img1, img2} from '../Atoms/ExamplePics'
+import { tags } from '../Atoms/TagsList';
+
 
 class Feed extends React.Component {
     constructor(props) {
@@ -17,7 +19,7 @@ class Feed extends React.Component {
                     id: 'item1',
                     title: 'We\'re having a baby',
                     image: img1,
-                    tags: ['excited', 'update', 'floppy'],
+                    tags: ['excited', 'update'],
                     aspect: 0.664
                 },
                 {
@@ -57,31 +59,21 @@ class Feed extends React.Component {
         this.setState({isLoading: false})
     }
 
-    makeChip(name) {
-        return (
-            <View
-                key={name}
-                style={{ margin: 5, flexWrap: 'wrap' }}>
-                <Chip
-                    // icon='owl'
-                    mode='outlined'
-                    style={{ backgroundColor: this.props.theme.colors.accent }}
-                    onPress={() => console.log(name)}>
-                    {name}
-                </Chip>
-            </View>
-        )
+    getChipIcon(name) {
+        var x = tags.map(t => {
+            if (t.text === name) {
+                return t.icon
+            }
+        })
+        if (x[0]) {
+            return x[0]
+        }
+        else {
+            return ''
+        }
     }
 
     makeCard(post) {
-        // Image.getSize(`data:image/jpeg;base64,${post.item.image}`, (width, height) => {
-        //     console.log("w, h")
-        //     console.log(width)
-        //     console.log(height)
-        //     console.log(width/height)
-        //     return width/height
-        // })
-        // console.log(Dimensions.get('screen').width)
         return (
             <Card style={{margin: 10}}>
                 <Card.Title title="Post" style={{ marginLeft: 10 }} />
@@ -101,13 +93,23 @@ class Feed extends React.Component {
                 <Card.Content>
                     <ScrollView horizontal={true}>
                         {post.item.tags.map((name) => {
+                            // console.log(this)
                             return (<View
                                 key={name}
                                 style={{ margin: 5, flexWrap: 'wrap' }}>
                                 <Chip
-                                    icon='owl'
+                                    icon={ tags.find(t => t.text == name).icon ? tags.find(t => t.text == name).icon : '' }
                                     mode='outlined'
-                                    onPress={() => console.log(name)}>
+                                    selected={true}
+                                    onPress={() => {
+                                        var x = tags.map(t => {
+                                            if (t.text == name) {
+                                                console.log(t.icon)
+                                                return t.icon
+                                            }
+                                        })
+                                        console.log(x)
+                                    }}>
                                     {name}
                                 </Chip>
                             </View>)

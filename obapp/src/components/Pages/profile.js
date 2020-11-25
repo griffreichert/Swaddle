@@ -101,6 +101,7 @@ class Profile extends React.Component {
                             theme={{ roundness: 12 }}
                             disabled={!this.state.editing}
                             style={style.textField}
+                            onChangeText={(first_name) => this.setState({ first_name })}
                             value={this.state.first_name} />
                         <TextInput
                             label='last name'
@@ -109,6 +110,7 @@ class Profile extends React.Component {
                             theme={{ roundness: 12 }}
                             disabled={!this.state.editing}
                             style={style.textField}
+                            onChangeText={(last_name) => this.setState({ last_name })}
                             value={this.state.last_name} />
                         <TextInput
                             label='email'
@@ -117,6 +119,7 @@ class Profile extends React.Component {
                             theme={{ roundness: 12 }}
                             disabled={!this.state.editing}
                             style={style.textField}
+                            onChangeText={(email) => this.setState({ email })}
                             value={this.state.email} />
                         {/* <TextInput
                             label='password'
@@ -140,7 +143,7 @@ class Profile extends React.Component {
                             mode='contained'
                             uppercase={false}
                             style={style.button}
-                            onPress={() => console.log('changing password')} />
+                            onPress={() => this.props.navigation.navigate('Change password')} />
 
                         <Button
                             children='Log out'

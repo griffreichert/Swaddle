@@ -12,6 +12,7 @@ import Header from '../Atoms/Header';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class Profile extends React.Component {
             last_name: 'French',
             email: 'natalief@gmail.com',
             image: '',
+            due_date: new Date(),
         };
     }
 
@@ -66,7 +68,7 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        console.log('\n!! TODO: Get profile avatar from API')
+        console.log('\n!! TODO: Get profile from API')
     }
 
     render() {
@@ -91,11 +93,12 @@ class Profile extends React.Component {
                                         style={style.avatar} />
                                 )}
                             <HelperText
-                                children='tap to change profile picture'
+                                children='Tap to change profile picture'
                                 style={style.helper} />
                         </TouchableOpacity>
+
                         <TextInput
-                            label='first name'
+                            label='First name'
                             mode='outlined'
                             returnKeyType='done'
                             theme={{ roundness: 12 }}
@@ -104,7 +107,7 @@ class Profile extends React.Component {
                             onChangeText={(first_name) => this.setState({ first_name })}
                             value={this.state.first_name} />
                         <TextInput
-                            label='last name'
+                            label='Last name'
                             mode='outlined'
                             returnKeyType='done'
                             theme={{ roundness: 12 }}
@@ -113,7 +116,7 @@ class Profile extends React.Component {
                             onChangeText={(last_name) => this.setState({ last_name })}
                             value={this.state.last_name} />
                         <TextInput
-                            label='email'
+                            label='Email'
                             mode='outlined'
                             returnKeyType='done'
                             theme={{ roundness: 12 }}
@@ -121,14 +124,15 @@ class Profile extends React.Component {
                             style={style.textField}
                             onChangeText={(email) => this.setState({ email })}
                             value={this.state.email} />
-                        {/* <TextInput
-                            label='password'
+                        <TextInput
+                            label='Due date'
                             mode='outlined'
-                            secureTextEntry={true}
+                            returnKeyType='done'
                             theme={{ roundness: 12 }}
                             disabled={true}
                             style={style.textField}
-                            value='xxxxxxxx' /> */}
+                            value={this.state.due_date.toDateString()} />
+                        
 
                         <Button
                             children={this.state.editing ? 'Save changes' : 'Edit profile'}
@@ -137,6 +141,14 @@ class Profile extends React.Component {
                             uppercase={false}
                             style={style.button}
                             onPress={() => this.updateProfile()} />
+                        <Button
+                            children={this.state.due_date ? 'Update due date' : 'Enter due date'}
+                            icon='calendar-month'
+                            // icon='calendar-heart'
+                            mode='contained'
+                            uppercase={false}
+                            style={style.button}
+                            onPress={() => this.props.navigation.navigate('Due date')} />
                         <Button
                             children='Change password'
                             icon='pencil-lock-outline'
@@ -172,7 +184,7 @@ const style = StyleSheet.create({
         // alignItems: 'center'
     },
     button: {
-        marginVertical: 10,
+        marginVertical: 5,
         padding: 10,
         alignSelf: 'center',
     },

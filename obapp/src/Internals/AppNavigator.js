@@ -20,8 +20,7 @@ import PostImage from '../components/Pages/postImage';
 import profile from '../components/Pages/profile';
 import Contacts from '../components/Pages/contacts';
 import changePassword from '../components/Pages/changePassword';
-import Search from '../components/Views/Search2';
-
+import Search from '../components/Views/Search';
 
 const Stack = createStackNavigator();
 

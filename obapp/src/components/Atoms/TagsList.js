@@ -1,22 +1,26 @@
 export const tags = [
     {
-        text: 'heartbeat',
+        text: 'Heartbeat',
         icon: 'heart',
     },
     {
-        text: 'ultrasound',
+        text: 'Ultrasound',
         icon: 'stethoscope',
     },
     {
-        text: 'excited',
+        text: 'Excited',
         icon: 'emoticon-excited',
     },
     {
-        text: 'update',
+        text: 'Update',
         icon: 'comment-alert-outline',
     },
     {
-        text: 'kicking',
+        text: 'Kicking',
         icon: 'foot-print',
+    },
+    {
+        text: 'Shopping',
+        icon: 'cart',
     },
 ];

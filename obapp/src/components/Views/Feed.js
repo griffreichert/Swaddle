@@ -6,7 +6,7 @@ import Header from '../Atoms/Header';
 import MediaButton from '../Atoms/MediaButton';
 import axios from 'axios'
 
-import {img1, img2} from '../Atoms/ExamplePics'
+import { img1, img2 } from '../Atoms/ExamplePics'
 import { tags } from '../Atoms/TagsList';
 
 
@@ -20,14 +20,15 @@ class Feed extends React.Component {
                     title: 'We\'re having a baby',
                     caption: 'Blake and I are so excited to announce that we are expecting our first child!!',
                     image: img1,
-                    tags: ['excited', 'update', 'heartbeat'],
+                    tags: ['Excited', 'Update', 'Heartbeat', 'Shopping'],
                     aspect: 0.664
                 },
                 {
                     id: 'item2',
                     image: img2,
                     title: 'Our first ultrasound',
-                    tags: ['ultrasound', 'update'],
+                    caption: 'Check out our little one\'s heartbeat! So exciting to watch their growth',
+                    tags: ['Ultrasound', 'Kicking', 'Heartbeat'],
                     aspect: 1.46
                 },
             ],
@@ -57,7 +58,7 @@ class Feed extends React.Component {
                 // console.log(response.data.link)
             })
             .catch((e) => console.log(e))
-        this.setState({isLoading: false})
+        this.setState({ isLoading: false })
     }
 
     getChipIcon(name) {
@@ -76,40 +77,54 @@ class Feed extends React.Component {
 
     makeCard(post) {
         return (
-            <Card style={{margin: 10}}>
-                <Card.Title 
-                    title={post.item.title} 
+            <Card style={{ margin: 10 }}>
+                <Card.Title
+                    title={post.item.title}
                     titleStyle={style.postTitle} />
-                <Card.Cover 
-                    style={{ 
-                        marginVertical: 10, 
-                        width: '100%', 
-                        height: undefined, 
+                <Card.Cover
+                    style={{
+                        marginVertical: 10,
+                        width: '100%',
+                        height: undefined,
                         aspectRatio: post.item.aspect
                         // aspectRatio: Image.getSize(`data:image/jpeg;base64,${post.item.image}`, (width, height) => width/height)
-                    }} 
-                    source={{ uri: `data:image/jpeg;base64,${post.item.image}` }} 
+                    }}
+                    source={{ uri: `data:image/jpeg;base64,${post.item.image}` }}
                     resizeMode="cover"
-                    />
+                />
                 <Card.Content>
-                    <ScrollView horizontal={true}>
+                    {/* <ScrollView horizontal={true}>
                         {post.item.tags.map((name) => {
                             // console.log(this)
                             return (<View
                                 key={name}
                                 style={{ margin: 5, flexWrap: 'wrap' }}>
                                 <Chip
-                                    icon={ tags.find(t => t.text == name).icon ? tags.find(t => t.text == name).icon : '' }
+                                    icon={tags.find(t => t.text == name).icon ? tags.find(t => t.text == name).icon : ''}
                                     mode='outlined'
                                     selected={true}>
                                     {name}
                                 </Chip>
                             </View>)
                         })}
-                    </ScrollView>
-                    <Paragraph 
-                        children={post.item.caption} 
+                    </ScrollView> */}
+                    <Paragraph
+                        children={post.item.caption}
                         style={style.postCaption} />
+                    <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+                        {post.item.tags.map((name) => {
+                            return (<View
+                                key={name}
+                                style={{ margin: 5, flexWrap: 'wrap' }}>
+                                <Chip
+                                    icon={tags.find(t => t.text == name).icon ? tags.find(t => t.text == name).icon : ''}
+                                    mode='outlined'
+                                    selected={true}>
+                                    {name}
+                                </Chip>
+                            </View>)
+                        })}
+                    </View>
                 </Card.Content>
             </Card>
         )
@@ -125,7 +140,7 @@ class Feed extends React.Component {
                         refreshing={this.state.isLoading}
                         renderItem={this.makeCard}
                         onRefresh={() => this.loadPosts()}
-                        style={{marginBottom: 120}}
+                        style={{ marginBottom: 120 }}
                     />
                 </View>
                 <MediaButton navigation={this.props.navigation} />
@@ -152,13 +167,13 @@ const style = StyleSheet.create({
         marginVertical: 10,
         padding: 10
     },
-    postTitle: { 
-        marginTop: 20, 
+    postTitle: {
+        marginTop: 20,
         textAlign: 'center'
     },
     postCaption: {
         padding: 10,
-        textAlign: 'center', 
+        textAlign: 'center',
         fontSize: 18,
     },
 });

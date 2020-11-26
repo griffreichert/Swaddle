@@ -13,7 +13,8 @@ import {
     Title,
     Avatar,
     Chip,
-    HelperText
+    HelperText,
+    Switch
 } from 'react-native-paper'
 /* Image Picker Object
 Link to documentation: https://docs.expo.io/versions/latest/sdk/imagepicker/
@@ -135,12 +136,12 @@ class PostImage extends React.Component {
                                 label='Caption'
                                 theme={{ roundness: 12 }}
                                 mode='outlined'
-                                multiline={true}
+                                // multiline={true}
                                 onChangeText={(caption) => this.setState({ caption })}
                                 style={[style.textField, { height: 80 }]} />
                             <HelperText
                                 children='Customize your post with tags:'
-                                style={{ fontSize: 20, alignSelf: 'center', marginTop: 10 }} />
+                                style={style.helper} />
                             {/* <ScrollView horizontal={true}> */}
                             <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
                                 {tags.map((tag) => {
@@ -160,8 +161,7 @@ class PostImage extends React.Component {
                             {/* </ScrollView> */}
                             <HelperText
                                 children='Select contacts to share with:'
-                                style={{ fontSize: 20, alignSelf: 'center', marginTop: 10 }}
-                            />
+                                style={style.helper} />
                             <View>
                                 {this.state.contacts.map(contact => {
                                     return (
@@ -169,15 +169,13 @@ class PostImage extends React.Component {
                                             <Avatar.Image 
                                                 size={40} 
                                                 source={contact.avatar ? require('../../../assets/stork.png') : require('../../../assets/avatar.png')} />
-                                            <Title style={{color: this.props.theme.colors.placeholder}}>
-                                                {contact.first_name + ' ' + contact.last_name}
-                                            </Title>
-                                            <RadioButton
-                                                value={1}
-                                                color={this.props.theme.colors.primary}
-                                                style={{ backgroundColor: this.props.theme.colors.primary }}
-                                                status={contact.permission ? 'checked' : 'unchecked'}
-                                                onPress={() => {
+                                            <HelperText
+                                                children={contact.first_name + ' ' + contact.last_name} 
+                                                style={style.helper}/>
+                                            
+                                            <Switch
+                                                value={contact.permission}
+                                                onValueChange={() => {
                                                     this.setState({
                                                         contacts:
                                                             this.state.contacts.map(c => {
@@ -188,7 +186,8 @@ class PostImage extends React.Component {
                                                             })
                                                     })
                                                 }}
-                                            />
+                                                color={this.props.theme.colors.accent}/>
+                                            
                                         </View>)
                                 })}
                             </View>
@@ -233,6 +232,11 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         flex: 1,
+    },
+    helper: { 
+        fontSize: 20, 
+        alignSelf: 'center', 
+        marginTop: 10 
     },
 });
 

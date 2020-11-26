@@ -13,7 +13,6 @@ const all_posts = [
     {
         id: 'item1',
         title: 'We\'re having a baby',
-        caption: 'Blake and I are so excited to announce that we are expecting our first child!!',
         image: img1,
         tags: ['excited', 'update', 'heartbeat'],
         aspect: 0.664
@@ -32,7 +31,7 @@ class Search extends React.Component {
         super(props);
         this.state = {
             posts: [],
-            search_tag: '',
+            search_tags: [],
             isLoading: false,
         };
     }
@@ -45,9 +44,9 @@ class Search extends React.Component {
         return this._refresh;
     }
 
-    // componentWillUnmount() {
-    //     this.props.navigation.remove
-    // }
+    componentWillUnmount() {
+        this.props.navigation.remove
+    }
 
     loadPosts() {
         console.log('---')
@@ -60,22 +59,48 @@ class Search extends React.Component {
         this.setState({ isLoading: false })
     }
 
-    filterPosts(search_tag) {
-        // if same tag, remove it and show all posts
-        if (this.state.search_tag === search_tag) {
-            this.setState({ search_tag: '', posts: all_posts })
-        }
-        else {
-            // console.log('\nfiltering')
-            var filtered_posts = all_posts.filter(p => {
-                // console.log('P: ' + p.tags)
-                if (p.tags.find(t => t == search_tag)) {
-                    // console.log('found (' + t.text + '): ' + p.id)
-                    return p
+    filterPosts() {
+        this.setState({ posts: all_posts })
+        console.log('filteredPosts() before: ' + this.state.posts.length)
+        var filtered_posts = this.state.posts.filter(p => {
+            console.log('search tags: ' + this.state.search_tags.length)
+            if (this.state.search_tags.length) {
+                var contains_all = this.state.search_tags.reduce((all, s_tag) => {
+                    console.log('P(' + p.id + '): ' + p.tags)
+                    var ok = p.tags.filter(t => t == s_tag).length == 1
+                    return all & ok;
+                })
+                if (contains_all) {
+                    console.log('Post ID: ' + p.id)
                 }
-            })
-            this.setState({ search_tag: search_tag, posts: filtered_posts })
+                return contains_all;
+            }
+            else {
+                return true;
+            }
+        })
+        console.log('filteredPosts() after: ' + filtered_posts.length)
+        this.setState({ posts: filtered_posts })
+    }
+
+    toggleTag(tag) {
+        console.log('\nbefore')
+        console.log(this.state.search_tags)
+        // if tag exists, remove it
+        if (this.state.search_tags.filter(t => t === tag.text).length) {
+            this.setState({ search_tags: this.state.search_tags.filter(t => t != tag.text) })
         }
+        // otherwise add it
+        else {
+            console.log('ADDING ')
+            var tmp_tags = this.state.search_tags
+            tmp_tags.push(tag.text)
+            console.log('tmp tags: ' + tmp_tags)
+            this.setState({ search_tags: tmp_tags })
+        }
+        this.filterPosts()
+        console.log('after')
+        console.log(this.state.search_tags)
     }
 
     makeCard(post) {
@@ -128,8 +153,8 @@ class Search extends React.Component {
                             <Chip
                                 icon={tag.icon}
                                 mode='outlined'
-                                selected={this.state.search_tag === tag.text}
-                                onPress={() => this.filterPosts(tag.text)}>
+                                selected={this.state.search_tags.filter(t => t === tag.text).length}
+                                onPress={() => this.toggleTag(tag)}>
                                 {tag.text}
                             </Chip>
                         </View>)

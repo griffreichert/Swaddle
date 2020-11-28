@@ -142,7 +142,7 @@ class Profile extends React.Component {
                             theme={{ roundness: 12 }}
                             disabled={true}
                             style={style.textField}
-                            value={this.state.due_date.toDateString()} />
+                            value={this.state.due_date.getMonth() + 1 + '/' + this.state.due_date.getDate() + '/' + (this.state.due_date.getYear() + 1900)} />
                         
 
                         <Button
@@ -159,7 +159,7 @@ class Profile extends React.Component {
                             mode='contained'
                             uppercase={false}
                             style={style.button}
-                            onPress={() => this.props.navigation.navigate('Due date')} />
+                            onPress={() => this.props.navigation.navigate('Update due date')} />
                         <Button
                             children='Change password'
                             icon='pencil-lock-outline'

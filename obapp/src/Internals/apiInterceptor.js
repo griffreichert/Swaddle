@@ -14,7 +14,8 @@ const apiRequestInterceptor = (req) => {
 const apiResponseInterceptor = (error) => {
     const status = error.response
     if (status !== 200 | status !== 201) {
-        console.log('[ERR Status]: ' + status)
+        console.log('ERR in interceptor')
+        console.log(status)
     }
     if (status === 401 | status === 403) {
         store.dispatch(logout());

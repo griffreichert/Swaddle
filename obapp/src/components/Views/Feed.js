@@ -4,8 +4,8 @@ import { Caption, Card, Chip, Paragraph, Text, Title, withTheme } from 'react-na
 import { connect } from 'react-redux'
 import Header from '../Atoms/Header';
 import MediaButton from '../Atoms/MediaButton';
-import axios from 'axios'
 
+import api from '../../Internals/apiClient'
 import { tags } from '../Atoms/TagsList';
 import { posts } from '../Atoms/Posts'
 
@@ -20,8 +20,9 @@ class Feed extends React.Component {
     }
 
     componentDidMount() {
+        this.loadPosts()
         // console.log(this.props.session_token)
-        this.setState({ posts: posts })
+        // this.setState({ posts: posts })
         // console.log("mounted")
         this._refresh = this.props.navigation.addListener('focus', () => this.loadPosts());
         // removes listener when component unmounts
@@ -34,13 +35,19 @@ class Feed extends React.Component {
 
     loadPosts() {
         console.log("load posts")
-        api.get('/', {
+        api.get('/load_posts', {
             headers: {
                 'token': this.props.session_token
             }
         }).then((response) => {
-            console.log(response.data)
-            this.setState({ isLoading: false })
+            var res_posts = response.data.data
+            res_posts = res_posts.map(p => {
+                p.timestamp = new Date(p.timestamp.replace(' ', 'T'))
+                return p
+            })
+            // console.log(res_posts)
+            // res_posts.map(p => console.log(p.id))
+            this.setState({ isLoading: false, posts: res_posts })
         }).catch(err => console.log('ERR: ' + err.status))
     }
 
@@ -50,17 +57,17 @@ class Feed extends React.Component {
                 <Card.Title
                     title={post.item.title}
                     titleStyle={style.postTitle} />
-                <Card.Cover
+                {post.item.media && (<Card.Cover
                     style={{
                         marginVertical: 10,
                         width: '100%',
                         height: undefined,
-                        aspectRatio: post.item.aspect
+                        aspectRatio: 1
                         // aspectRatio: Image.getSize(`data:image/jpeg;base64,${post.item.image}`, (width, height) => width/height)
                     }}
-                    source={{ uri: `data:image/jpeg;base64,${post.item.image}` }}
+                    source={{ uri: `data:image/jpeg;base64,${post.item.media}` }}
                     resizeMode="cover"
-                />
+                />)}
                 <Card.Content>
                     <Paragraph
                         children={post.item.caption}
@@ -79,6 +86,9 @@ class Feed extends React.Component {
                             </View>)
                         })}
                     </View>
+                    {post.item.timestamp && (<Paragraph
+                        children={post.item.timestamp.getMonth() + 1 + '/' + post.item.timestamp.getDate() + '/' + (post.item.timestamp.getYear() + 1900)}
+                        style={style.postCaption} />)}
                 </Card.Content>
             </Card>
         )
@@ -102,10 +112,6 @@ class Feed extends React.Component {
         );
     }
 }
-
-const api = axios.create({
-    baseURL: 'https://some-random-api.ml/img/dog',
-});
 
 const style = StyleSheet.create({
     container: {

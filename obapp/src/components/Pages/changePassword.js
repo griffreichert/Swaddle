@@ -59,7 +59,7 @@ class changePassword extends React.Component {
                     <Header navigation={this.props.navigation} />
                     
                         <TextInput
-                            label='old password'
+                            label='Old password'
                             mode='outlined'
                             returnKeyType='done'
                             secureTextEntry={true}
@@ -67,7 +67,7 @@ class changePassword extends React.Component {
                             onChangeText={(old_password) => this.setState({ old_password })}
                             style={style.textField} />
                         <TextInput
-                            label='new password'
+                            label='New password'
                             mode='outlined'
                             returnKeyType='done'
                             secureTextEntry={true}
@@ -75,7 +75,7 @@ class changePassword extends React.Component {
                             onChangeText={(new_password) => this.setState({ new_password })}
                             style={style.textField} />
                         <TextInput
-                            label='confirm password'
+                            label='Confirm password'
                             mode='outlined'
                             returnKeyType='done'
                             secureTextEntry={true}

@@ -6,37 +6,21 @@ import Header from '../Atoms/Header';
 import MediaButton from '../Atoms/MediaButton';
 import axios from 'axios'
 
-import { img1, img2 } from '../Atoms/ExamplePics'
 import { tags } from '../Atoms/TagsList';
+import { posts } from '../Atoms/Posts'
 
 
 class Feed extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            posts: [
-                {
-                    id: 'item1',
-                    title: 'We\'re having a baby',
-                    caption: 'Blake and I are so excited to announce that we are expecting our first child!!',
-                    image: img1,
-                    tags: ['Excited', 'Update', 'Heartbeat', 'Shopping'],
-                    aspect: 0.664
-                },
-                {
-                    id: 'item2',
-                    image: img2,
-                    title: 'Our first ultrasound',
-                    caption: 'Check out our little one\'s heartbeat! So exciting to watch their growth',
-                    tags: ['Ultrasound', 'Kicking', 'Heartbeat'],
-                    aspect: 1.46
-                },
-            ],
+            posts: [],
             isLoading: false,
         };
     }
 
     componentDidMount() {
+        this.setState({ posts: posts })
         // console.log("mounted")
         this._refresh = this.props.navigation.addListener('focus', () => this.loadPosts());
         // removes listener when component unmounts

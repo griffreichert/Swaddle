@@ -62,14 +62,14 @@ class SignIn extends React.Component {
                             resizeMode="contain"
                             style={style.logo} />
                         <TextInput
-                            label='email'
+                            label='Email / Username'
                             mode='outlined'
                             returnKeyType='done'
                             style={style.textField}
                             theme={{ roundness: 12 }}
                             onChangeText={(email) => this.setState({ email })} />
                         <TextInput
-                            label='password'
+                            label='Password'
                             mode='outlined'
                             returnKeyType='done'
                             style={style.textField}
@@ -78,7 +78,7 @@ class SignIn extends React.Component {
                             underlineColor={this.props.theme.colors.background}
                             onChangeText={(password) => this.setState({ password })} />
                         <HelperText
-                            children='Incorrect username/password'
+                            children='Incorrect username / password'
                             type='error'
                             style={style.helper}
                             visible={this.state.failedAttempt} />

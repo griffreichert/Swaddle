@@ -18,10 +18,11 @@ import Feed from '../components/Views/Feed'
 
 import PostImage from '../components/Pages/postImage';
 import profile from '../components/Pages/profile';
-import Contacts from '../components/Pages/contacts';
+import Contacts from '../components/Pages/ManageContacts';
 import changePassword from '../components/Pages/changePassword';
 import Search from '../components/Views/Search';
 import DueDate from '../components/Pages/DueDate';
+import InviteContact from '../components/Pages/InviteContact';
 
 const Stack = createStackNavigator();
 
@@ -59,10 +60,11 @@ class AppNavigator extends React.Component {
                     <Drawer.Screen name='Home' component={Home} />
                     <Drawer.Screen name='Search posts' component={Search} />
                     <Drawer.Screen name='Profile' component={profile} />
-                    <Drawer.Screen name='Contacts' component={Contacts} />
-                    <Drawer.Screen name='Due date' component={DueDate} />
+                    <Drawer.Screen name='Manage contacts' component={Contacts} />
+                    <Drawer.Screen name='Update due date' component={DueDate} />
                     <Drawer.Screen name='Change password' component={changePassword} />
-
+                    <Drawer.Screen name='Invite contact' component={InviteContact} />
+                    
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>
                 )}

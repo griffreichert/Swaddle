@@ -1,32 +1,12 @@
 import React from 'react';
-import { Dimensions, FlatList, Image, ScrollView, StyleSheet, View } from 'react-native';
+import { FlatList, Image, StyleSheet, View } from 'react-native';
 import { Card, Chip, Paragraph, Title, withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
 import Header from '../Atoms/Header';
-import MediaButton from '../Atoms/MediaButton';
 import axios from 'axios'
 
-import { img1, img2 } from '../Atoms/ExamplePics'
 import { tags } from '../Atoms/TagsList';
-
-const all_posts = [
-    {
-        id: 'item1',
-        title: 'We\'re having a baby',
-        caption: 'Blake and I are so excited to announce that we are expecting our first child!!',
-        image: img1,
-        tags: ['Excited', 'Update', 'Heartbeat', 'Shopping'],
-        aspect: 0.664
-    },
-    {
-        id: 'item2',
-        image: img2,
-        title: 'Our first ultrasound',
-        caption: 'Check out our little one\'s heartbeat! So exciting to watch their growth',
-        tags: ['Ultrasound', 'Kicking', 'Heartbeat'],
-        aspect: 1.46
-    },
-];
+import { posts } from '../Atoms/Posts'
 
 class Search extends React.Component {
     constructor(props) {
@@ -39,7 +19,7 @@ class Search extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ posts: all_posts })
+        this.setState({ posts: posts })
         // console.log("mounted")
         this._refresh = this.props.navigation.addListener('focus', () => this.loadPosts());
         // removes listener when component unmounts
@@ -64,11 +44,11 @@ class Search extends React.Component {
     filterPosts(search_tag) {
         // if same tag, remove it and show all posts
         if (this.state.search_tag === search_tag) {
-            this.setState({ search_tag: '', posts: all_posts })
+            this.setState({ search_tag: '', posts: posts })
         }
         else {
             // console.log('\nfiltering')
-            var filtered_posts = all_posts.filter(p => {
+            var filtered_posts = posts.filter(p => {
                 // console.log('P: ' + p.tags)
                 if (p.tags.find(t => t == search_tag)) {
                     // console.log('found (' + t.text + '): ' + p.id)
@@ -125,7 +105,7 @@ class Search extends React.Component {
         return (
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation} />
-                <View style={{ height: 100, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignContent: 'center' }}>
+                <View style={{ height: 140, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignContent: 'center' }}>
                     {tags.map((tag) => {
                         return (<View
                             key={tag.text}

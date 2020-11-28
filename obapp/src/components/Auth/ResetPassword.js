@@ -44,7 +44,7 @@ class ResetPassword extends React.Component {
                             resizeMode="contain"
                             style={style.logo} />
                         <TextInput
-                            label='email'
+                            label='Email'
                             mode='outlined'
                             returnKeyType='done'
                             theme={{ roundness: 12 }}

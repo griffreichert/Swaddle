@@ -1,5 +1,9 @@
 export const tags = [
     {
+        text: 'Excited',
+        icon: 'emoticon-excited-outline',
+    },
+    {
         text: 'Heartbeat',
         icon: 'heart',
     },
@@ -8,19 +12,27 @@ export const tags = [
         icon: 'stethoscope',
     },
     {
-        text: 'Excited',
-        icon: 'emoticon-excited',
-    },
-    {
-        text: 'Update',
-        icon: 'comment-alert-outline',
-    },
-    {
         text: 'Kicking',
         icon: 'foot-print',
     },
     {
+        text: 'Baby bump',
+        icon: 'baby-face-outline',
+    },
+    {
+        text: 'Cravings',
+        icon: 'food',
+    },
+    {
         text: 'Shopping',
-        icon: 'cart',
+        icon: 'baby-carriage',
+    },
+    {
+        text: 'Relaxed',
+        icon: 'sleep',
+    },
+    {
+        text: 'Nursery',
+        icon: 'moon-waning-crescent',
     },
 ];

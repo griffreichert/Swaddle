@@ -57,28 +57,28 @@ class SignUp extends React.Component {
                             resizeMode="contain"
                             style={style.logo} />
                         <TextInput
-                            label='first name'
+                            label='First name'
                             mode='outlined'
                             returnKeyType='done'
                             style={style.textField}
                             theme={{ roundness: 12 }}
                             onChangeText={(username) => this.setState({ username })} />
                         <TextInput
-                            label='last name'
+                            label='Last name'
                             mode='outlined'
                             returnKeyType='done'
                             style={style.textField}
                             theme={{ roundness: 12 }}
                             onChangeText={(username) => this.setState({ username })} />
                         <TextInput
-                            label='email'
+                            label='Email'
                             mode='outlined'
                             returnKeyType='done'
                             style={style.textField}
                             theme={{ roundness: 12 }}
                             onChangeText={(email) => this.setState({ email })} />
                         <TextInput
-                            label='password'
+                            label='Password'
                             mode='outlined'
                             returnKeyType='done'
                             secureTextEntry={true}
@@ -86,7 +86,7 @@ class SignUp extends React.Component {
                             theme={{ roundness: 12 }}
                             onChangeText={(password) => this.setState({ password })} />
                         <TextInput
-                            label='confirm password'
+                            label='Confirm password'
                             mode='outlined'
                             returnKeyType='done'
                             secureTextEntry={true}

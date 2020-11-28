@@ -1,28 +1,22 @@
-// import { store } from '../../store';
-// import { logout } from '../actions/authActions';
+import store from '../../store';
+import { logout } from '../actions/authActions';
 
+const apiRequestInterceptor = (req) => {
+  const state = store.getState();
+  if (!state.authReducer.session_token) {
+      return req;
+    }
+  req.headers = { 'token': state.authReducer.session_token };
+  return req;
+};
 
-// const apiRequestInterceptor = (req) => {
-//   const state = store.getState();
-//   if (state.authReducer.login_status === 0 || !state.authReducer.username || !state.authReducer.session_id) {
-//     return config;
-//   }
-//   req.headers = { 'user_name': state.authReducer.username, 'session_id': state.authReducer.session_id};
-//   return req;
-// };
-
-// const apiResponseInterceptor = (error) => {
-//     console.log('api interceptor')
-//     const status = error.response
-//     if(status === 401) {
-//       store.dispatch(logout());
-//     }
+const apiResponseInterceptor = (error) => {
+    const status = error.response
+    if(status > 299) {
+        console.log('[ERR Status]: ' + status)
+        store.dispatch(logout());
+    }
+    return Promise.reject(error);
+  };
   
-//     if(status === 403) {
-//       console.log("Forbidden action.");
-//     }
-  
-//     return Promise.reject(error);
-//   };
-  
-//   export {apiRequestInterceptor, apiResponseInterceptor};
+  export {apiRequestInterceptor, apiResponseInterceptor};

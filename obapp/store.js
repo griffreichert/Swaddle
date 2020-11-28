@@ -5,6 +5,6 @@ const rootReducer = combineReducers({
     authReducer: authReducer
 })
 
-const configureStore = () => createStore(rootReducer);
+const store = createStore(rootReducer);
 
-export default configureStore;
+export default store;

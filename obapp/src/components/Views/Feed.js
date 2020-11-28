@@ -77,21 +77,6 @@ class Feed extends React.Component {
                     resizeMode="cover"
                 />
                 <Card.Content>
-                    {/* <ScrollView horizontal={true}>
-                        {post.item.tags.map((name) => {
-                            // console.log(this)
-                            return (<View
-                                key={name}
-                                style={{ margin: 5, flexWrap: 'wrap' }}>
-                                <Chip
-                                    icon={tags.find(t => t.text == name).icon ? tags.find(t => t.text == name).icon : ''}
-                                    mode='outlined'
-                                    selected={true}>
-                                    {name}
-                                </Chip>
-                            </View>)
-                        })}
-                    </ScrollView> */}
                     <Paragraph
                         children={post.item.caption}
                         style={style.postCaption} />

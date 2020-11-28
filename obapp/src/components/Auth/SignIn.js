@@ -26,28 +26,27 @@ class SignIn extends React.Component {
     }
 
     tryLogin() {
-        // TODO: refactor this into using API
-        // api.get('http://18.217.2.166:3000/auth_user').then(console.log)
-        if (!this.state.password) {
-            this.props.rlogin('test', 1234)
-            return;
-        }
-        axios.put('http://18.217.2.166:3000/auth_user', {
-            email: this.state.email,
-            password: this.state.password
-        }).then(res => {
-            if (res.status === 200) {
-                console.log(res.data)
-                this.props.rlogin(this.state.email, res.data)
-                console.log('logging in')
-            }
-            else {
-                this.setState({ failedAttempt: true })
-            }
-        }).catch(err => {
-            console.log(err)
+        if (!this.state.password | !this.state.email) {
             this.setState({ failedAttempt: true })
-        })
+        }
+        else {
+            console.log("loggin in: " + this.state.email)
+            api.put('/auth_user', {
+                email: this.state.email,
+                password: this.state.password
+            }).then(res => {
+                const status = res.status
+                if (status === 200) {
+                    const token = res.data.token
+                    console.log('token: ' + res.data.token)
+                    this.props.rlogin(this.state.email, token)
+                }
+                else {
+                    this.setState({ failedAttempt: true })
+                }
+            })
+            .catch(err => console.log(err))
+        }
     }
 
     render() {

@@ -9,7 +9,7 @@ import {
     HelperText,
     withTheme
 } from 'react-native-paper';
-import { contacts } from '../Atoms/ContactsList';
+import api from '../../Internals/apiClient';
 
 class SignUp extends React.Component {
 
@@ -28,18 +28,26 @@ class SignUp extends React.Component {
 
     trySignUp() {
         // TODO: refactor this into using API
-
-        console.log("TODO: Create user with API call")
         if (!this.state.first_name | !this.state.last_name | !this.state.email |
             !this.state.password | !this.state.confirmedPass) {
+            console.log('email: ' + this.state.email)
+            console.log('first: ' + this.state.first_name)
+            console.log('last: ' + this.state.last_name)
+            console.log('pass: ' + this.state.password)
+            console.log('cpass: ' + this.state.confirmedPass)
             this.setState({ failedAttempt: true })
         }
         else if (this.state.confirmedPass !== this.state.password) {
             this.setState({ badPasswords: true })
         }
         else {
-            console.log("create user here")
-            this.setState({ passMismatch: false })
+            console.log("creating user")
+            api.post('/create_user', {
+                email: this.state.email,
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                password: this.state.password
+            }).then(res => res.json()).then(console.log)
         }
     }
 
@@ -62,14 +70,14 @@ class SignUp extends React.Component {
                             returnKeyType='done'
                             style={style.textField}
                             theme={{ roundness: 12 }}
-                            onChangeText={(username) => this.setState({ username })} />
+                            onChangeText={(first_name) => this.setState({ first_name })} />
                         <TextInput
                             label='Last name'
                             mode='outlined'
                             returnKeyType='done'
                             style={style.textField}
                             theme={{ roundness: 12 }}
-                            onChangeText={(username) => this.setState({ username })} />
+                            onChangeText={(last_name) => this.setState({ last_name })} />
                         <TextInput
                             label='Email'
                             mode='outlined'
@@ -98,11 +106,6 @@ class SignUp extends React.Component {
                             type='error'
                             style={style.helper}
                             visible={this.state.badPasswords || this.state.failedAttempt} />
-                        {/* <HelperText
-                            children='All fields must be filled in'
-                            type='error'
-                            style={style.helper}
-                            visible={this.state.failedAttempt} /> */}
                         <Button
                             children='Sign up'
                             mode='contained'
@@ -150,7 +153,6 @@ const style = StyleSheet.create({
 // maps state
 const mapStateToProps = (state) => {
     return {
-        login_status: state.authReducer.login_status,
         username: state.authReducer.username,
         session_token: state.authReducer.session_token,
     }

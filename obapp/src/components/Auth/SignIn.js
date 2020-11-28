@@ -35,6 +35,7 @@ class SignIn extends React.Component {
                 email: this.state.email,
                 password: this.state.password
             }).then(res => {
+                console.log('got here')
                 const status = res.status
                 if (status === 200) {
                     const token = res.data.token
@@ -42,10 +43,11 @@ class SignIn extends React.Component {
                     this.props.rlogin(this.state.email, token)
                 }
                 else {
+                    console.log('setting failed attempt')
                     this.setState({ failedAttempt: true })
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log('[ERR sign in]: ' +err))
         }
     }
 

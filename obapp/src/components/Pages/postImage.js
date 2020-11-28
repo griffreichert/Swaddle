@@ -3,7 +3,7 @@ import Header from '../Atoms/Header';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import { View, StyleSheet, Image, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text } from 'react-native'
+import { View, StyleSheet, Image, KeyboardAvoidingView, ScrollView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text, TextBase } from 'react-native'
 import {
     Button,
     TextInput,
@@ -25,6 +25,8 @@ import { login, logout } from '../../actions/authActions'
 
 import { tags } from '../Atoms/TagsList'
 import { contacts } from '../Atoms/ContactsList';
+import api from '../../Internals/apiClient';
+import { posts } from '../Atoms/Posts';
 
 class PostImage extends React.Component {
     constructor(props) {
@@ -35,6 +37,7 @@ class PostImage extends React.Component {
             caption: '',
             tags: [],
             contacts: [],
+            missing_field: false,
         };
     }
 
@@ -69,12 +72,41 @@ class PostImage extends React.Component {
     };
 
     tryPost() {
-        console.log("posting image")
-        console.log(this.state.contacts)
-        this.props.navigation.navigate('Home', {
-            screen: 'Feed',
-            params: { image: this.state.image }
-        })
+        const state = this.state
+        if (!state.image | !state.title | !state.caption) {
+            console.log("missing fields to post")
+            this.setState({ missing_field: true })
+        }
+        else {
+            this.setState({ missing_field: false })
+            // contacts to share with
+            var shared_with = this.state.contacts.filter(c => c.permission)
+            shared_with = shared_with.map(c => c.id)
+            
+            // tags for post
+            var post_tags = this.state.tags.filter(t => t.selected)
+            post_tags = post_tags.map(t => t.text)
+            
+            
+            api.post('/create_post', {
+                title: this.state.title,
+                caption: this.state.caption,
+                media: this.state.image,
+                post_type: 'image',
+                shared_with: shared_with,
+                tags: post_tags,
+            }, 
+            {
+                headers: {
+                    'token': this.props.session_token
+                }
+            }).then(res => {
+                console.log(res.data)
+                this.props.navigation.navigate('Home', { screen: 'Feed' })
+            })
+            .catch(err => console.log('ERR: ' + err.status))
+
+        }
     }
 
     toggleTag(tag) {
@@ -178,12 +210,12 @@ class PostImage extends React.Component {
                                                 onValueChange={() => {
                                                     this.setState({
                                                         contacts:
-                                                            this.state.contacts.map(c => {
-                                                                if (c.id === contact.id) {
-                                                                    c.permission = !c.permission
-                                                                }
-                                                                return c
-                                                            })
+                                                        this.state.contacts.map(c => {
+                                                            if (c.id === contact.id) {
+                                                                c.permission = !c.permission
+                                                            }
+                                                            return c
+                                                        })
                                                     })
                                                 }}
                                                 color={this.props.theme.colors.accent}/>
@@ -196,8 +228,13 @@ class PostImage extends React.Component {
                                 icon='send'
                                 mode='contained'
                                 uppercase={false}
-                                style={[style.button, { marginBottom: 40 }]}
+                                style={style.button}
                                 onPress={() => this.tryPost()} />
+                            <HelperText
+                                children='Please title and caption your image before sending'
+                                type='error'
+                                visible={this.state.missing_field}
+                                style={[style.helper, {marginBottom: 40}]} />
                         </ScrollView>
                         {/* Need this empty view for the keyboard avoiding view */}
                         <View style={{ flex: 1 }}></View>
@@ -236,7 +273,8 @@ const style = StyleSheet.create({
     helper: { 
         fontSize: 20, 
         alignSelf: 'center', 
-        marginTop: 10 
+        marginTop: 10,
+        textAlign: 'center'
     },
 });
 

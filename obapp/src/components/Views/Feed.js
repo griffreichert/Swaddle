@@ -20,6 +20,7 @@ class Feed extends React.Component {
     }
 
     componentDidMount() {
+        // console.log(this.props.session_token)
         this.setState({ posts: posts })
         // console.log("mounted")
         this._refresh = this.props.navigation.addListener('focus', () => this.loadPosts());
@@ -31,32 +32,16 @@ class Feed extends React.Component {
     //     this.props.navigation.remove
     // }
 
-    handleAspectRatio() {
-
-    }
-
     loadPosts() {
         console.log("load posts")
-        api.get('/')
-            .then((response) => {
-                // console.log(response.data.link)
-            })
-            .catch((e) => console.log(e))
-        this.setState({ isLoading: false })
-    }
-
-    getChipIcon(name) {
-        var x = tags.map(t => {
-            if (t.text === name) {
-                return t.icon
+        api.get('/', {
+            headers: {
+                'token': this.props.session_token
             }
-        })
-        if (x[0]) {
-            return x[0]
-        }
-        else {
-            return ''
-        }
+        }).then((response) => {
+            console.log(response.data)
+            this.setState({ isLoading: false })
+        }).catch(err => console.log('ERR: ' + err.status))
     }
 
     makeCard(post) {

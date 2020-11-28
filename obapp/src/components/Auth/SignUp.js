@@ -47,7 +47,10 @@ class SignUp extends React.Component {
                 first_name: this.state.first_name,
                 last_name: this.state.last_name,
                 password: this.state.password
-            }).then(res => res.json()).then(console.log)
+            }).then(res => {
+                // TODO: sign user in here
+            })
+            .catch(err => console.log(err.status))
         }
     }
 
@@ -106,6 +109,7 @@ class SignUp extends React.Component {
                             type='error'
                             style={style.helper}
                             visible={this.state.badPasswords || this.state.failedAttempt} />
+                        {/* Need this empty view for the keyboard avoiding view */}
                         <Button
                             children='Sign up'
                             mode='contained'
@@ -113,7 +117,6 @@ class SignUp extends React.Component {
                             uppercase={false}
                             onPress={() => this.trySignUp()} />
                         <SignInButton navigation={this.props.navigation} />
-                        {/* Need this empty view for the keyboard avoiding view */}
                         <View style={{ flex: 1 }}></View>
                     </KeyboardAvoidingView>
                 </TouchableWithoutFeedback>

@@ -13,6 +13,8 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import api from '../../Internals/apiClient';
+
 
 class Profile extends React.Component {
     constructor(props) {
@@ -65,6 +67,15 @@ class Profile extends React.Component {
             // TODO: Send API call
             this.setState({ editing: false })
         }
+    }
+
+    tryLogout() {
+        api.put('/logout', {}, {
+            headers: {
+                'token': this.props.session_token
+            }
+        }).catch(err => console.log(err.status))
+        this.props.rlogout()
     }
 
     componentDidMount() {
@@ -163,7 +174,7 @@ class Profile extends React.Component {
                             mode='contained'
                             uppercase={false}
                             style={style.button}
-                            onPress={() => this.props.rlogout()} />
+                            onPress={() => this.tryLogout()} />
                         {/* </View> */}
                     {/* Need this empty view for the keyboard avoiding view */}
                     <View style={{ flex: 1 }}></View>

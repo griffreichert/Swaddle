@@ -337,6 +337,44 @@ class load_contacts(Resource):
 		else: return ({'response' : 'Unauthorized'}, 401)
 
 
+class change_password(Resource):
+	def put(self):
+		data = request.json
+		headers = request.headers
+		token = headers['token']
+		old_pass = data['old_password']
+		new_pass = data['new_password']
+
+		# authenticate token
+		cursor = connection.cursor()
+		command = ("""select user_id, password from users 
+					where token='%s'""" % token)
+		cursor.execute(command)
+		record = cursor.fetchone()
+
+		# return unauthorized if email does not exist
+		if record is None: return ({'response' : 'Unauthorized'}, 401)
+		
+		auth = (bcrypt.checkpw(old_pass.encode('utf8'),
+								record[1].encode('utf8')))
+
+		if auth:
+			user_id = record[0]
+
+			salt = bcrypt.gensalt()
+			hashed = bcrypt.hashpw(new_pass.encode('utf8'), salt)
+			hashed = hashed.decode('utf8')
+
+			cursor = connection.cursor()
+			command = ("""update users set password='%s'
+						where user_id=%s""" % (hashed, user_id))
+			cursor.execute(command)
+			connection.commit()
+			return ({'response' : 'Changed password'}, 200)
+
+		else: return ({'response' : 'Unauthorized'}, 403)
+
+
 
 api.add_resource(base_page, '/')
 api.add_resource(create_user, '/create_user')
@@ -348,6 +386,7 @@ api.add_resource(load_profile, '/load_profile')
 api.add_resource(update_profile, '/update_profile')
 api.add_resource(change_due_date, '/change_due_date')
 api.add_resource(load_contacts, '/load_contacts')
+api.add_resource(change_password, '/change_password')
 app.register_blueprint(api_bp)
 
 

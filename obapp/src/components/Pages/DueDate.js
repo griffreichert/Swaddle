@@ -13,24 +13,83 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import api from '../../Internals/apiClient';
 
 class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: new Date(),
+            first_name: '',
+            last_name: '',
+            email: '',
+            image: '',
+            due_date: '',
         };
     }
 
     
     updateDueDate() {
-        // TODO: do API stuff here
-        this.props.navigation.navigate('Profile')
+        this.updateProfile()
     }
 
 
     componentDidMount() {
-        // this.setState({ date: new Date() })
+        // this.loadProfile();
+        this._refresh = this.props.navigation.addListener('focus', () => this.loadProfile());
+        return this._refresh;
+    }
+
+    componentWillUnmount() {
+        this.props.navigation.remove
+    }
+
+    loadProfile() {
+        console.log('\ngetting profile')
+        api.get('/load_profile', {
+            headers: {
+                'token': this.props.session_token
+            }
+        }).then(res => {
+            var profile = res.data.data
+            // console.log(profile)
+            var date = profile.due_date
+            if (date) {
+                console.log('date: ' + date)
+                date = new Date(date)
+            }
+            this.setState({
+                first_name: profile.first_name,
+                last_name: profile.last_name,
+                email: profile.email,
+                image: profile.avatar,
+                due_date: date,
+            })
+        }).catch(err => console.log('ERR: ' + err))
+    }
+
+    updateProfile() {
+        var dateStr = this.state.due_date
+        if (dateStr) {
+            // p.timestamp = new Date(p.timestamp.replace(' ', 'T'))
+            dateStr = this.state.due_date.toString()
+            console.log('dateStr: ' + dateStr)
+        }
+        console.log('\nupdating due date')
+        api.put('/update_profile', {
+            email: this.state.email,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            due_date: dateStr,
+            avatar: this.state.image,
+        }, {
+            headers: {
+                'token': this.props.session_token
+            }
+        }).then(res => {
+            console.log('updated due date')
+            this.setState({ editing: false })
+            this.props.navigation.navigate('Profile')
+        }).catch(err => console.log(err.status))
     }
 
     render() {
@@ -44,13 +103,13 @@ class Profile extends React.Component {
                     
 
                         <DateTimePicker
-                            value={this.state.date}
+                            value={this.state.due_date ? (this.state.due_date) : (new Date())}
                             display="inline"
                             mode='date'
                             minimumDate={new Date(2019, 0, 1)}
                             maximumDate={new Date(2022, 11, 31)}
                             onChange={(event, date) => {
-                                this.setState({ date: date })
+                                this.setState({ due_date: date })
                             }}/>
                         
 

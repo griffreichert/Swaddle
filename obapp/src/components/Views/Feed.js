@@ -20,7 +20,7 @@ class Feed extends React.Component {
     }
 
     componentDidMount() {
-        this.loadPosts()
+        // this.loadPosts()
         // console.log(this.props.session_token)
         // this.setState({ posts: posts })
         // console.log("mounted")
@@ -29,9 +29,9 @@ class Feed extends React.Component {
         return this._refresh;
     }
 
-    // componentWillUnmount() {
-    //     this.props.navigation.remove
-    // }
+    componentWillUnmount() {
+        this.props.navigation.remove
+    }
 
     loadPosts() {
         console.log("load posts")

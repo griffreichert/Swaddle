@@ -21,11 +21,11 @@ class Profile extends React.Component {
         super(props);
         this.state = {
             editing: false,
-            first_name: 'Natalie',
-            last_name: 'French',
-            email: 'natalief@gmail.com',
+            first_name: '',
+            last_name: '',
+            email: '',
             image: '',
-            due_date: new Date(),
+            due_date: '',
         };
     }
 
@@ -46,27 +46,49 @@ class Profile extends React.Component {
         console.log("Attempting to pick image.");
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: 0.5,
+            quality: 0.4,
             base64: true,
             allowsEditing: true
         });
         if (!result.cancelled) {
             // TODO post new avatar to API
-            console.log('\n!! TODO: Post profile avatar to API')
+            // console.log('\n!! TODO: Post profile avatar to API')
             this.setState({ image: result.base64 });
+            this.updateProfile();
         }
     };
 
-    updateProfile() {
+    tryUpdate() {
         if (!this.state.editing) {
             console.log('editing profile')
             this.setState({ editing: true })
         }
         else {
-            console.log('saving profile')
-            // TODO: Send API call
-            this.setState({ editing: false })
+            this.updateProfile();
         }
+    }
+
+    updateProfile() {
+        var dateStr = this.state.due_date
+        if (dateStr) {
+            console.log('dateStr: ' + dateStr)
+            dateStr = this.state.due_date.toDateString()
+        }
+        console.log('\nupdating profile')
+        api.put('/update_profile', {
+            email: this.state.email,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            due_date: dateStr,
+            avatar: this.state.image,
+        }, {
+            headers: {
+                'token': this.props.session_token
+            }
+        }).then(res => {
+            console.log('updated')
+            this.setState({ editing: false })
+        }).catch(err => console.log(err.status))
     }
 
     tryLogout() {
@@ -79,7 +101,37 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        console.log('\n!! TODO: Get profile from API')
+        // this.loadProfile();
+        this._refresh = this.props.navigation.addListener('focus', () => this.loadProfile());
+        return this._refresh;
+    }
+
+    componentWillUnmount() {
+        this.props.navigation.remove
+    }
+
+    loadProfile() {
+        console.log('\ngetting profile')
+        api.get('/load_profile', {
+            headers: {
+                'token': this.props.session_token
+            }
+        }).then(res => {
+            var profile = res.data.data
+            // console.log(profile)
+            var date = profile.due_date
+            if (date) {
+                date = new Date(date)
+                console.log('date: ' + date)
+            }
+            this.setState({
+                first_name: profile.first_name,
+                last_name: profile.last_name,
+                email: profile.email,
+                image: profile.avatar,
+                due_date: date,
+            })
+        }).catch(err => console.log('ERR: ' + err))
     }
 
     render() {
@@ -142,7 +194,12 @@ class Profile extends React.Component {
                             theme={{ roundness: 12 }}
                             disabled={true}
                             style={style.textField}
-                            value={this.state.due_date.getMonth() + 1 + '/' + this.state.due_date.getDate() + '/' + (this.state.due_date.getYear() + 1900)} />
+                            value={(!this.state.due_date) ? ('Enter a due date') :
+                                (
+                                    // 'hi'
+                                    this.state.due_date.getMonth() + 1 + '/' + this.state.due_date.getDate() + '/' + (this.state.due_date.getYear() + 1900)
+                                )
+                            }/>
                         
 
                         <Button
@@ -151,7 +208,7 @@ class Profile extends React.Component {
                             mode='contained'
                             uppercase={false}
                             style={style.button}
-                            onPress={() => this.updateProfile()} />
+                            onPress={() => this.tryUpdate()} />
                         <Button
                             children={this.state.due_date ? 'Update due date' : 'Enter due date'}
                             icon='calendar-month'

@@ -9,6 +9,7 @@ import { login, logout } from '../../actions/authActions'
 import Header from '../Atoms/Header';
 
 import { contacts } from '../Atoms/ContactsList'
+import api from '../../Internals/apiClient';
 
 class Contacts extends React.Component {
     constructor(props) {
@@ -20,16 +21,32 @@ class Contacts extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ contacts: contacts })
+        this.loadContacts()
     }
 
     removeContact(id) {
         console.log('Remove: ' + id)
     }
 
+    loadContacts() {
+        console.log('\nloading contacts')
+        api.get('/load_contacts', {
+            headers: {
+                'token': this.props.session_token
+            }
+        }).then(res => {
+            var contacts = res.data.data.map(c => {
+                c.permission = true
+                return c
+            })
+            // console.log(contacts)
+            this.setState({ contacts: contacts })
+        }).catch(err => console.log(err.status))
+    }
+
     render() {
         return (
-            <View style={style.container}>
+            <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation} />
                 <View>
                     <FlatList
@@ -37,12 +54,11 @@ class Contacts extends React.Component {
                         renderItem={({ item }) => (
                             <View style={style.contact} key={item.id}>
                                 <View style={{ flex: 1 }}>
-                                    <Avatar.Image
-                                        size={40}
-                                        source={item.avatar ? require('../../../assets/stork.png') : require('../../../assets/avatar.png')} />
+                                <Avatar.Image 
+                                                size={40} 
+                                                source={item.avatar ? { uri: `data:image/jpeg;base64,${item.avatar}` } : require('../../../assets/avatar.png')} />
                                 </View>
                                 <View style={{ flex: 3 }}>
-
                                     <HelperText
                                         children={item.first_name + ' ' + item.last_name}
                                         style={style.helper} />

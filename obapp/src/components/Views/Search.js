@@ -1,25 +1,28 @@
 import React from 'react';
 import { FlatList, Image, StyleSheet, View } from 'react-native';
-import { Card, Chip, Paragraph, Title, withTheme } from 'react-native-paper';
+import { Card, Chip, HelperText, Paragraph, Title, withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
 import Header from '../Atoms/Header';
-import axios from 'axios'
 
 import { tags } from '../Atoms/TagsList';
 import { posts } from '../Atoms/Posts'
+import api from '../../Internals/apiClient';
+
 
 class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             posts: [],
+            all_posts: [],
             search_tag: '',
             isLoading: false,
         };
     }
+    
 
     componentDidMount() {
-        this.setState({ posts: posts })
+        // this.setState({ isLoading: true })
         // console.log("mounted")
         this._refresh = this.props.navigation.addListener('focus', () => this.loadPosts());
         // removes listener when component unmounts
@@ -31,24 +34,35 @@ class Search extends React.Component {
     // }
 
     loadPosts() {
-        console.log('---')
-        console.log("load posts")
-        api.get('/')
-            .then((response) => {
-                // console.log(response.data.link)
+        console.log("[Search] loading posts")
+        this.setState({ isLoading: true })
+        api.get('/load_posts', {
+            headers: {
+                'token': this.props.session_token
+            }
+        }).then((response) => {
+            var res_posts = response.data.data
+            res_posts = res_posts.map(p => {
+                p.timestamp = new Date(p.timestamp.replace(' ', 'T'))
+                return p
             })
-            .catch((e) => console.log(e))
-        this.setState({ isLoading: false })
+            // console.log(res_posts)
+            // res_posts.map(p => console.log(p.id))
+            this.setState({ isLoading: false, all_posts: res_posts, posts: res_posts })
+            console.log('loaded')
+        }).catch(err => console.log('ERR: ' + err))
     }
 
     filterPosts(search_tag) {
         // if same tag, remove it and show all posts
         if (this.state.search_tag === search_tag) {
-            this.setState({ search_tag: '', posts: posts })
+            console.log('[Tag]: ' + search_tag + ' exists')
+            this.setState({ search_tag: '', posts: this.state.all_posts })
         }
         else {
+            console.log('[Tag]: adding' + search_tag)
             // console.log('\nfiltering')
-            var filtered_posts = posts.filter(p => {
+            var filtered_posts = this.state.all_posts.filter(p => {
                 // console.log('P: ' + p.tags)
                 if (p.tags.find(t => t == search_tag)) {
                     // console.log('found (' + t.text + '): ' + p.id)
@@ -62,22 +76,20 @@ class Search extends React.Component {
     makeCard(post) {
         return (
             <Card style={{ margin: 10 }}>
-                <Card.Title 
-                    title={post.item.title} 
+                <Card.Title
+                    title={post.item.title}
                     titleStyle={style.postTitle} />
-                <Card.Cover
+                {post.item.media && (<Card.Cover
                     style={{
                         marginVertical: 10,
                         width: '100%',
                         height: undefined,
-                        aspectRatio: post.item.aspect
+                        aspectRatio: 1
                         // aspectRatio: Image.getSize(`data:image/jpeg;base64,${post.item.image}`, (width, height) => width/height)
                     }}
-                    source={{ uri: `data:image/jpeg;base64,${post.item.image}` }}
+                    source={{ uri: `data:image/jpeg;base64,${post.item.media}` }}
                     resizeMode="cover"
-                />
-                <Card.Content>
-                </Card.Content>
+                />)}
                 <Card.Content>
                     <Paragraph
                         children={post.item.caption}
@@ -96,6 +108,9 @@ class Search extends React.Component {
                             </View>)
                         })}
                     </View>
+                    {post.item.timestamp && (<Paragraph
+                        children={post.item.timestamp.getMonth() + 1 + '/' + post.item.timestamp.getDate() + '/' + (post.item.timestamp.getYear() + 1900)}
+                        style={style.postCaption} />)}
                 </Card.Content>
             </Card>
         )
@@ -121,23 +136,23 @@ class Search extends React.Component {
                     })}
                 </View>
                 <View style={{ marginBottom: 100 }}>
-                    <FlatList
+                {this.state.posts.length ? (<FlatList
                         data={this.state.posts}
                         refreshing={this.state.isLoading}
                         renderItem={this.makeCard}
                         onRefresh={() => this.loadPosts()}
                         style={{ marginBottom: 120 }}
-                    />
+                    />):(
+                        <HelperText
+                            children={'Your posts will display here!\n\nTap the button in the bottom right corner to make a post'}
+                            style={style.helper} />
+                    )}
                 </View>
 
             </View>
         );
     }
 }
-
-const api = axios.create({
-    baseURL: 'https://some-random-api.ml/img/dog',
-});
 
 const style = StyleSheet.create({
     container: {
@@ -162,12 +177,17 @@ const style = StyleSheet.create({
         textAlign: 'center', 
         fontSize: 18,
     },
+    helper: {
+        marginVertical: 20,
+        fontSize: 20,
+        alignSelf: 'center',
+        textAlign: 'center'
+    },
 });
 
 // maps state
 const mapStateToProps = (state) => {
     return {
-        login_status: state.authReducer.login_status,
         username: state.authReducer.username,
         session_token: state.authReducer.session_token,
     }

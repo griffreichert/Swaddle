@@ -47,7 +47,10 @@ class SignIn extends React.Component {
                     this.setState({ failedAttempt: true })
                 }
             })
-            .catch(err => console.log('[ERR sign in]: ' +err))
+            .catch(err => {
+                console.log('[ERR sign in]: ' +err)
+                this.setState({ failedAttempt: true })
+            })
         }
     }
 

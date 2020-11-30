@@ -78,6 +78,7 @@ class PostImage extends React.Component {
             this.setState({ missing_field: true })
         }
         else {
+            console.log('Creating post')
             this.setState({ missing_field: false })
             // contacts to share with
             var shared_with = this.state.contacts.filter(c => c.permission)
@@ -144,7 +145,7 @@ class PostImage extends React.Component {
                 c.permission = true
                 return c
             })
-            console.log(contacts)
+            // console.log(contacts)
             this.setState({ contacts: contacts })
         }).catch(err => console.log(err.status))
 
@@ -186,7 +187,7 @@ class PostImage extends React.Component {
                                 label='Caption'
                                 theme={{ roundness: 12 }}
                                 mode='outlined'
-                                // multiline={true}
+                                multiline={true}
                                 onChangeText={(caption) => this.setState({ caption })}
                                 style={[style.textField, { height: 80 }]} />
                             <HelperText
@@ -218,7 +219,7 @@ class PostImage extends React.Component {
                                         <View style={style.contact} key={contact.id}>
                                             <Avatar.Image 
                                                 size={40} 
-                                                source={contact.avatar ? require('../../../assets/stork.png') : require('../../../assets/avatar.png')} />
+                                                source={contact.avatar ? { uri: `data:image/jpeg;base64,${contact.avatar}` } : require('../../../assets/avatar.png')} />
                                             <HelperText
                                                 children={contact.first_name + ' ' + contact.last_name} 
                                                 style={style.helper}/>
@@ -237,7 +238,6 @@ class PostImage extends React.Component {
                                                     })
                                                 }}
                                                 color={this.props.theme.colors.accent}/>
-                                            
                                         </View>)
                                 })}
                             </View>

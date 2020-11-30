@@ -29,26 +29,28 @@ class Feed extends React.Component {
         return this._refresh;
     }
 
-    componentWillUnmount() {
-        this.props.navigation.remove
-    }
+    // componentWillUnmount() {
+    //     this.props.navigation.remove
+    // }
 
     loadPosts() {
-        console.log("load posts")
-        api.get('/load_posts', {
-            headers: {
-                'token': this.props.session_token
-            }
-        }).then((response) => {
-            var res_posts = response.data.data
-            res_posts = res_posts.map(p => {
-                p.timestamp = new Date(p.timestamp.replace(' ', 'T'))
-                return p
-            })
-            // console.log(res_posts)
-            // res_posts.map(p => console.log(p.id))
-            this.setState({ isLoading: false, posts: res_posts })
-        }).catch(err => console.log('ERR: ' + err.status))
+        console.log("[Feed] load posts")
+        this.setState({ isLoading: true }, () => {
+            api.get('/load_posts', {
+                headers: {
+                    'token': this.props.session_token
+                }
+            }).then((response) => {
+                var res_posts = response.data.data
+                res_posts = res_posts.map(p => {
+                    p.timestamp = new Date(p.timestamp.replace(' ', 'T'))
+                    return p
+                })
+                // console.log(res_posts)
+                // res_posts.map(p => console.log(p.id))
+                this.setState({ isLoading: false, posts: res_posts })
+            }).catch(err => console.log('ERR: ' + err.status))
+        })
     }
 
     makeCard(post) {
@@ -99,17 +101,19 @@ class Feed extends React.Component {
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation} />
                 <View>
-                    {this.state.posts.length ? (<FlatList
-                        data={this.state.posts}
-                        refreshing={this.state.isLoading}
-                        renderItem={this.makeCard}
-                        onRefresh={() => this.loadPosts()}
-                        style={{ marginBottom: 120 }}
-                    />):(
+                    {!this.state.posts.length && (
                         <HelperText
                             children={'Your posts will display here!\n\nTap the button in the bottom right corner to make a post'}
                             style={style.helper} />
                     )}
+                    <FlatList
+                        data={this.state.posts}
+                        refreshing={this.state.isLoading}
+                        extraData={this.state.isLoading}
+                        renderItem={this.makeCard}
+                        onRefresh={() => this.loadPosts()}
+                        style={{ marginBottom: 120 }}
+                    />
                 </View>
                 <MediaButton navigation={this.props.navigation} />
             </View>

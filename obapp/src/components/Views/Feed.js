@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, View } from 'react-native';
-import { Caption, Card, Chip, Paragraph, Text, Title, withTheme } from 'react-native-paper';
+import { Caption, Card, Chip, HelperText, Paragraph, Text, Title, withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
 import Header from '../Atoms/Header';
 import MediaButton from '../Atoms/MediaButton';
@@ -99,13 +99,17 @@ class Feed extends React.Component {
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation} />
                 <View>
-                    <FlatList
+                    {this.state.posts.length ? (<FlatList
                         data={this.state.posts}
                         refreshing={this.state.isLoading}
                         renderItem={this.makeCard}
                         onRefresh={() => this.loadPosts()}
                         style={{ marginBottom: 120 }}
-                    />
+                    />):(
+                        <HelperText
+                            children={'Your posts will display here!\n\nTap the button in the bottom right corner to make a post'}
+                            style={style.helper} />
+                    )}
                 </View>
                 <MediaButton navigation={this.props.navigation} />
             </View>
@@ -135,6 +139,12 @@ const style = StyleSheet.create({
         padding: 10,
         textAlign: 'center',
         fontSize: 18,
+    },
+    helper: {
+        marginVertical: 20,
+        fontSize: 20,
+        alignSelf: 'center',
+        textAlign: 'center'
     },
 });
 

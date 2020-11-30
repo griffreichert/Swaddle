@@ -17,10 +17,10 @@ const apiResponseInterceptor = (error) => {
         console.log('ERR in interceptor: ' + status)
         // console.log(status.status)
     }
-    if (status === 401 | status === 403) {
+    if ( status === 401 ) {
         store.dispatch(logout());
     }
-    return error;
+    return Promise.reject(error);
 };
 
 export { apiRequestInterceptor, apiResponseInterceptor };

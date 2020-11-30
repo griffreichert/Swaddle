@@ -5,6 +5,7 @@ import { Button, HelperText, TextInput, withTheme } from 'react-native-paper';
 // Redux stuff
 import { connect } from 'react-redux'
 import { login, logout } from '../../actions/authActions'
+import api from '../../Internals/apiClient';
 // Other Swaddle Components
 import Header from '../Atoms/Header';
 
@@ -29,7 +30,7 @@ class changePassword extends React.Component {
         if (this.state.success) {
             this.props.navigation.navigate('Profile')
         }
-        else if (!this.state.old_password | !this.state.new_password | !this.state.confirmedPass ) {
+        else if (!this.state.old_password | !this.state.new_password | !this.state.confirmedPass) {
             this.setState({ emptyFields: true })
         }
         // check new passwords match
@@ -37,15 +38,21 @@ class changePassword extends React.Component {
             this.setState({ mismatch: true })
         }
         else {
-            // check that old password is good
-            if (this.state.old_password == 'bad') {
-                this.setState({ badPassword: true })
-
-            }
-            else {
-                console.log("TODO change password with API")
+            console.log('\nchanging password')
+            api.put('/path', { 
+                old_password: this.state.old_password,
+                new_password: this.state.new_password,
+             }, {
+                headers: {
+                    'token': this.props.session_token
+                }
+            }).then(res => {
+                console.log('updated password')
                 this.setState({ success: true })
-            }
+            }).catch(err => {
+                console.log('ERR Catch: ' + err)
+                this.setState({ badPassword: true })
+            })
         }
     }
 
@@ -53,11 +60,11 @@ class changePassword extends React.Component {
         return (
             <View style={style.container}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS == "ios" ? "padding" : "height"}
-                    style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }} >
-                    <Header navigation={this.props.navigation} />
-                    
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS == "ios" ? "padding" : "height"}
+                        style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }} >
+                        <Header navigation={this.props.navigation} />
+
                         <TextInput
                             label='Old password'
                             mode='outlined'
@@ -83,7 +90,7 @@ class changePassword extends React.Component {
                             onChangeText={(confirmedPass) => this.setState({ confirmedPass })}
                             style={style.textField} />
                         <HelperText
-                            children={this.state.success ? 'Password changed successfully' : (this.state.emptyFields | this.state.mismatch) ? 
+                            children={this.state.success ? 'Password changed successfully' : (this.state.emptyFields | this.state.mismatch) ?
                                 'Passwords do not match' : 'Incorrect password'}
                             type={this.state.success ? 'info' : 'error'}
                             style={style.helper}
@@ -96,10 +103,10 @@ class changePassword extends React.Component {
                             uppercase={false}
                             style={style.button}
                             onPress={() => this.tryChangePassword()} />
-                        
-                    {/* Need this empty view for the keyboard avoiding view */}
-                    <View style={{ flex: 1 }}></View>
-                </KeyboardAvoidingView>
+
+                        {/* Need this empty view for the keyboard avoiding view */}
+                        <View style={{ flex: 1 }}></View>
+                    </KeyboardAvoidingView>
                 </TouchableWithoutFeedback>
             </View>
         );

@@ -121,15 +121,33 @@ class PostImage extends React.Component {
     }
 
     componentDidMount() {
-        var modified_contacts = contacts.map(c => {
-            c.permission = true
-            return c
-        })
+        // var modified_contacts = contacts.map(c => {
+        //     c.permission = true
+        //     return c
+        // })
         var modified_tags = tags.map(t => {
             t.selected = false
             return t
         })
-        this.setState({ tags: modified_tags, contacts: modified_contacts })
+        this.loadContacts()
+        this.setState({ tags: modified_tags })
+    }
+
+    loadContacts() {
+        console.log('\nloading contacts')
+        api.get('/load_contacts', {
+            headers: {
+                'token': this.props.session_token
+            }
+        }).then(res => {
+            var contacts = res.data.data.map(c => {
+                c.permission = true
+                return c
+            })
+            console.log(contacts)
+            this.setState({ contacts: contacts })
+        }).catch(err => console.log(err.status))
+
     }
 
     render() {

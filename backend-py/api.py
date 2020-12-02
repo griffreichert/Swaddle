@@ -81,9 +81,7 @@ class auth_user(Resource):
 class logout(Resource):
 	def put(self):
 		headers = request.headers
-		# print(headers)
 		token = headers['token']
-		# print(token)
 
 		cursor = connection.cursor()
 		command = ("""update users set token='' where token = '%s'""" % 
@@ -106,12 +104,10 @@ class create_post(Resource):
 		shared_with = data['shared_with']
 		tags = data['tags']
 
-		# print(tags)
 		tag_array = ''
 		for i in range(len(tags)):
 			tag_array += ("'%s'" % tags[i])
 			if i < (len(tags) - 1): tag_array += ", "
-		# print(tag_array)
 
 		# authenticate token
 		cursor = connection.cursor()
@@ -126,7 +122,6 @@ class create_post(Resource):
 		if auth:
 			# create post
 			user_id = record[0]
-			# print(user_id)
 			cursor = connection.cursor()
 			command = ("""insert into posts (owner_id, title, caption, 
 						media, post_type, tags) values 
@@ -158,13 +153,12 @@ class load_posts(Resource):
 		auth = len(record)
 
 		if auth:
-			# create post
 			user_id = record[0]
-			# print(user_id)
 			cursor = connection.cursor()
 			command = ("""select post_id, title, caption, media, 
 						post_type, tags, created_date from posts 
-						where owner_id=%s""" % (user_id))
+						where owner_id=%s order by created_date""" 
+						% (user_id))
 			cursor.execute(command)
 			record = cursor.fetchall()
 
@@ -181,6 +175,7 @@ class load_posts(Resource):
 				}
 				posts.append(post)
 
+			posts.reverse()
 			response = {'response' : 'Loaded posts', 'data': posts}
 			
 			return (response, 200)

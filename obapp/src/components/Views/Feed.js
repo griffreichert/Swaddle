@@ -18,6 +18,7 @@ class Feed extends React.Component {
                 {
                     id: '1',
                     title: 'Posts are loading',
+                    post_type: 'message',
                     tags: [],
                     caption: 'Tap the button in the bottom right to create a post',
                 }
@@ -55,6 +56,15 @@ class Feed extends React.Component {
                 })
                 // console.log(res_posts)
                 // res_posts.map(p => console.log(p.id))
+                if (!res_posts.length) {
+                    res_posts = [{
+                        id: '1',
+                        title: 'Create a post',
+                        post_type: 'message',
+                        tags: [],
+                        caption: 'Tap the button in the bottom right to create a post',
+                    }]
+                }
                 this.setState({ isLoading: false, posts: res_posts })
             }).catch(err => console.log('ERR: ' + err.status))
         })
@@ -66,7 +76,7 @@ class Feed extends React.Component {
                 <Card.Title
                     title={post.item.title}
                     titleStyle={style.postTitle} />
-                {post.item.media && (<Card.Cover
+                {post.item.post_type === 'image' && (<Card.Cover
                     style={{
                         marginVertical: 10,
                         width: '100%',

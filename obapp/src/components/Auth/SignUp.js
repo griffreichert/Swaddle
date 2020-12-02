@@ -49,6 +49,25 @@ class SignUp extends React.Component {
                 password: this.state.password
             }).then(res => {
                 // TODO: sign user in here
+                api.put('/auth_user', {
+                    email: this.state.email,
+                    password: this.state.password
+                }).then(res => {
+                    const status = res.status
+                    if (status === 200) {
+                        const token = res.data.token
+                        console.log('token: ' + res.data.token)
+                        this.props.rlogin(this.state.email, token)
+                    }
+                    else {
+                        console.log('setting failed attempt')
+                        this.setState({ failedAttempt: true })
+                    }
+                })
+                .catch(err => {
+                    console.log('[ERR sign in]: ' +err)
+                    this.setState({ failedAttempt: true })
+                })
             })
             .catch(err => console.log(err.status))
         }
@@ -60,9 +79,10 @@ class SignUp extends React.Component {
         return (
             <View style={style.container}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <KeyboardAvoidingView
-                        behavior={Platform.OS == "ios" ? "padding" : "height"}
+                    <View
                         style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }}>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS == "ios" ? "padding" : "height"} >
                         <Image
                             source={require('../../../assets/stork.png')}
                             resizeMode="contain"
@@ -104,6 +124,7 @@ class SignUp extends React.Component {
                             style={style.textField}
                             theme={{ roundness: 12 }}
                             onChangeText={(confirmedPass) => this.setState({ confirmedPass })} />
+                    </KeyboardAvoidingView>
                         <HelperText
                             children={this.state.badPasswords ? 'Passwords do not match' : 'All fields must be filled in'}
                             type='error'
@@ -118,7 +139,7 @@ class SignUp extends React.Component {
                             onPress={() => this.trySignUp()} />
                         <SignInButton navigation={this.props.navigation} />
                         <View style={{ flex: 1 }}></View>
-                    </KeyboardAvoidingView>
+                    </View>
                 </TouchableWithoutFeedback>
             </View>
         );

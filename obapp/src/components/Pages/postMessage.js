@@ -28,11 +28,10 @@ import { contacts } from '../Atoms/ContactsList';
 import api from '../../Internals/apiClient';
 import { posts } from '../Atoms/Posts';
 
-class PostImage extends React.Component {
+class PostMessage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: null,
             title: '',
             caption: '',
             tags: [],
@@ -41,45 +40,15 @@ class PostImage extends React.Component {
         };
     }
 
-    getPermissionAsync = async () => {
-        if (Constants.platform.ios) {
-            const { status } = await Permissions.askAsync(
-                Permissions.CAMERA_ROLL,
-                Permissions.CAMERA
-            );
-            if (status !== 'granted') {
-                alert('We need camera roll permissions, please visit settings and manually re-allow Expo to Read & Write photos.');
-            }
-        }
-    };
-
-    pickImage = async () => {
-        await this.getPermissionAsync();
-        console.log("Attempting to pick image.");
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: 1,
-            base64: true,
-            allowsEditing: true,
-        });
-
-        if (!result.cancelled) {
-            var aspect = result.width / result.height
-            console.log(aspect)
-            this.setState({ image: result.base64, aspect: aspect });
-
-        }
-    };
-
     tryPost() {
         const state = this.state
-        this.setState({ missing_field: false })
-        if (!state.image | !state.title | !state.caption) {
+        if ( !state.title | !state.caption) {
             console.log("missing fields to post")
             this.setState({ missing_field: true })
         }
         else {
             console.log('Creating post')
+            this.setState({ missing_field: false })
             // contacts to share with
             var shared_with = this.state.contacts.filter(c => c.permission)
             shared_with = shared_with.map(c => c.id)
@@ -92,8 +61,8 @@ class PostImage extends React.Component {
             api.post('/create_post', {
                 title: this.state.title,
                 caption: this.state.caption,
-                media: this.state.image,
-                post_type: 'image',
+                media: '',
+                post_type: 'message',
                 shared_with: shared_with,
                 tags: post_tags,
             }, 
@@ -122,10 +91,6 @@ class PostImage extends React.Component {
     }
 
     componentDidMount() {
-        // var modified_contacts = contacts.map(c => {
-        //     c.permission = true
-        //     return c
-        // })
         var modified_tags = tags.map(t => {
             t.selected = false
             return t
@@ -160,22 +125,6 @@ class PostImage extends React.Component {
                         style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }}>
                         <Header navigation={this.props.navigation} />
                         <ScrollView>
-                            {!this.state.image ? (
-                                <Button
-                                    children='Pick a photo'
-                                    icon="cloud-upload-outline"
-                                    mode="contained"
-                                    uppercase={false}
-                                    onPress={this.pickImage}
-                                    style={style.button} />
-                            ) : (
-                                <TouchableOpacity onPress={this.pickImage}>
-                                    <Image
-                                        style={style.image}
-                                        resizeMode="contain"
-                                        source={{ uri: `data:image/jpeg;base64,${this.state.image}` }} />
-                                </TouchableOpacity>
-                            )}
                             <TextInput
                                 label='Title'
                                 mode='outlined'
@@ -184,7 +133,7 @@ class PostImage extends React.Component {
                                 theme={{ roundness: 12 }}
                                 style={style.textField} />
                             <TextInput
-                                label='Caption'
+                                label='Message'
                                 theme={{ roundness: 12 }}
                                 mode='outlined'
                                 multiline={true}
@@ -249,7 +198,7 @@ class PostImage extends React.Component {
                                 style={style.button}
                                 onPress={() => this.tryPost()} />
                             <HelperText
-                                children='Please title and caption your image before sending'
+                                children='Please enter a title and an image before sending'
                                 type='error'
                                 visible={this.state.missing_field}
                                 style={[style.helper, {marginBottom: 40}]} />
@@ -312,4 +261,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTheme(PostImage));
+export default connect(mapStateToProps, mapDispatchToProps)(withTheme(PostMessage));

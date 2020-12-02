@@ -17,6 +17,7 @@ import ResetPassword from '../components/Auth/ResetPassword';
 import Feed from '../components/Views/Feed'
 
 import PostImage from '../components/Pages/postImage';
+import PostMessage from '../components/Pages/postMessage';
 import profile from '../components/Pages/profile';
 import Contacts from '../components/Pages/ManageContacts';
 import changePassword from '../components/Pages/changePassword';
@@ -31,6 +32,7 @@ function Home() {
         <Stack.Navigator headerMode='false'>
             <Stack.Screen name='Feed' component={Feed}/>
             <Stack.Screen name='Post Image' component={PostImage}/>
+            <Stack.Screen name='Post Message' component={PostMessage}/>
         </Stack.Navigator>
     );
 }

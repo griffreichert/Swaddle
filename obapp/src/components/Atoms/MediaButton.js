@@ -27,7 +27,7 @@ class MediaButton extends React.Component {
                         label: 'Video',
                         onPress: () => {
                             console.log('Pressed video')
-                            // this.props.navigation.navigate('PostImage2')
+                            this.props.navigation.navigate('Post Image')
                         },
                     },
                     {
@@ -35,6 +35,7 @@ class MediaButton extends React.Component {
                         label: 'Message',
                         onPress: () => { 
                             console.log('Pressed message') 
+                            this.props.navigation.navigate('Post Message')
                         },
                     }]}
                 onStateChange={() => this.setState({ open: !this.state.open })}

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Provider as ReduxProvider } from 'react-redux'
-import configureStore from './store'
+import store from './store'
 import { configureFonts, DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-import AppNavigator from './components/AppNavigator'
+import AppNavigator from './src/Internals/AppNavigator'
 
-const store = configureStore();
+// const store = configureStore();
 
 const fontConfig = {
     default: {
@@ -52,8 +52,9 @@ const myTheme = {
         primary: '#0d80d6',     // primary color for the app, brand color.
         accent: '#E68FAE',      // secondary color for the app which complements the primary color.
         background: '#C6E1F2',  // background color for pages, such as lists.
-        surface: '#FFE0E3',     // background color for elements containing content, such as cards.
-        // text: '#C6E1F2',        // text color for content.
+        // surface: '#FFE0E3',     // background color for elements containing content, such as cards.
+        surface: '#F7E0E3',     // background color for elements containing content, such as cards.
+        // text: '#444444',        // text color for content.
         disabled: '#888888',    // color for disabled elements.
         placeholder: '#888888', // color for placeholder text, such as input placeholder.
         backdrop: '#888888',    // color for backdrops of various components such as modals.

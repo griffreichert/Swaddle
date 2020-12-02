@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { FAB, Portal, withTheme } from 'react-native-paper';
+import { FAB, withTheme } from 'react-native-paper';
 
 class MediaButton extends React.Component {
     constructor(props) {
@@ -20,7 +19,7 @@ class MediaButton extends React.Component {
                         label: 'Photo',
                         onPress: () => {
                             console.log('Pressed photo')
-                            this.props.navigation.navigate('PostImage')
+                            this.props.navigation.navigate('Post Image')
                         },
                     },
                     {
@@ -28,16 +27,19 @@ class MediaButton extends React.Component {
                         label: 'Video',
                         onPress: () => {
                             console.log('Pressed video')
-                            // this.props.navigation.navigate('PostImage2')
+                            this.props.navigation.navigate('Post Image')
                         },
                     },
                     {
                         icon: 'message-text',
                         label: 'Message',
-                        onPress: () => console.log('Pressed message'),
+                        onPress: () => { 
+                            console.log('Pressed message') 
+                            this.props.navigation.navigate('Post Message')
+                        },
                     }]}
-                onStateChange={ () => this.setState({open: !this.state.open}) }
-                onPress={() => this.setState({open: true})}
+                onStateChange={() => this.setState({ open: !this.state.open })}
+                onPress={() => this.setState({ open: true })}
             />
         );
     }

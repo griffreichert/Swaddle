@@ -10,16 +10,20 @@ import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
 // import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 
 // Auth Components
-import SignIn from './Auth/SignIn';
-import SignUp from './Auth/SignUp';
-import ResetPassword from './Auth/ResetPassword';
+import SignIn from '../components/Auth/SignIn';
+import SignUp from '../components/Auth/SignUp';
+import ResetPassword from '../components/Auth/ResetPassword';
 
-import Feed from './Views/Feed'
+import Feed from '../components/Views/Feed'
 
-import PostImage from './postImage';
-import postImage from './postImage';
-
-
+import PostImage from '../components/Pages/postImage';
+import PostMessage from '../components/Pages/postMessage';
+import profile from '../components/Pages/profile';
+import Contacts from '../components/Pages/ManageContacts';
+import changePassword from '../components/Pages/changePassword';
+import Search from '../components/Views/Search';
+import DueDate from '../components/Pages/DueDate';
+import InviteContact from '../components/Pages/InviteContact';
 
 const Stack = createStackNavigator();
 
@@ -27,7 +31,8 @@ function Home() {
     return (
         <Stack.Navigator headerMode='false'>
             <Stack.Screen name='Feed' component={Feed}/>
-            <Stack.Screen name='PostImage' component={PostImage}/>
+            <Stack.Screen name='Post Image' component={PostImage}/>
+            <Stack.Screen name='Post Message' component={PostMessage}/>
         </Stack.Navigator>
     );
 }
@@ -43,18 +48,25 @@ class AppNavigator extends React.Component {
     }
 
     render() {
+        console.log(this.props.session_token)
         return (
             <NavigationContainer>
-                { this.props.login_status !== 1 ? (
+                { !this.props.session_token ? (
                 <Stack.Navigator headerMode='false'>
                     <Stack.Screen name='Sign In' component={SignIn}/>
                     <Stack.Screen name='Sign Up' component={SignUp}/>
                     <Stack.Screen name='Forgot Password' component={ResetPassword}/>
                 </Stack.Navigator>
                 ) : (
-                <Drawer.Navigator >
-                    <Drawer.Screen name='Home' component={Home}/>
-                    <Drawer.Screen name='Post Image' component={postImage}/>
+                <Drawer.Navigator drawerStyle={{width: '80%'}}>
+                    <Drawer.Screen name='Home' component={Home} />
+                    <Drawer.Screen name='Search posts' component={Search} />
+                    <Drawer.Screen name='Profile' component={profile} />
+                    <Drawer.Screen name='Manage contacts' component={Contacts} />
+                    <Drawer.Screen name='Update due date' component={DueDate} />
+                    <Drawer.Screen name='Change password' component={changePassword} />
+                    <Drawer.Screen name='Invite contact' component={InviteContact} />
+                    
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>
                 )}
@@ -67,14 +79,15 @@ class AppNavigator extends React.Component {
 // maps state
 const mapStateToProps = (state) => {
     return {
-        login_status: state.authReducer.login_status
+        email: state.authReducer.email,
+        session_token: state.authReducer.session_token,
     }
 }
 
 // maps actions
 const mapDispatchToProps = (dispatch) => {
     return {
-        rlogin: () => dispatch(login()),
+        rlogin: (email, session_token) => dispatch(login(email, session_token)),
         rlogout: () => dispatch(logout()),
     }
 }

@@ -14,7 +14,14 @@ class Feed extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            posts: [],
+            posts: [
+                {
+                    id: '1',
+                    title: 'Posts are loading',
+                    tags: [],
+                    caption: 'Tap the button in the bottom right to create a post',
+                }
+            ],
             isLoading: false,
         };
     }
@@ -74,7 +81,7 @@ class Feed extends React.Component {
                     <Paragraph
                         children={post.item.caption}
                         style={style.postCaption} />
-                    <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {post.item.tags.length > 0 && (<View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
                         {post.item.tags.map((name) => {
                             return (<View
                                 key={name}
@@ -87,7 +94,7 @@ class Feed extends React.Component {
                                 </Chip>
                             </View>)
                         })}
-                    </View>
+                    </View>)}
                     {post.item.timestamp && (<Paragraph
                         children={post.item.timestamp.getMonth() + 1 + '/' + post.item.timestamp.getDate() + '/' + (post.item.timestamp.getYear() + 1900)}
                         style={style.postCaption} />)}
@@ -100,21 +107,13 @@ class Feed extends React.Component {
         return (
             <View style={[style.container, { backgroundColor: this.props.theme.colors.background }]}>
                 <Header navigation={this.props.navigation} />
-                <View>
-                    {!this.state.posts.length && (
-                        <HelperText
-                            children={'Your posts will display here!\n\nTap the button in the bottom right corner to make a post'}
-                            style={style.helper} />
-                    )}
-                    <FlatList
-                        data={this.state.posts}
-                        refreshing={this.state.isLoading}
-                        extraData={this.state.isLoading}
-                        renderItem={this.makeCard}
-                        onRefresh={() => this.loadPosts()}
-                        style={{ marginBottom: 120 }}
-                    />
-                </View>
+                <FlatList
+                    data={this.state.posts}
+                    refreshing={this.state.isLoading}
+                    extraData={this.state.isLoading}
+                    renderItem={this.makeCard}
+                    onRefresh={() => this.loadPosts()}
+                    style={{ paddingBottom: 100 }} />
                 <MediaButton navigation={this.props.navigation} />
             </View>
         );

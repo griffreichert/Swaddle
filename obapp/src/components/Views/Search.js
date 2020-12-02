@@ -13,7 +13,14 @@ class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            posts: [],
+            posts: [
+                {
+                    id: '1',
+                    title: 'Posts are loading',
+                    tags: [],
+                    caption: 'One moment',
+                }
+            ],
             all_posts: [],
             search_tag: '',
             isLoading: false,
@@ -94,7 +101,7 @@ class Search extends React.Component {
                     <Paragraph
                         children={post.item.caption}
                         style={style.postCaption} />
-                    <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {post.item.tags.length > 0 && (<View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
                         {post.item.tags.map((name) => {
                             return (<View
                                 key={name}
@@ -107,7 +114,7 @@ class Search extends React.Component {
                                 </Chip>
                             </View>)
                         })}
-                    </View>
+                    </View>)}
                     {post.item.timestamp && (<Paragraph
                         children={post.item.timestamp.getMonth() + 1 + '/' + post.item.timestamp.getDate() + '/' + (post.item.timestamp.getYear() + 1900)}
                         style={style.postCaption} />)}
@@ -135,20 +142,12 @@ class Search extends React.Component {
                         </View>)
                     })}
                 </View>
-                <View style={{ marginBottom: 100 }}>
-                {this.state.posts.length ? (<FlatList
-                        data={this.state.posts}
-                        refreshing={this.state.isLoading}
-                        renderItem={this.makeCard}
-                        onRefresh={() => this.loadPosts()}
-                        style={{ marginBottom: 120 }}
-                    />):(
-                        <HelperText
-                            children={'Your posts will display here!\n\nTap the button in the bottom right corner to make a post'}
-                            style={style.helper} />
-                    )}
-                </View>
-
+                <FlatList
+                    data={this.state.posts}
+                    refreshing={this.state.isLoading}
+                    renderItem={this.makeCard}
+                    onRefresh={() => this.loadPosts()}
+                    style={{ paddingBottom: 100 }} />
             </View>
         );
     }

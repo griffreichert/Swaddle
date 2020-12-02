@@ -73,12 +73,11 @@ class ResetPassword extends React.Component {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
     },
     button: {
         marginVertical: 10,
         padding: 10,
-        width: 180,
         alignSelf: 'center',
     },
     textField: {

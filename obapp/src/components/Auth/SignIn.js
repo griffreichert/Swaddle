@@ -110,7 +110,7 @@ const style = StyleSheet.create({
     button: {
         marginVertical: 10,
         padding: 10,
-        width: 120,
+        // width: 120,
         alignSelf: 'center'
     },
     textField: {

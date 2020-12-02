@@ -39,7 +39,7 @@ class changePassword extends React.Component {
         }
         else {
             console.log('\nchanging password')
-            api.put('/path', { 
+            api.put('/change_password', { 
                 old_password: this.state.old_password,
                 new_password: this.state.new_password,
              }, {
@@ -125,7 +125,8 @@ const style = StyleSheet.create({
     button: {
         marginVertical: 10,
         padding: 10,
-        alignSelf: 'center',
+        // width: 120,
+        alignSelf: 'center'
     },
     avatar: {
         marginTop: 20,

@@ -19,7 +19,9 @@ class InviteContact extends React.Component {
     }
 
     invite() {
-        this.setState({invited: !this.state.invited})
+        if (this.state.invite_email) {
+            this.setState({invited: true})
+        }
     }
 
     render() {

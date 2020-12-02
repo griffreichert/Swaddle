@@ -64,12 +64,12 @@ class SignUp extends React.Component {
                         this.setState({ failedAttempt: true })
                     }
                 })
-                .catch(err => {
-                    console.log('[ERR sign in]: ' +err)
-                    this.setState({ failedAttempt: true })
-                })
+                    .catch(err => {
+                        console.log('[ERR sign in]: ' + err)
+                        this.setState({ failedAttempt: true })
+                    })
             })
-            .catch(err => console.log(err.status))
+                .catch(err => console.log(err.status))
         }
     }
 
@@ -81,50 +81,50 @@ class SignUp extends React.Component {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View
                         style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }}>
-                    <KeyboardAvoidingView
-                        behavior={Platform.OS == "ios" ? "padding" : "height"} >
-                        <Image
-                            source={require('../../../assets/stork.png')}
-                            resizeMode="contain"
-                            style={style.logo} />
-                        <TextInput
-                            label='First name'
-                            mode='outlined'
-                            returnKeyType='done'
-                            style={style.textField}
-                            theme={{ roundness: 12 }}
-                            onChangeText={(first_name) => this.setState({ first_name })} />
-                        <TextInput
-                            label='Last name'
-                            mode='outlined'
-                            returnKeyType='done'
-                            style={style.textField}
-                            theme={{ roundness: 12 }}
-                            onChangeText={(last_name) => this.setState({ last_name })} />
-                        <TextInput
-                            label='Email'
-                            mode='outlined'
-                            returnKeyType='done'
-                            style={style.textField}
-                            theme={{ roundness: 12 }}
-                            onChangeText={(email) => this.setState({ email })} />
-                        <TextInput
-                            label='Password'
-                            mode='outlined'
-                            returnKeyType='done'
-                            secureTextEntry={true}
-                            style={style.textField}
-                            theme={{ roundness: 12 }}
-                            onChangeText={(password) => this.setState({ password })} />
-                        <TextInput
-                            label='Confirm password'
-                            mode='outlined'
-                            returnKeyType='done'
-                            secureTextEntry={true}
-                            style={style.textField}
-                            theme={{ roundness: 12 }}
-                            onChangeText={(confirmedPass) => this.setState({ confirmedPass })} />
-                    </KeyboardAvoidingView>
+                        <KeyboardAvoidingView
+                            behavior={Platform.OS == "ios" ? "padding" : "height"} >
+                            <Image
+                                source={require('../../../assets/stork.png')}
+                                resizeMode="contain"
+                                style={style.logo} />
+                            <TextInput
+                                label='First name'
+                                mode='outlined'
+                                returnKeyType='done'
+                                style={style.textField}
+                                theme={{ roundness: 12 }}
+                                onChangeText={(first_name) => this.setState({ first_name })} />
+                            <TextInput
+                                label='Last name'
+                                mode='outlined'
+                                returnKeyType='done'
+                                style={style.textField}
+                                theme={{ roundness: 12 }}
+                                onChangeText={(last_name) => this.setState({ last_name })} />
+                            <TextInput
+                                label='Email'
+                                mode='outlined'
+                                returnKeyType='done'
+                                style={style.textField}
+                                theme={{ roundness: 12 }}
+                                onChangeText={(email) => this.setState({ email })} />
+                            <TextInput
+                                label='Password'
+                                mode='outlined'
+                                returnKeyType='done'
+                                secureTextEntry={true}
+                                style={style.textField}
+                                theme={{ roundness: 12 }}
+                                onChangeText={(password) => this.setState({ password })} />
+                            <TextInput
+                                label='Confirm password'
+                                mode='outlined'
+                                returnKeyType='done'
+                                secureTextEntry={true}
+                                style={style.textField}
+                                theme={{ roundness: 12 }}
+                                onChangeText={(confirmedPass) => this.setState({ confirmedPass })} />
+                        </KeyboardAvoidingView>
                         <HelperText
                             children={this.state.badPasswords ? 'Passwords do not match' : 'All fields must be filled in'}
                             type='error'
@@ -154,7 +154,7 @@ const style = StyleSheet.create({
     button: {
         marginVertical: 10,
         padding: 10,
-        width: 120,
+        // width: 120,
         alignSelf: 'center'
     },
     textField: {

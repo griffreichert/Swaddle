@@ -17,8 +17,9 @@ class Search extends React.Component {
                 {
                     id: '1',
                     title: 'Posts are loading',
+                    post_type: 'message',
                     tags: [],
-                    caption: 'One moment',
+                    caption: 'Tap the button in the bottom right to create a post',
                 }
             ],
             all_posts: [],
@@ -26,7 +27,6 @@ class Search extends React.Component {
             isLoading: false,
         };
     }
-    
 
     componentDidMount() {
         // this.setState({ isLoading: true })
@@ -42,22 +42,23 @@ class Search extends React.Component {
 
     loadPosts() {
         console.log("[Search] loading posts")
-        this.setState({ isLoading: true })
-        api.get('/load_posts', {
-            headers: {
-                'token': this.props.session_token
-            }
-        }).then((response) => {
-            var res_posts = response.data.data
-            res_posts = res_posts.map(p => {
-                p.timestamp = new Date(p.timestamp.replace(' ', 'T'))
-                return p
-            })
-            // console.log(res_posts)
-            // res_posts.map(p => console.log(p.id))
-            this.setState({ isLoading: false, all_posts: res_posts, posts: res_posts })
-            console.log('loaded')
-        }).catch(err => console.log('ERR: ' + err))
+        this.setState({ isLoading: true }, () => {
+            api.get('/load_posts', {
+                headers: {
+                    'token': this.props.session_token
+                }
+            }).then((response) => {
+                var res_posts = response.data.data
+                res_posts = res_posts.map(p => {
+                    p.timestamp = new Date(p.timestamp.replace(' ', 'T'))
+                    return p
+                })
+                // console.log(res_posts)
+                // res_posts.map(p => console.log(p.id))
+                this.setState({ isLoading: false, all_posts: res_posts, posts: res_posts })
+                console.log('loaded')
+            }).catch(err => console.log('ERR: ' + err))
+        })
     }
 
     filterPosts(search_tag) {
@@ -86,13 +87,12 @@ class Search extends React.Component {
                 <Card.Title
                     title={post.item.title}
                     titleStyle={style.postTitle} />
-                {post.item.media && (<Card.Cover
+                {post.item.post_type === 'image' && (<Card.Cover
                     style={{
                         marginVertical: 10,
                         width: '100%',
                         height: undefined,
                         aspectRatio: 1
-                        // aspectRatio: Image.getSize(`data:image/jpeg;base64,${post.item.image}`, (width, height) => width/height)
                     }}
                     source={{ uri: `data:image/jpeg;base64,${post.item.media}` }}
                     resizeMode="cover"
@@ -167,13 +167,13 @@ const style = StyleSheet.create({
         marginVertical: 10,
         padding: 10
     },
-    postTitle: { 
-        marginTop: 20, 
+    postTitle: {
+        marginTop: 20,
         textAlign: 'center'
     },
     postCaption: {
         padding: 10,
-        textAlign: 'center', 
+        textAlign: 'center',
         fontSize: 18,
     },
     helper: {

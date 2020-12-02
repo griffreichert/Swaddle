@@ -138,11 +138,9 @@ class Profile extends React.Component {
         return (
             <View style={style.container}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS == "ios" ? "padding" : "height"}
-                    style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }} >
+                    <View
+                        style={{ flex: 1, justifyContent: 'flex-end', backgroundColor: this.props.theme.colors.background }}>                
                     <Header navigation={this.props.navigation} />
-                    {/* <View style={style.inner} > */}
                         <TouchableOpacity onPress={this.pickImage}>
                             {this.state.image ? (
                                 <Avatar.Image
@@ -150,7 +148,7 @@ class Profile extends React.Component {
                                     source={{ uri: `data:image/jpeg;base64,${this.state.image}` }}
                                     style={style.avatar} />
                             ) : (
-                                    <Avatar.Image
+                                <Avatar.Image
                                         size={80}
                                         source={require('../../../assets/avatar.png')}
                                         style={style.avatar} />
@@ -160,6 +158,8 @@ class Profile extends React.Component {
                                 style={style.helper} />
                         </TouchableOpacity>
 
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS == "ios" ? "padding" : "height"} >
                         <TextInput
                             label='First name'
                             mode='outlined'
@@ -187,6 +187,7 @@ class Profile extends React.Component {
                             style={style.textField}
                             onChangeText={(email) => this.setState({ email })}
                             value={this.state.email} />
+                            </KeyboardAvoidingView>
                         <TextInput
                             label='Due date'
                             mode='outlined'
@@ -209,14 +210,14 @@ class Profile extends React.Component {
                             uppercase={false}
                             style={style.button}
                             onPress={() => this.tryUpdate()} />
-                        <Button
+                        {Platform.OS == "ios" && (<Button
                             children={this.state.due_date ? 'Update due date' : 'Enter due date'}
                             icon='calendar-month'
                             // icon='calendar-heart'
                             mode='contained'
                             uppercase={false}
                             style={style.button}
-                            onPress={() => this.props.navigation.navigate('Update due date')} />
+                            onPress={() => this.props.navigation.navigate('Update due date')} />)}
                         <Button
                             children='Change password'
                             icon='pencil-lock-outline'
@@ -235,7 +236,7 @@ class Profile extends React.Component {
                         {/* </View> */}
                     {/* Need this empty view for the keyboard avoiding view */}
                     <View style={{ flex: 1 }}></View>
-                </KeyboardAvoidingView>
+                    </View>
                 </TouchableWithoutFeedback>
             </View>
         );

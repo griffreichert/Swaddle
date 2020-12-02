@@ -24,6 +24,7 @@ import changePassword from '../components/Pages/changePassword';
 import Search from '../components/Views/Search';
 import DueDate from '../components/Pages/DueDate';
 import InviteContact from '../components/Pages/InviteContact';
+import { Platform } from 'react-native';
 
 const Stack = createStackNavigator();
 
@@ -61,11 +62,11 @@ class AppNavigator extends React.Component {
                 <Drawer.Navigator drawerStyle={{width: '80%'}}>
                     <Drawer.Screen name='Home' component={Home} />
                     <Drawer.Screen name='Search posts' component={Search} />
-                    <Drawer.Screen name='Profile' component={profile} />
-                    <Drawer.Screen name='Manage contacts' component={Contacts} />
-                    <Drawer.Screen name='Update due date' component={DueDate} />
-                    <Drawer.Screen name='Change password' component={changePassword} />
                     <Drawer.Screen name='Invite contact' component={InviteContact} />
+                    <Drawer.Screen name='Manage contacts' component={Contacts} />
+                    <Drawer.Screen name='Profile' component={profile} />
+                    {Platform.OS == 'ios' && (<Drawer.Screen name='Update due date' component={DueDate} />)}
+                    <Drawer.Screen name='Change password' component={changePassword} />
                     
                     { /* <DrawerItem label='Logout' onPress={() => this.props.rlogout()}/> */}
                 </Drawer.Navigator>

@@ -21,9 +21,19 @@ Moms want control over the size of their sharing circle without losing the abili
 
 In looking at the solutions existing in the market, none of these met all 5 of our customer needs. Typical social media like Facebook and Instagram are very public, and can provide overwhelming responses. Other solutions like texting and shared photo collections require lots of effort on the part of the moms and dads who will be sharing these milestones. 
 
-From our market research, and competitive analysis, our team created Swaddle. Swaddle is an app that enables expecting couples to share, celebrate, and preserve important pregnancy milestones with their loved ones.
+From our market research, and competitive analysis, our team created Swaddle. Swaddle is an app that enables expecting couples to share, celebrate, and preserve important pregnancy milestones with their loved ones. It allows expecting couples to upload images, videos, and messages, organize them using tags, and share them with their specific contacts. It organizes these posts in a feed so that they can be filtered, and looked back on in the future. 
 
 This app was made in collaboration with Dr. Martin Martino from the Lehigh Valley Health Network, who is pursuing further development to publish this project. 
+
+## Organization ## 
+
+The app is broken into two main directories. `frontend` stores the frontend app code while `backend-py` stores the backend. 
+
+**Frontend**
+Most of the frontend code will be found in the `src` directory. React is a component based framework, so most of the app itself is in the `components` directory. The API and navigation is found under `internals`.
+
+**Backend**
+Our backend was designed using Flask to enable our REST APIs. Routes can be found in the `api.py` file. 
 
 ## Configuration ##
 ---

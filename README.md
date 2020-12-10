@@ -1,12 +1,14 @@
-# README #
+# README
 ---
 **Contributors**:
+
 Griffin Reichert
+
 Alex Schiffman
 
 ---
 
-## Summary of the Project ##
+## Summary of the Project
 
 For young couples, sharing important pregnancy milestones with friends and family is a significant part of this special time in their lives. To learn about this issue, we spoke with over 60 moms, and 15 practicing medical professionals from accross the country. What we learned from our market research is that new mothers want to share and preserve pregnancy updates with loved ones but have difficulty balancing between privacy and publicity. From this market research, we came up with the following customer needs:
 
@@ -25,7 +27,7 @@ From our market research, and competitive analysis, our team created Swaddle. Sw
 
 This app was made in collaboration with Dr. Martin Martino from the Lehigh Valley Health Network, who is pursuing further development to publish this project. 
 
-## Organization ## 
+## Organization
 
 The app is broken into two main directories. `frontend` stores the frontend app code while `backend-py` stores the backend. 
 
@@ -35,7 +37,7 @@ Most of the frontend code will be found in the `src` directory. React is a compo
 **Backend**
 Our backend was designed using Flask to enable our REST APIs. Routes can be found in the `api.py` file. 
 
-## Configuration ##
+## Configuration
 ---
 This app utilizes Expo, and a variety of dependencies which can be configured as follows.
 
@@ -48,7 +50,7 @@ npm install
 ```
 Install [Expo](https://docs.expo.io/get-started/installation/)
 
-## Dependencies Used ##
+## Dependencies Used
 ---
 
 A variety of libraries and dependencies helped make this app possible: 
@@ -58,7 +60,7 @@ A variety of libraries and dependencies helped make this app possible:
 * [Expo][3]: A variety of useful components to enhance functionality
 * [React Native Navigation][4]: Ability to seamlessly navigate between components
 
-## Running the App ##
+## Running the App
 ---
 
 This app uses expo to run on both iOS and Android devices. To use it, download Expo Client from the App Store / Google Play store.

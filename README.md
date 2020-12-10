@@ -3,13 +3,14 @@
 **Contributors**:
 Griffin Reichert
 Alex Schiffman
+
 ---
 
-### Summary ###
+## Summary of the Project ##
 
-This app was created for our IBE Capstone project. The goal of our app is to enable expecting couples to easily and securely doccument and share important pregnancy milestones. 
+This app was created for our IBE Capstone project. The goal of Swaddle is to enable expecting couples to share, celebrate, and preserve important pregnancy milestones with their loved ones. From our market research we learned that moms need to have control over who they share information with
 
-### Configuration ###
+## Configuration ##
 ---
 This app utilizes Expo, and a variety of dependencies which can be configured as follows.
 
@@ -17,32 +18,25 @@ This app utilizes Expo, and a variety of dependencies which can be configured as
 
 Run the following bash commands to install and configure the required packages.
 
-Install [Expo](https://docs.expo.io/get-started/installation/)
 ```
 npm install
 ```
+Install [Expo](https://docs.expo.io/get-started/installation/)
 
+## Dependencies used ##
 
-### Starting the App ###
+## Running the App ##
 ---
-The app can be started by running:
+
+This app uses expo to run on both iOS and Android devices. To use it, download Expo Client from the App Store / Google Play store.
+
+The app can be run in development mode by running:
 ```
 npm start
 ```
+It can be published to expo where it can be run in a production environment using:
+```
+expo publish
+```
 
-Good icons to use:
-
-Baby Related:
-foot-print
-gift
-gift-outline
-gender-female
-gender-male
-
-
-Note: Comment out line 89 in the CardCover.tsx file located under @react-native-paper/card ("Resize mode: 'contain'") 
-
-App use:
-
-
-Personally like:
+*Note*: Comment out line 89 in the CardCover.tsx file located under @react-native-paper/card in node modules. ("Resize mode: 'contain'") 

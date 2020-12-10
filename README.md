@@ -40,7 +40,8 @@ Install [Expo](https://docs.expo.io/get-started/installation/)
 ## Dependencies Used ##
 ---
 
-A variety of libraries and dependencies helped make this app possible:
+A variety of libraries and dependencies helped make this app possible: 
+
 * [React Native][1]: A native framework that allows the app to be cross platform
 * [React Native Paper][2]: A material UI library that helped us create the design and appearence
 * [Expo][3]: A variety of useful components to enhance functionality
@@ -63,7 +64,6 @@ expo publish
 *Note*: Comment out line 89 in the CardCover.tsx file located under @react-native-paper/card in node modules. ("Resize mode: 'contain'") 
 
 
-## Links to Resources ##
 [1]: https://reactnative.dev/docs/getting-started
 [2]: https://callstack.github.io/react-native-paper/index.html
 [3]: https://docs.expo.io/versions/latest/

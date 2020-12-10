@@ -9,6 +9,7 @@ Alex Schiffman
 ## Summary of the Project ##
 
 For young couples, sharing important pregnancy milestones with friends and family is a significant part of this special time in their lives. To learn about this issue, we spoke with over 60 moms, and 15 practicing medical professionals from accross the country. What we learned from our market research is that new mothers want to share and preserve pregnancy updates with loved ones but have difficulty balancing between privacy and publicity. From this market research, we came up with the following customer needs:
+
 * Maternity Focus - A solution needs to be tailored to this special time in a new mother's life.
 * Privacy - Keeping data and information protected is important
 * Customizable Reach - So that mothers can feel confident sharing with the exact circle of people they want to.  
